@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/07 18:08:39 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/07 18:45:26 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/07 18:48:44 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,14 @@ int32_t main(void)
 	return (EXIT_SUCCESS);
 }
 
-int32_t main(int argc, char *argv[])
-{
-	//data_t data;
+// int32_t main(int argc, char *argv[])
+// {
+// 	//data_t data;
 	
-	if (argc != 2)
-		return (0);
-	//parse_input(argv[1], &data);
-	//do_math(&data);
-	//start_mlx(&data);
-	//clear(&data);
-}
+// 	if (argc != 2)
+// 		return (0);
+// 	//parse_input(argv[1], &data);
+// 	//do_math(&data);
+// 	//start_mlx(&data);
+// 	//clear(&data);
+// }
