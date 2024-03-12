@@ -6,14 +6,11 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/07 18:08:39 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/12 19:41:19 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/12 19:46:16 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include "game_struct.h"
+#include "game.h"
 #include <MLX42/MLX42.h>
 
 
