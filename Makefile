@@ -6,7 +6,7 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/03/12 19:43:54 by dreijans      ########   odam.nl          #
+#    Updated: 2024/03/12 20:39:38 by dreijans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ INCL		= -ldl -lglfw -pthread -lm
 VPATH		= ./src
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
 SRC			= main.c \
+
 
 OBJ	= $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
 

@@ -6,21 +6,16 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/07 18:08:39 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/12 19:46:16 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/12 20:12:29 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "game.h"
-#include <MLX42/MLX42.h>
-
-
-#define WIDTH 1024
-#define HEIGHT 512
 
 static mlx_image_t* image;
 
-float py = 300;
-float px = 300;
+float py = 300;//player start y
+float px = 300;//player start x
 int mapX = 8;
 int mapY = 8;
 int mapS = 64;
