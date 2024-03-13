@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/07 18:08:39 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/13 17:22:16 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/13 18:50:29 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ int32_t main(void)
 	mlx_t* mlx;
 
 	// Gotta error check this stuff
+	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
 	{
 		printf("%s", mlx_strerror(mlx_errno));
