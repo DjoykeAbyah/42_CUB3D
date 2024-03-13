@@ -6,21 +6,43 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/07 18:08:39 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/13 16:36:11 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/13 17:22:16 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/game/game.h"
 
-static mlx_image_t* image;
+/**
+ * @note I tried something but gave me output 
+ * 	I couldnt easily use with MLX42
+ * needed to abandon this */
 
+static mlx_image_t* image;
+static mlx_image_t* background;
+
+float py = 300;//player start y
+float px = 300;//player start x
+int mapX = 8;
+int mapY = 8;
+int mapS = 64;
+int map[] =
+{
+	1,1,1,1,1,1,1,1,
+	1,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,1,
+	1,0,0,0,0,0,0,1,
+	1,1,1,1,1,1,1,1,
+};
 
 // int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 // {
 //     return (r << 24 | g << 16 | b << 8 | a);
 // }
 
-void ft_randomize(void* param)
+void ft_player(void* param)
 {
 	(void)param;
 	for (uint32_t i = 0; i < image->width; ++i)
@@ -49,6 +71,48 @@ void ft_hook(void* param)
 		image->instances[0].x += 5;
 }
 
+void draw_square(mlx_image_t *img, int size, int x_pos, int y_pos, uint32_t color)
+{
+	int x;
+	int y;
+
+	y = 0;
+	while (y < size)
+	{
+		x = 0;
+		while (x < size)
+		{
+			mlx_put_pixel(img, x_pos + x, y_pos + y, color);
+			x++;
+		}
+		y++;
+	}
+}
+
+void draw_map_2d(void *param)
+{
+	(void)param;
+	int x;
+	int y;
+	int xo;
+	int yo;
+	uint32_t color;
+
+	for (y = 0; y < mapY; y++)
+	{
+		for (x = 0; x < mapX; x++)
+		{
+			if (map[y * mapX + x] == 1)
+				color = ft_pixel(170, 0, 100, 255);
+			else
+				color = ft_pixel(10, 10, 10, 255);
+			xo = (x * mapS);
+			yo = (y * mapS);
+			draw_square(background, mapS, xo, yo, color);
+		}
+	}
+}
+
 // -----------------------------------------------------------------------------
 
 int32_t main(void)
@@ -61,26 +125,102 @@ int32_t main(void)
 		printf("%s", mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-	if (!(image = mlx_new_image(mlx, 128, 128)))
+	if (!(background = mlx_new_image(mlx, WIDTH, HEIGHT)))//background
 	{
 		mlx_close_window(mlx);
 		printf("%s", mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
+	if (mlx_image_to_window(mlx, background, 0, 0) == -1)
 	{
 		mlx_close_window(mlx);
 		printf("%s", mlx_strerror(mlx_errno));
 		return(EXIT_FAILURE);
 	}
-	
-	mlx_loop_hook(mlx, ft_randomize, mlx);
+	if (!(image = mlx_new_image(mlx, 8, 8)))//draw player
+	{
+		mlx_close_window(mlx);
+		printf("%s", mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
+	if (mlx_image_to_window(mlx, image, px, py) == -1)
+	{
+		mlx_close_window(mlx);
+		printf("%s", mlx_strerror(mlx_errno));
+		return(EXIT_FAILURE);
+	}
+	mlx_loop_hook(mlx, draw_map_2d, mlx);
+	mlx_loop_hook(mlx, ft_player, mlx);
 	mlx_loop_hook(mlx, ft_hook, mlx);
 
 	mlx_loop(mlx);
 	mlx_terminate(mlx);
 	return (EXIT_SUCCESS);
 }
+
+// static mlx_image_t* image;
+
+// void ft_randomize(void* param)
+// {
+// 	(void)param;
+// 	for (uint32_t i = 0; i < image->width; ++i)
+// 	{
+// 		for (uint32_t y = 0; y < image->height; ++y)
+// 		{
+// 			uint32_t color = ft_pixel(255, 255, 0, 255);
+// 			mlx_put_pixel(image, i, y, color);
+// 		}
+// 	}
+// }
+
+// void ft_hook(void* param)
+// {
+// 	mlx_t* mlx = param;
+
+// 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
+// 		mlx_close_window(mlx);
+// 	if (mlx_is_key_down(mlx, MLX_KEY_UP))
+// 		image->instances[0].y -= 5;
+// 	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
+// 		image->instances[0].y += 5;
+// 	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
+// 		image->instances[0].x -= 5;
+// 	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
+// 		image->instances[0].x += 5;
+// }
+
+// // -----------------------------------------------------------------------------
+
+// int32_t main(void)
+// {
+// 	mlx_t* mlx;
+
+// 	// Gotta error check this stuff
+// 	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
+// 	{
+// 		printf("%s", mlx_strerror(mlx_errno));
+// 		return(EXIT_FAILURE);
+// 	}
+// 	if (!(image = mlx_new_image(mlx, 128, 128)))
+// 	{
+// 		mlx_close_window(mlx);
+// 		printf("%s", mlx_strerror(mlx_errno));
+// 		return(EXIT_FAILURE);
+// 	}
+// 	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
+// 	{
+// 		mlx_close_window(mlx);
+// 		printf("%s", mlx_strerror(mlx_errno));
+// 		return(EXIT_FAILURE);
+// 	}
+	
+// 	mlx_loop_hook(mlx, ft_randomize, mlx);
+// 	mlx_loop_hook(mlx, ft_hook, mlx);
+
+// 	mlx_loop(mlx);
+// 	mlx_terminate(mlx);
+// 	return (EXIT_SUCCESS);
+// }
 
 // int32_t main(int argc, char *argv[])
 // {
