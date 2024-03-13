@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   utils.c                                            :+:    :+:            */
+/*   utils.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/03/12 20:12:10 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/13 16:31:11 by dreijans      ########   odam.nl         */
+/*   Created: 2024/03/13 16:19:27 by dreijans      #+#    #+#                 */
+/*   Updated: 2024/03/13 16:25:50 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "game.h"
+#ifndef UTILS_H
+# define UTILS_H
 
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
-{
-    return (r << 24 | g << 16 | b << 8 | a);
-}
+int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a);
+
+#endif

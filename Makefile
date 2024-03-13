@@ -6,7 +6,7 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/03/12 20:39:38 by dreijans      ########   odam.nl          #
+#    Updated: 2024/03/13 17:08:42 by dreijans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -Ofast -O3
 MLXDIR		= MLX42
 MLX42		= $(MLXDIR)/build/libmlx42.a
-HEADERS		= -I include/game -I $(MLXDIR)/include -I $(LIBFTDIR)/include
+HEADERS		= -I include/game -I include/utils -I $(MLXDIR)/include -I $(LIBFTDIR)/include
 INCL		= -ldl -lglfw -pthread -lm
 # ifeq ($(shell uname -m),arm64)
 # INCL	= -framework Cocoa -framework OpenGL -framework IOKit -L "`brew --prefix glfw`/lib/" -lglfw
@@ -26,12 +26,12 @@ INCL		= -ldl -lglfw -pthread -lm
 # endif
 VPATH		= ./src
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
-SRC			= main.c \
+SRC			= 	main.c \
+				utils/utils.c
 
+OBJDIR		= obj
+OBJ			= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
-OBJ	= $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
-
-OBJDIR	= obj
 
 all:	$(NAME)
 
@@ -42,23 +42,19 @@ $(MLX42):
 	@cmake $(MLXDIR) -B $(MLXDIR)/build && make -C $(MLXDIR)/build -j4 
 
 $(LIBFT):
-		@$(MAKE) -C $(LIBFTDIR)
+		@make -s -C $(LIBFTDIR)
 
-$(OBJDIR)/%.o: %.c
-		@mkdir -p $(OBJDIR)
+$(OBJDIR)/%.o: $(VPATH)/%.c
+		@mkdir -p $(@D)
 		$(CC) $(CFLAGS) -c -o $@ $^ $(HEADERS)
-		
-$(OBJDIR)/%.o:
-		@mkdir -p $(OBJDIR)
-		$(CC) $(CFLAGS) -c -o $@ $^
 
 clean:
-		@$(MAKE) clean -C $(LIBFTDIR)
+		@make -s clean -C $(LIBFTDIR)
 		@rm -rf $(OBJDIR)
 		@rm -rf $(MLXDIR)/build
 
 fclean: clean
-		@$(MAKE) fclean -C $(LIBFTDIR)
+		@make -s fclean -C $(LIBFTDIR)
 		@rm -f $(NAME)
 
 re:		fclean all
