@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/13 16:38:57 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/14 20:05:17 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
 #define ROTATION_SPEED 0,045 
 #define PLAYER_SPEED 4 
 #define PI 3.1415926535
+
+
+//need player_pos vector
+//need direction vector
+//need plane vector
+//these two calculate the 
 
 typedef struct s_player
 {
