@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/07 18:08:39 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/13 18:57:49 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/15 21:14:07 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ static mlx_image_t* background;
 
 float py = 300;//player start y
 float px = 300;//player start x
+float player_delta_x;
+float player_delta_y;
+float player_angle;
 int mapX = 8;
 int mapY = 8;
 int mapS = 64;
@@ -37,6 +40,10 @@ int map[] =
 	1,1,1,1,1,1,1,1,
 };
 
+/**
+ * @brief draws player as seperate image
+ * @note make this norm proof
+*/
 void ft_player(void* param)
 {
 	(void)param;
@@ -66,24 +73,11 @@ void ft_hook(void* param)
 		image->instances[0].x += 5;
 }
 
-void draw_square(mlx_image_t *img, int size, int x_pos, int y_pos, uint32_t color)
-{
-	int x;
-	int y;
-
-	y = 0;
-	while (y < size)
-	{
-		x = 0;
-		while (x < size)
-		{
-			mlx_put_pixel(img, x_pos + x, y_pos + y, color);
-			x++;
-		}
-		y++;
-	}
-}
-
+/**
+ * @param void *param
+ * @brief draws map in 2D
+ * @todo norm proof it, replace for loops
+*/
 void draw_map_2d(void *param)
 {
 	(void)param;

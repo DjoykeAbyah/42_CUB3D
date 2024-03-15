@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/14 20:05:17 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/15 20:41:44 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,15 +35,22 @@
 //need plane vector
 //these two calculate the 
 
-typedef struct s_player
+typedef struct s_data
 {
-	int			player_x;
-	int 		player_y;
+	float		px;//player start x
+	float 		py;//player start y
+	float		p_delta_y;
+	float		p_delta_x;
+	float		p_angle;
 	double 		angle;
 	float 		fov_radians;
 	int			rotation;
 	int			left_right;
 	int			up_down;
-} 				t_player;
+	mlx_t		*mlx;
+	mlx_image_t	*image;
+	mlx_image_t* background;
+} 				t_data;
+
 
 #endif
