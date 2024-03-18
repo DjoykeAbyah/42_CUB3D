@@ -17,12 +17,12 @@
 
 enum	e_maptype
 {
-	NO,
-	SO,
-	WE,
-	EA,
-	F,
-	C,
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST,
+	FLOOR,
+	CEILING,
 	MAP
 };
 
@@ -31,12 +31,9 @@ typedef struct s_cub3d	t_cub3d;
 typedef struct s_map
 {
 	char			**data;
-	mlx_texture_t	*north;
-	mlx_texture_t	*south;
-	mlx_texture_t	*east;
-	mlx_texture_t	*west;
-	int32_t			floor;
-	int32_t			ceiling;
+	mlx_texture_t	*textures[6];
+	int32_t			fcol;
+	int32_t			ccol;
 }	t_map;
 
 void	map(t_cub3d *cub3d, char *filename);
