@@ -3,159 +3,59 @@
 /*                                                        ::::::::            */
 /*   main.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
+/*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/03/07 18:08:39 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/15 21:14:07 by dreijans      ########   odam.nl         */
+/*   Created: 2023/02/06 12:14:12 by dliu          #+#    #+#                 */
+/*   Updated: 2023/02/21 15:26:00 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/game/game.h"
+#include "cub3d.h"
 
-/**
- * @note just some messy tryout things, 
- * once i can get it to work how I make it properly
- */
+static void	init_cub3d(t_cub3d *cub3d);
+static void	clear_cub3d(t_cub3d *cub3d);
 
-static mlx_image_t* image;
-static mlx_image_t* background;
-
-float py = 300;//player start y
-float px = 300;//player start x
-float player_delta_x;
-float player_delta_y;
-float player_angle;
-int mapX = 8;
-int mapY = 8;
-int mapS = 64;
-int map[] =
+int	main(int argc, char *argv[])
 {
-	1,1,1,1,1,1,1,1,
-	1,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,1,
-	1,0,0,0,0,0,0,1,
-	1,1,1,1,1,1,1,1,
-};
+	char		*filename;
+	char		*filetype;
+	t_cub3d		cub3d;
 
-/**
- * @brief draws player as seperate image
- * @note make this norm proof
-*/
-void ft_player(void* param)
-{
-	(void)param;
-	for (uint32_t i = 0; i < image->width; ++i)
+	if (argc > 1)
 	{
-		for (uint32_t y = 0; y < image->height; ++y)
+		filename = argv[1];
+		filetype = ft_strrchr(filename, '.');
+		if (ft_strncmp(".cub", filetype, 5) == 0)
 		{
-			uint32_t color = ft_pixel(255, 255, 0, 255);
-			mlx_put_pixel(image, i, y, color);
+			init_cub3d(&cub3d);
+			map(&cub3d, filename);
+			//game_start(&cub3d);
+			terminate(&cub3d, NULL, NULL);
 		}
 	}
+	terminate(NULL, "user error", "bad input");
 }
 
-void ft_hook(void* param)
+void	terminate(t_cub3d *cub3d, char *what, char *why)
 {
-	mlx_t* mlx = param;
-
-	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(mlx);
-	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-		image->instances[0].y -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-		image->instances[0].y += 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		image->instances[0].x -= 5;
-	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		image->instances[0].x += 5;
+	if (cub3d)
+	{
+		// mlx_terminate(cub3d->mlx);
+		clear_cub3d(cub3d);
+	}
+	if (!what && !why)
+		exit(EXIT_SUCCESS);
+	ft_perror("ERROR", what, why);
+	exit(EXIT_FAILURE);
 }
 
-/**
- * @param void *param
- * @brief draws map in 2D
- * @todo norm proof it, replace for loops
-*/
-void draw_map_2d(void *param)
+static void	init_cub3d(t_cub3d *cub3d)
 {
-	(void)param;
-	int x;
-	int y;
-	int xo;
-	int yo;
-	uint32_t color;
-
-	for (y = 0; y < mapY; y++)
-	{
-		for (x = 0; x < mapX; x++)
-		{
-			if (map[y * mapX + x] == 1)
-				color = ft_pixel(170, 0, 100, 255);
-			else
-				color = ft_pixel(10, 10, 10, 255);
-			xo = (x * mapS);
-			yo = (y * mapS);
-			draw_square(background, mapS, xo, yo, color);
-		}
-	}
+	cub3d->map.data = NULL;
+	cub3d->mlx = NULL;
 }
 
-// -----------------------------------------------------------------------------
-
-int32_t main(void)
+static void	clear_cub3d(t_cub3d *cub3d)
 {
-	mlx_t* mlx;
-
-	// Gotta error check this stuff
-	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-	{
-		printf("%s", mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (!(background = mlx_new_image(mlx, WIDTH, HEIGHT)))//background
-	{
-		mlx_close_window(mlx);
-		printf("%s", mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (mlx_image_to_window(mlx, background, 0, 0) == -1)
-	{
-		mlx_close_window(mlx);
-		printf("%s", mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (!(image = mlx_new_image(mlx, 8, 8)))//draw player
-	{
-		mlx_close_window(mlx);
-		printf("%s", mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	if (mlx_image_to_window(mlx, image, px, py) == -1)
-	{
-		mlx_close_window(mlx);
-		printf("%s", mlx_strerror(mlx_errno));
-		return(EXIT_FAILURE);
-	}
-	mlx_loop_hook(mlx, draw_map_2d, mlx);
-	mlx_loop_hook(mlx, ft_player, mlx);
-	mlx_loop_hook(mlx, ft_hook, mlx);
-
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	return (EXIT_SUCCESS);
+	ft_free_strarr(cub3d->map.data);
 }
-
-// int32_t main(int argc, char *argv[])
-// {
-// 	//data_t data;
-	
-// 	if (argc != 2)
-// 		return (0);
-// 	//parse_input(argv[1], &data);
-// 	//do_math(&data);
-// 	//start_mlx(&data);
-// 	//clear(&data);
-// }

@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 20:12:10 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/15 20:37:46 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/18 18:37:10 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  *@brief function that stores the color of a pixel in an int32_t
 */
-int32_t ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
+int32_t rgba_to_int(int32_t r, int32_t g, int32_t b, int32_t a)
 {
     return (r << 24 | g << 16 | b << 8 | a);
 }

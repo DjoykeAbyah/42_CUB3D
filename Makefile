@@ -6,28 +6,32 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/03/13 17:10:09 by dreijans      ########   odam.nl          #
+#    Updated: 2024/03/18 17:50:58 by dliu          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= cub3d
-LIBFTDIR	= LIBFT
-LIBFT		= $(LIBFTDIR)/libft.a
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -Ofast -O3
+
+LIBFTDIR	= LIBFT
+LIBFT		= $(LIBFTDIR)/libft.a
 MLXDIR		= MLX42
 MLX42		= $(MLXDIR)/build/libmlx42.a
-HEADERS		= -I include/game -I include/utils -I $(MLXDIR)/include -I $(LIBFTDIR)/include
+
+HEADERS		= -I include -I $(MLXDIR)/include -I $(LIBFTDIR)/include
 INCL		= -ldl -lglfw -pthread -lm
 # ifeq ($(shell uname -m),arm64)
 # INCL	= -framework Cocoa -framework OpenGL -framework IOKit -L "`brew --prefix glfw`/lib/" -lglfw
 # else ifeq ($(shell uname -m),x86_64)
 # INCL	= -framework Cocoa -framework OpenGL -framework IOKit -lglfw3
 # endif
-VPATH		= ./src
+
+VPATH		= ./src ./src/utils ./src/map ./src/draw ./src/game
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
 SRC			= 	main.c \
-				utils/utils.c
+				utils.c \
+				map.c
 
 OBJDIR		= obj
 OBJ			= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
@@ -35,7 +39,7 @@ OBJ			= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
 all:	$(NAME)
 
-$(NAME): $(LIBFT) $(OBJ) $(MLX42)
+$(NAME): $(LIBFT) $(MLX42) $(OBJ)
 		$(CC) $(CFLAGS) $(OBJ) $(LIBS) $(HEADERS) -o $(NAME)
 
 $(MLX42):
@@ -44,7 +48,7 @@ $(MLX42):
 $(LIBFT):
 		@make -s -C $(LIBFTDIR)
 
-$(OBJDIR)/%.o: $(VPATH)/%.c
+$(OBJ): $(OBJDIR)/%.o : %.c
 		@mkdir -p $(@D)
 		$(CC) $(CFLAGS) -c -o $@ $^ $(HEADERS)
 
