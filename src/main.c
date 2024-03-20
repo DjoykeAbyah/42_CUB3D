@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/07 18:08:39 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/15 21:14:07 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/18 16:50:23 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,12 @@ void ft_player(void* param)
 
 void ft_hook(void* param)
 {
+	// double angle;
+	double new_x = 0.0;
+	double new_y = 0.0;
+	
+	// angle = PI;
 	mlx_t* mlx = param;
-
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
 	if (mlx_is_key_down(mlx, MLX_KEY_UP))
@@ -68,9 +72,39 @@ void ft_hook(void* param)
 	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
 		image->instances[0].y += 5;
 	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		image->instances[0].x -= 5;
+	{
+		// player_angle -= 0.1;
+		// if (player_angle < 0)
+		// 	player_angle += 2 *PI;
+		// player_delta_x = cos(player_angle) * 5;
+		// player_delta_y = sin(player_angle) * 5;
+		new_x = image->instances[0].x * cos(PI - image->instances[0].y * sin(PI));
+		new_y = image->instances[0].x * sin(PI + image->instances[0].y * cos(PI));
+		if (new_x >= 0 && new_x < WIDTH && new_y >= 0 && new_y < HEIGHT)
+		{
+			px = new_x;
+			py = new_y;
+			image->instances[0].x -= new_x;
+			image->instances[0].y -= new_y;
+    	}
+	}
 	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		image->instances[0].x += 5;
+	{
+		// player_angle -= 0.1;
+		// if (player_angle > 2 * PI)
+		// 	player_angle -= 2 *PI;
+		// player_delta_x = cos(player_angle) * 5;
+		// player_delta_y = sin(player_angle) * 5;
+		new_x = image->instances[0].x * cos(-PI - image->instances[0].y * sin(PI));
+		new_y = image->instances[0].x * sin(-PI + image->instances[0].y * cos(PI));
+		if (new_x >= 0 && new_x < WIDTH && new_y >= 0 && new_y < HEIGHT)
+		{
+			px = new_x;
+			py = new_y;
+			image->instances[0].x -= new_x;
+			image->instances[0].y -= new_y;
+    	}
+	}
 }
 
 /**
