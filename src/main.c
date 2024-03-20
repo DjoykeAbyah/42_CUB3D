@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/07 18:08:39 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/18 16:50:23 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/20 17:33:05 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,15 @@ void ft_player(void* param)
 			mlx_put_pixel(image, i, y, color);
 		}
 	}
+	// other fnction checking radian value between certain points
+	// uint32_t color = ft_pixel(0, 255, 0, 255);
+	// mlx_put_pixel(image, py + 5, px, color);
 }
 
+/**
+ * @note plane x and y for view angle or PI pick one!
+ * look at lodev tutorial 
+*/
 void ft_hook(void* param)
 {
 	// double angle;
@@ -67,10 +74,15 @@ void ft_hook(void* param)
 	mlx_t* mlx = param;
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
+	//move direction
 	if (mlx_is_key_down(mlx, MLX_KEY_UP))
 		image->instances[0].y -= 5;
+		//PI * (y--, x--)
+	//move direction
 	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
 		image->instances[0].y += 5;
+		//PI
+	//turn left
 	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
 	{
 		// player_angle -= 0.1;
@@ -88,6 +100,7 @@ void ft_hook(void* param)
 			image->instances[0].y -= new_y;
     	}
 	}
+	//turn right
 	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
 	{
 		// player_angle -= 0.1;
@@ -95,6 +108,8 @@ void ft_hook(void* param)
 		// 	player_angle -= 2 *PI;
 		// player_delta_x = cos(player_angle) * 5;
 		// player_delta_y = sin(player_angle) * 5;
+		
+		//this just keeps spinning -= 2
 		new_x = image->instances[0].x * cos(-PI - image->instances[0].y * sin(PI));
 		new_y = image->instances[0].x * sin(-PI + image->instances[0].y * cos(PI));
 		if (new_x >= 0 && new_x < WIDTH && new_y >= 0 && new_y < HEIGHT)
