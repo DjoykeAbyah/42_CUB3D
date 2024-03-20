@@ -13,11 +13,8 @@
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <unistd.h>
 # include <fcntl.h>
-# include <stdlib.h>
 # include <stdbool.h>
-# include <stdio.h>
 # include <string.h>
 # include <errno.h>
 # include <math.h>
@@ -25,8 +22,8 @@
 # include "MLX42/MLX42.h"
 # include "libft.h"
 # include "utils.h"
-# include "game.h"
 # include "map.h"
+# include "game.h"
 
 typedef struct s_vect
 {
@@ -50,8 +47,8 @@ typedef struct s_player
 
 typedef struct s_cub3d
 {
-	t_player	player;
 	t_map		map;
+	t_player	player;
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	mlx_image_t	*background;

@@ -12,9 +12,6 @@
 
 #include "cub3d.h"
 
-static void	init_cub3d(t_cub3d *cub3d);
-static void	clear_cub3d(t_cub3d *cub3d);
-
 int	main(int argc, char *argv[])
 {
 	char		*filename;
@@ -27,8 +24,8 @@ int	main(int argc, char *argv[])
 		filetype = ft_strrchr(filename, '.');
 		if (ft_strncmp(".cub", filetype, 5) == 0)
 		{
-			init_cub3d(&cub3d);
-			map(&cub3d, filename);
+			ft_bzero(&cub3d, sizeof(cub3d));
+			init_map(&cub3d.map, filename);
 			//game_start(&cub3d);
 			terminate(&cub3d, NULL, NULL);
 		}
@@ -40,22 +37,11 @@ void	terminate(t_cub3d *cub3d, char *what, char *why)
 {
 	if (cub3d)
 	{
+		// clear_map(&cub3d->map);
 		// mlx_terminate(cub3d->mlx);
-		clear_cub3d(cub3d);
 	}
 	if (!what && !why)
 		exit(EXIT_SUCCESS);
 	ft_perror("ERROR", what, why);
 	exit(EXIT_FAILURE);
-}
-
-static void	init_cub3d(t_cub3d *cub3d)
-{
-	cub3d->map.data = NULL;
-	cub3d->mlx = NULL;
-}
-
-static void	clear_cub3d(t_cub3d *cub3d)
-{
-	ft_free_strarr(cub3d->map.data);
 }

@@ -13,29 +13,41 @@
 #ifndef MAP_H
 # define MAP_H
 
-# include "cub3d.h"
+# include "MLX42/MLX42.h"
 
-enum	e_maptype
+/**
+ * @param grid: the map
+ * @param textures: array of textures, north south east west
+ * @param cols: array of colours, floor and ceiling in that order
+*/
+typedef struct s_map
+{
+	char			**grid;
+	mlx_texture_t	*textures[4];
+	int32_t			cols[2];
+}	t_map;
+
+void	init_map(t_map *map, char *filename);
+void	clear_map(t_map	*map);
+void	print_map(const char **raw);
+
+/**
+ * For internal parsing use. Warning: Volatile!!!
+*/
+
+typedef enum e_maptype
 {
 	NORTH,
 	SOUTH,
-	WEST,
 	EAST,
+	WEST,
 	FLOOR,
 	CEILING,
-	MAP
-};
+	MAP,
+	ERROR
+}	t_type;
 
-typedef struct s_cub3d	t_cub3d;
-
-typedef struct s_map
-{
-	char			**data;
-	mlx_texture_t	*textures[6];
-	int32_t			fcol;
-	int32_t			ccol;
-}	t_map;
-
-void	map(t_cub3d *cub3d, char *filename);
+uint8_t	parse_info(t_map *map, char *line);
+// uint8_t	parse_mapgrid(t_map *map, char **raw);
 
 #endif

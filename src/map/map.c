@@ -12,117 +12,68 @@
 
 #include "cub3d.h"
 
-static void	read_map(t_cub3d *cub3d, int fd);
-static void	parse_map(t_cub3d *cub3d);
-static void	parse_textures(t_cub3d *cub3d, const char **tags);
-static void	parse_colours(t_cub3d *cub3d, const char **tags);
+static uint8_t	parse_map(t_map *map, char **raw);
 
-void	map(t_cub3d *cub3d, char *filename)
+/**
+ * Do this before anything else!
+ * 
+ * Will terminate program on error so make sure that
+ * nothing else is allocated prior to calling this function.
+ */
+void	init_map(t_map *map, char *filename)
 {
-	int	fd;
+	char	*raw;
+	char	**lines;
 
-	ft_printf("-----Reading map...");
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		terminate(NULL, "on open", strerror(errno));
-	read_map(cub3d, fd);
-	close(fd);
-	ft_printf("Done!-----\n");
-	// print_map(cub3d);
-	parse_map(cub3d);
-}
-
-static void	read_map(t_cub3d *cub3d, int fd)
-{
-	int		rcount;
-	char	buffer[BUFFER_SIZE + 1];
-	char	*maptxt;
-	char	*tmp;
-
-	rcount = read(fd, buffer, BUFFER_SIZE);
-	buffer[rcount] = '\0';
-	maptxt = ft_strdup(buffer);
-	rcount = read(fd, buffer, BUFFER_SIZE);
-	while (rcount > 0 && maptxt)
+	ft_printf("\n-----Mapping from %s...\n", filename);
+	if (!map)
+		return ;
+	raw = ft_read_file(filename);
+	if (!raw)
+		exit(EXIT_FAILURE);
+	lines = ft_split(raw, '\n');
+	free(raw);
+	if (!lines)
+		exit(EXIT_FAILURE);
+	// ft_put_strarray_fd(lines, STDOUT_FILENO);
+	if (!parse_map(map, lines))
 	{
-		buffer[rcount] = '\0';
-		tmp = ft_strjoin(maptxt, buffer);
-		free(maptxt);
-		maptxt = tmp;
-		rcount = read(fd, buffer, BUFFER_SIZE);
+		clear_map(map);
+		ft_free_strarr(lines);
+		exit(EXIT_FAILURE);
 	}
-	cub3d->map.data = ft_split(maptxt, '\n');
-	free(maptxt);
-	if (!cub3d->map.data)
-		terminate(NULL, "malloc", strerror(errno));
+	ft_free_strarr(lines);
+	ft_printf("-----READY!-----\n");
 }
 
-
-static void	parse_map(t_cub3d *cub3d)
+//For use in terminate function or anytime prior to quitting program.
+void	clear_map(t_map	*map)
 {
-	char	**tags;
+	int	i;
 
-	tags = ft_split("NO SO WE EA F C", ' ');
-	if (!tags)
-		terminate(cub3d, "malloc", "failed to allocate");
-	parse_textures(cub3d, tags);
-	parse_colors(cub3d, tags);
-	ft_free_strarr(tags);
-	validate_map(cub3d);
-}
-
-static void	parse_textures(t_cub3d *cub3d, const char **tags)
-{
-	char	**line;
-	int		i;
-
-	i = NORTH;
-	line = ft_split(cub3d->map.data[i], ' ');
-	while (i < FLOOR && line && cub3d->map.data[i])
+	i = 0;
+	while (i < 4)
 	{
-		if (ft_strcmp(line[0], tags[i]) != 0)
-			break ;
-		cub3d->map.textures[i] = mlx_load_png(line[1]);
-		if (!cub3d->map.textures[i])
-			break ;
+		if (map->textures[i])
+			mlx_delete_texture(map->textures[i]);
 		i++;
-		ft_free_strarr(line);
-		line = ft_split(cub3d->map.data[i], ' ');
 	}
-	ft_free_strarr(line);
-	if (i < FLOOR)
-	{
-		ft_printf("error at i=%d\n", i);
-		terminate(cub3d, "map error", "could not load textures");
-	}
+	ft_free_strarr(map->grid);
 }
 
-static void	parse_colours(t_cub3d *cub3d, const char **tags)
+static uint8_t	parse_map(t_map *map, char **lines)
 {
-	char	**line;
-	char	**values;
-	int		rgb[3];
-	int		i;
+	uint64_t	line;
 
-	line = ft_split(cub3d->map.data[CEILING], ' ');
-	if (line)
+	line = 0;
+	while (line < MAP)
 	{
-		values = NULL;
-		if (ft_strcmp(line[0], tags[CEILING]) == 0)
-			values = ft_split(line[1], ',');
-		if (!values || ft_strarray_count(values) != 3)
-			terminate(cub3d, "parsing", "could not parse colour data");
-		i = 0;
-		while (i < 3)
-		{
-			if (!ft_atoi_validate(values[i], &rgb[i]))
-				break ;
-			i++;
-		}
-		cub3d->map.fcol = rgba_to_int(rgb[0], rgb[1], rgb[2], 1);
-		ft_free_strarr(values);
+		if (!lines[line])
+			return (ft_perror("cub3d", "map", "insufficient data"), 0);
+		if (!parse_info(map, lines[line]))
+			return (0);
+		line++;
 	}
-	line = ft_split(cub3d->map.data[FLOOR], ' ');
-	ft_printf("error at i=%d\n", i);
-	terminate(cub3d, "map error", "could not load textures");
+	return (1);
+	// parse_grid(map, &raw[line]);
 }
