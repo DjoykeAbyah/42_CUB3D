@@ -16,16 +16,16 @@ static t_type	get_type(char *tag);
 static uint8_t	parse_textures(t_map *map, t_type type, char *path);
 static uint8_t	parse_colors(t_map *map, t_type type, char *rgbstr);
 
-uint8_t	parse_info(t_map *map, char *line)
+uint8_t	parse_info(t_map *map)
 {
 	char	**linedata;
 	uint8_t	status;
 	t_type	type;
 
 	status = 0;
-	linedata = ft_split(line, ' ');
+	linedata = ft_split(map->lines[map->pos], ' ');
 	if (ft_strarray_count(linedata) != 2)
-		ft_perror("cub3d", "could not parse", line);
+		ft_perror("cub3d", "could not parse", map->lines[map->pos]);
 	else
 	{
 		type = get_type(linedata[0]);
@@ -52,6 +52,7 @@ static t_type	get_type(char *tag)
 		return (CEILING);
 	else if (ft_strcmp("F", tag) == 0)
 		return (FLOOR);
+	ft_perror("cub3d", "bad map element", tag);
 	return (ERROR);
 }
 

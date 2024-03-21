@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   _parse_mapdata.c                                   :+:    :+:            */
+/*   _parse_grid.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
@@ -12,11 +12,7 @@
 
 #include "cub3d.h"
 
-static t_type	get_type(char *tag);
-static uint8_t	parse_textures(t_map *map, t_type type, char *path);
-static uint8_t	parse_colors(t_map *map, t_type type, char *rgbstr);
-
-uint8_t	parse_mapdata(t_map *map, char *line)
+uint8_t	parse_grid(t_map *map)
 {
 	char	**linedata;
 	uint8_t	status;

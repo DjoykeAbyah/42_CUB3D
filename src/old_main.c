@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
+/*   old_main.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/07 18:08:39 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/15 21:14:07 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/03/20 19:10:45 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ int32_t main(void)
 // int32_t main(int argc, char *argv[])
 // {
 // 	//data_t data;
-	
 // 	if (argc != 2)
 // 		return (0);
 // 	//parse_input(argv[1], &data);

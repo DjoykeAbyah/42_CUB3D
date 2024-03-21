@@ -1,7 +1,7 @@
 EA ./assets/brick.png
 NO ./assets/stone.png
-SO ./assets/grass.png
 WE ./assets/wood.png
+SO ./assets/grass.png
 
 C 225,30,0
 F 220,100,0

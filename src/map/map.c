@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-static uint8_t	parse_map(t_map *map, char **raw);
+static uint8_t	parse_map(t_map *map);
 
 /**
  * Do this before anything else!
@@ -23,7 +23,6 @@ static uint8_t	parse_map(t_map *map, char **raw);
 void	init_map(t_map *map, char *filename)
 {
 	char	*raw;
-	char	**lines;
 
 	ft_printf("\n-----Mapping from %s...\n", filename);
 	if (!map)
@@ -31,18 +30,15 @@ void	init_map(t_map *map, char *filename)
 	raw = ft_read_file(filename);
 	if (!raw)
 		exit(EXIT_FAILURE);
-	lines = ft_split(raw, '\n');
+	map->lines = ft_split(raw, '\n');
 	free(raw);
-	if (!lines)
+	if (!map->lines)
 		exit(EXIT_FAILURE);
-	// ft_put_strarray_fd(lines, STDOUT_FILENO);
-	if (!parse_map(map, lines))
+	if (!parse_map(map))
 	{
 		clear_map(map);
-		ft_free_strarr(lines);
 		exit(EXIT_FAILURE);
 	}
-	ft_free_strarr(lines);
 	ft_printf("-----READY!-----\n");
 }
 
@@ -58,22 +54,22 @@ void	clear_map(t_map	*map)
 			mlx_delete_texture(map->textures[i]);
 		i++;
 	}
-	ft_free_strarr(map->grid);
+	ft_free_strarr(map->lines);
 }
 
-static uint8_t	parse_map(t_map *map, char **lines)
+static uint8_t	parse_map(t_map *map)
 {
-	uint64_t	line;
+	map->pos = 0;
 
-	line = 0;
-	while (line < MAP)
+	while (map->pos < MAP)
 	{
-		if (!lines[line])
+		if (!map->lines[map->pos])
 			return (ft_perror("cub3d", "map", "insufficient data"), 0);
-		if (!parse_info(map, lines[line]))
+		if (!parse_info(map))
 			return (0);
-		line++;
+		map->pos++;
 	}
+	map->grid = &map->lines[map->pos];
 	return (1);
-	// parse_grid(map, &raw[line]);
+	// return (parse_grid(map));
 }

@@ -16,12 +16,15 @@
 # include "MLX42/MLX42.h"
 
 /**
- * @param grid: the map
+ * @param lines: copy of the .cub file
+ * @param grid: pointer to the first line of map in lines. Do not free.
  * @param textures: array of textures, north south east west
  * @param cols: array of colours, floor and ceiling in that order
 */
 typedef struct s_map
 {
+	uint32_t		pos;
+	char			**lines;
 	char			**grid;
 	mlx_texture_t	*textures[4];
 	int32_t			cols[2];
@@ -47,7 +50,7 @@ typedef enum e_maptype
 	ERROR
 }	t_type;
 
-uint8_t	parse_info(t_map *map, char *line);
-// uint8_t	parse_mapgrid(t_map *map, char **raw);
+uint8_t	parse_info(t_map *map);
+uint8_t	parse_grid(t_map *map);
 
 #endif
