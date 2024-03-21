@@ -34,7 +34,7 @@ void	init_map(t_map *map, char *filename)
 	free(raw);
 	if (!map->lines)
 		exit(EXIT_FAILURE);
-	if (!parse_map(map))
+	if (parse_map(map) != SUCCESS)
 	{
 		clear_map(map);
 		exit(EXIT_FAILURE);
@@ -59,17 +59,18 @@ void	clear_map(t_map	*map)
 
 static uint8_t	parse_map(t_map *map)
 {
-	map->pos = 0;
+	map->height = 0;
 
-	while (map->pos < MAP)
+	while (map->height < MAP)
 	{
-		if (!map->lines[map->pos])
-			return (ft_perror("cub3d", "map", "insufficient data"), 0);
-		if (!parse_info(map))
-			return (0);
-		map->pos++;
+		if (!map->lines[map->height])
+			break ;
+		if (parse_info(map) != SUCCESS)
+			return (FAIL);
+		map->height++;
 	}
-	map->grid = &map->lines[map->pos];
-	return (1);
-	// return (parse_grid(map));
+	map->grid = &map->lines[map->height];
+	if (!map->grid || !map->grid[0])
+		return (ft_perror("cub3d", "map", "insufficient data"), FAIL);
+	return (SUCCESS);
 }

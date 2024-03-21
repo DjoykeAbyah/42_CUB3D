@@ -22,10 +22,10 @@ uint8_t	parse_info(t_map *map)
 	uint8_t	status;
 	t_type	type;
 
-	status = 0;
-	linedata = ft_split(map->lines[map->pos], ' ');
+	status = FAIL;
+	linedata = ft_split(map->lines[map->height], ' ');
 	if (ft_strarray_count(linedata) != 2)
-		ft_perror("cub3d", "could not parse", map->lines[map->pos]);
+		ft_perror("cub3d", "could not parse", map->lines[map->height]);
 	else
 	{
 		type = get_type(linedata[0]);
@@ -61,16 +61,16 @@ static uint8_t	parse_textures(t_map *map, t_type type, char *path)
 	if (map->textures[type])
 	{
 		ft_perror("cub3d", "map", "texture already assigned");
-		return (0);
+		return (FAIL);
 	}
 	map->textures[type] = mlx_load_png(path);
 	if (!map->textures[type])
 	{
 		ft_perror("cub3d", "could not load texture", path);
-		return (0);
+		return (FAIL);
 	}
 	ft_printf("loaded texture: %s of type:%d\n", path, type);
-	return (1);
+	return (SUCCESS);
 }
 
 static uint8_t	parse_colors(t_map *map, t_type type, char *rgbstr)
@@ -89,7 +89,7 @@ static uint8_t	parse_colors(t_map *map, t_type type, char *rgbstr)
 		{
 			ft_free_strarr(coldata);
 			ft_perror("cubed", "bad rgb value", rgbstr);
-			return (0);
+			return (FAIL);
 		}
 		rgb[i] = (uint8_t)ft_atoi(coldata[i]);
 		i++;
@@ -97,5 +97,5 @@ static uint8_t	parse_colors(t_map *map, t_type type, char *rgbstr)
 	map->cols[type - FLOOR] = rgba_to_int(rgb[0], rgb[1], rgb[2], 1);
 	ft_free_strarr(coldata);
 	ft_printf("parsed colour: %s of type:%d\n", rgbstr, type);
-	return (1);
+	return (SUCCESS);
 }

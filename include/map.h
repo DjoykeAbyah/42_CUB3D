@@ -23,9 +23,10 @@
 */
 typedef struct s_map
 {
-	uint32_t		pos;
 	char			**lines;
 	char			**grid;
+	uint32_t		width;
+	uint32_t		height;
 	mlx_texture_t	*textures[4];
 	int32_t			cols[2];
 }	t_map;
@@ -49,6 +50,9 @@ typedef enum e_maptype
 	MAP,
 	ERROR
 }	t_type;
+
+# define FAIL 0
+# define SUCCESS 1
 
 uint8_t	parse_info(t_map *map);
 uint8_t	parse_grid(t_map *map);

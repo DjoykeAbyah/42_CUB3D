@@ -26,7 +26,7 @@ int	main(int argc, char *argv[])
 		{
 			ft_bzero(&cub3d, sizeof(cub3d));
 			init_map(&cub3d.map, filename);
-			//game_start(&cub3d);
+			//mlx_start(&cub3d);
 			terminate(&cub3d, NULL, NULL);
 		}
 	}
