@@ -12,95 +12,60 @@
 
 #include "cub3d.h"
 
-uint8_t	parse_grid(t_map *map)
+uint8_t	count_height(t_map *map, t_parse *parse);
+uint8_t	copy_map(t_map *map, t_parse *parse);
+
+uint8_t	parse_grid(t_map *map, t_parse *parse)
 {
-	uint32_t	x;
+	if (!parse->raw[parse->start])
+		return (clear_parse(parse, "insufficient data", 1));
+	if (count_height(map, parse) != SUCCESS)
+		return (clear_parse(parse, "found consecutive newlines in map", 1));
+	parse->end = parse->start;
+	if (copy_map(map, parse) != SUCCESS)
+		return (clear_parse(parse, "likely malloc fail", 1));
+	return (clear_parse(parse, NULL, 1));
+}
+
+uint8_t	count_height(t_map *map, t_parse *parse)
+{
+	while (parse->raw[parse->end])
+	{
+		if (parse->raw[parse->end] == '\n')
+		{
+			map->height++;
+			parse->end++;
+			if (parse->raw[parse->end] == '\n')
+				return (FAIL);
+		}
+		parse->end++;
+	}
+	map->height++;
+	return (SUCCESS);
+}
+
+uint8_t	copy_map(t_map *map, t_parse *parse)
+{
 	uint32_t	y;
 
-	if (!map->lines[map->height])
-		return (ft_perror("cub3d", "map", "insufficient data"), FAIL);
-	y = map->height;
-	map->width = 0;
-	while (map->lines[y])
-	{
-		x = 0;
-		while (map->lines[y][x])
-			x++;
-		if (x > map->width)
-			map->width = x;
-		y++;
-	}
-	map->height -= y;
-	map->grid = ft_calloc(map->height, sizeof(*(map->grid)));
-	if (!map->grid)
+	map->grid = ft_calloc(map->height + 1, sizeof(*map->grid));
+	map->width = ft_calloc(map->height, sizeof(*map->width));
+	if (!map->grid || !map->width)
 		return (FAIL);
 	y = 0;
 	while (y < map->height)
 	{
-		map->grid[y] = ft_calloc(map->width, sizeof(**(map->grid)));
+		while (parse->raw[parse->end] && parse->raw[parse->end] != '\n')
+			parse->end++;
+		map->grid[y] = ft_substr(parse->raw, parse->start,
+				parse->end - parse->start);
+		ft_printf("%s\n", map->grid[y]);
 		if (!map->grid[y])
-		{
-			ft_free_strarr(map->grid);
 			return (FAIL);
-		}
-	}
-}
-
-uint8_t	check_spaces(t_map *map)
-{
-	uint32_t	x;
-	uint32_t	y;
-
-	y = 0;
-	while (map->grid[y])
-	{
-		x = 0;
-		while (map->grid[y][x])
-		{
-			if (map->grid[y][x] == ' ')
-			{
-				if (find_walls(map, x, y, map->grid[y][x]) != SUCCESS)
-					return (FAIL);
-			}
-			x++;
-		}
+		map->width[y] = parse->end - parse->start;
+		parse->end++;
+		parse->start = parse->end;
 		y++;
 	}
-	
-}
-
-uint8_t	find_wall(t_map *map, uint32_t x, uint32_t y, char c)
-{
-	uint32_t	pos_x;
-	uint32_t	pos_y;
-	uint8_t		status;
-
-	//find wall north
-	status = FAIL;
-	pos_y = y;
-	while (pos_y)
-	{
-		y--;
-	}
-	
-	//find wall east
-	pos_x = x;
-	while (map->grid[y][pos_x])
-	{
-		pos_x++;
-	}
-	
-	//find wall south
-	pos_y = y;
-	while (map->grid[pos_y][x])
-	{
-		pos_y++;
-	}
-	
-	//find wall west
-	pos_x = x;
-	while (map->grid[])
-	{
-		pos_x--;
-	}
+	return (SUCCESS);
 }

@@ -22,7 +22,7 @@
 # include "MLX42/MLX42.h"
 # include "libft.h"
 # include "utils.h"
-# include "map.h"
+# include "parse.h"
 # include "game.h"
 
 typedef struct s_vect
@@ -46,6 +46,17 @@ typedef struct s_player
 	int			up_down;
 }	t_player;
 
+typedef struct s_map
+{
+	char			**grid;
+	mlx_texture_t	*textures[4];
+	int32_t			cols[2];
+	uint32_t		height;
+	uint32_t		*width;
+	t_vect			start_pos;
+	t_vect			start_dir;
+}	t_map;
+
 typedef struct s_cub3d
 {
 	t_map		map;
@@ -55,6 +66,8 @@ typedef struct s_cub3d
 	mlx_image_t	*background;
 }	t_cub3d;
 
+void	parse_map(t_map *map, char *filename);
+void	mlx_start(t_cub3d *cub3d);
 void	terminate(t_cub3d *cub3d, const char *what, const char *why);
 
 #endif

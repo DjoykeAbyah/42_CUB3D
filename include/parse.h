@@ -10,35 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_H
-# define MAP_H
+#ifndef PARSE_H
+# define PARSE_H
 
-# include "MLX42/MLX42.h"
-
-/**
- * @param lines: copy of the .cub file
- * @param grid: pointer to the first line of map in lines. Do not free.
- * @param textures: array of textures, north south east west
- * @param cols: array of colours, floor and ceiling in that order
-*/
-typedef struct s_map
-{
-	char			**lines;
-	char			**grid;
-	uint32_t		width;
-	uint32_t		height;
-	mlx_texture_t	*textures[4];
-	int32_t			cols[2];
-}	t_map;
-
-void	init_map(t_map *map, char *filename);
-void	clear_map(t_map	*map);
-void	print_map(const char **raw);
+# include "cub3d.h"
 
 /**
  * For internal parsing use. Warning: Volatile!!!
 */
-
 typedef enum e_maptype
 {
 	NORTH,
@@ -51,10 +30,26 @@ typedef enum e_maptype
 	ERROR
 }	t_type;
 
+typedef struct s_parse
+{
+	char		*raw;
+	char		*line;
+	char		**linedata;
+	uint32_t	start;
+	uint32_t	end;
+	t_type		type;
+	uint8_t		count;
+}	t_parse;
+
 # define FAIL 0
 # define SUCCESS 1
 
-uint8_t	parse_info(t_map *map);
-uint8_t	parse_grid(t_map *map);
+typedef struct s_map	t_map;
+
+void	clear_map(t_map	*map);
+uint8_t	parse_info(t_map *map, t_parse *parse);
+uint8_t	parse_grid(t_map *map, t_parse *parse);
+uint8_t	clear_parse(t_parse *parse, char *errmsg, uint8_t end);
+uint8_t	verify_map(t_map *map);
 
 #endif

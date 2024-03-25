@@ -12,34 +12,32 @@
 
 #include "cub3d.h"
 
-static uint8_t	parse_map(t_map *map);
-
 /**
  * Do this before anything else!
  * 
  * Will terminate program on error so make sure that
  * nothing else is allocated prior to calling this function.
  */
-void	init_map(t_map *map, char *filename)
+void	parse_map(t_map *map, char *filename)
 {
-	char	*raw;
+	t_parse	parse;
 
 	ft_printf("\n-----Mapping from %s...\n", filename);
-	if (!map)
-		return ;
-	raw = ft_read_file(filename);
-	if (!raw)
+	ft_bzero(&parse, sizeof(parse));
+	parse.raw = ft_read_file(filename);
+	if (!parse.raw)
 		exit(EXIT_FAILURE);
-	map->lines = ft_split(raw, '\n');
-	free(raw);
-	if (!map->lines)
-		exit(EXIT_FAILURE);
-	if (parse_map(map) != SUCCESS)
+	if (parse_info(map, &parse) == SUCCESS)
 	{
-		clear_map(map);
-		exit(EXIT_FAILURE);
+		if (parse_grid(map, &parse) == SUCCESS)
+		{
+			//if (verify_grid(map) == SUCCESS)
+				ft_printf("-----READY!-----\n");
+			return ;
+		}
 	}
-	ft_printf("-----READY!-----\n");
+	clear_map(map);
+	exit(EXIT_FAILURE);
 }
 
 //For use in terminate function or anytime prior to quitting program.
@@ -47,6 +45,8 @@ void	clear_map(t_map	*map)
 {
 	int	i;
 
+	free(map->width);
+	ft_free_strarr(map->grid);
 	i = 0;
 	while (i < 4)
 	{
@@ -54,24 +54,21 @@ void	clear_map(t_map	*map)
 			mlx_delete_texture(map->textures[i]);
 		i++;
 	}
-	ft_free_strarr(map->lines);
 }
 
-static uint8_t	parse_map(t_map *map)
+uint8_t	clear_parse(t_parse *parse, char *errmsg, uint8_t end)
 {
-	map->height = 0;
-
-	while (map->height < MAP)
+	if (end)
+		free(parse->raw);
+	ft_free_strarr(parse->linedata);
+	parse->linedata = NULL;
+	free(parse->line);
+	parse->line = NULL;
+	if (errmsg)
 	{
-		if (!map->lines[map->height])
-			return (ft_perror("cub3d", "map", "insufficient data"), FAIL);
-		if (parse_info(map) != SUCCESS)
-			return (FAIL);
-		map->height++;
+		ft_perror("ERROR\ncub3d", "parsing", errmsg);
+		return (FAIL);
 	}
-    map->grid = &map->lines[map->height];
-	// if (parse_grid(map) != SUCCESS)
-	// 	return (FAIL);
-	// return (verify_grid(map));
-    return (SUCCESS);
+	return (SUCCESS);
 }
+

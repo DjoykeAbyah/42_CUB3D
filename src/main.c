@@ -25,7 +25,7 @@ int	main(int argc, char *argv[])
 		if (ft_strncmp(".cub", filetype, 5) == 0)
 		{
 			ft_bzero(&cub3d, sizeof(cub3d));
-			init_map(&cub3d.map, filename);
+			parse_map(&cub3d.map, filename);
 			mlx_start(&cub3d);
 			terminate(&cub3d, NULL, NULL);
 		}
