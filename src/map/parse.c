@@ -31,9 +31,11 @@ void	parse_map(t_map *map, char *filename)
 	{
 		if (parse_grid(map, &parse) == SUCCESS)
 		{
-			//if (verify_grid(map) == SUCCESS)
+			if (verify_grid(map) == SUCCESS)
+			{
 				ft_printf("-----READY!-----\n");
-			return ;
+				return ;
+			}
 		}
 	}
 	clear_map(map);

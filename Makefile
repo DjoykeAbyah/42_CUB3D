@@ -6,7 +6,7 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/03/25 17:51:28 by dliu          ########   odam.nl          #
+#    Updated: 2024/03/25 18:42:08 by dliu          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ VPATH		= ./src ./src/utils ./src/map ./src/draw ./src/game
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
 SRC			= 	main.c \
 				utils.c \
-				parse.c _parse_info.c _parse_grid.c \
+				parse.c _parse_info.c _parse_grid.c _verify_grid.c \
 				mlx.c
 
 OBJDIR		= obj

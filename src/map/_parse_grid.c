@@ -38,7 +38,8 @@ uint8_t	count_height(t_map *map, t_parse *parse)
 			if (parse->raw[parse->end] == '\n')
 				return (FAIL);
 		}
-		parse->end++;
+		else
+			parse->end++;
 	}
 	map->height++;
 	return (SUCCESS);

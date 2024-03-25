@@ -50,6 +50,6 @@ void	clear_map(t_map	*map);
 uint8_t	parse_info(t_map *map, t_parse *parse);
 uint8_t	parse_grid(t_map *map, t_parse *parse);
 uint8_t	clear_parse(t_parse *parse, char *errmsg, uint8_t end);
-uint8_t	verify_map(t_map *map);
+uint8_t	verify_grid(t_map *map);
 
 #endif
