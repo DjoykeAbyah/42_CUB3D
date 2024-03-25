@@ -64,13 +64,12 @@ static uint8_t	parse_map(t_map *map)
 	while (map->height < MAP)
 	{
 		if (!map->lines[map->height])
-			break ;
+			return (ft_perror("cub3d", "map", "insufficient data"), FAIL);
 		if (parse_info(map) != SUCCESS)
 			return (FAIL);
 		map->height++;
 	}
-	map->grid = &map->lines[map->height];
-	if (!map->grid || !map->grid[0])
-		return (ft_perror("cub3d", "map", "insufficient data"), FAIL);
-	return (SUCCESS);
+	if (parse_grid(map) != SUCCESS)
+		return (FAIL);
+	return (verify_grid(map));
 }

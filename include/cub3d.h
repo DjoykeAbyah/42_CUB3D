@@ -33,7 +33,8 @@ typedef struct s_vect
 
 typedef struct s_player
 {
-	t_vect		pos;
+	float		x;
+	float		y;
 	float		rot;
 	float		p_delta_y;
 	float		p_delta_x;
@@ -54,6 +55,6 @@ typedef struct s_cub3d
 	mlx_image_t	*background;
 }	t_cub3d;
 
-void	terminate(t_cub3d *cub3d, char *what, char *why);
+void	terminate(t_cub3d *cub3d, const char *what, const char *why);
 
 #endif

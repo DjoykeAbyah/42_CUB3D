@@ -94,7 +94,7 @@ static uint8_t	parse_colors(t_map *map, t_type type, char *rgbstr)
 		rgb[i] = (uint8_t)ft_atoi(coldata[i]);
 		i++;
 	}
-	map->cols[type - FLOOR] = rgba_to_int(rgb[0], rgb[1], rgb[2], 1);
+	map->cols[type - FLOOR] = rgba_to_int(rgb[0], rgb[1], rgb[2], 255);
 	ft_free_strarr(coldata);
 	ft_printf("parsed colour: %s of type:%d\n", rgbstr, type);
 	return (SUCCESS);

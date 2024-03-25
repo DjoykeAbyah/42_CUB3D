@@ -6,7 +6,7 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/03/20 19:05:56 by dliu          ########   odam.nl          #
+#    Updated: 2024/03/22 16:40:48 by dliu          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ VPATH		= ./src ./src/utils ./src/map ./src/draw ./src/game
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
 SRC			= 	main.c \
 				utils.c \
-				map.c _parse_info.c
+				map.c _parse_info.c \
+				mlx.c
 
 OBJDIR		= obj
 OBJ			= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
