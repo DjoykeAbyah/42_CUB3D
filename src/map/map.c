@@ -69,6 +69,7 @@ static uint8_t	parse_map(t_map *map)
 			return (FAIL);
 		map->height++;
 	}
+    map->grid = &map->lines[map->height];
 	// if (parse_grid(map) != SUCCESS)
 	// 	return (FAIL);
 	// return (verify_grid(map));
