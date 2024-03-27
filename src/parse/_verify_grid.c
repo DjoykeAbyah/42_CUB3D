@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/25 17:24:24 by dliu          #+#    #+#                 */
-/*   Updated: 2024/03/25 19:34:44 by dliu          ########   odam.nl         */
+/*   Updated: 2024/03/27 18:59:24 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,16 @@ uint8_t	verify_grid(t_map *map)
 		while (map->grid[y][x])
 		{
 			if (verify_enclosed(map, x, y) != SUCCESS)
-			{
-				ft_perror("cub3d", "map is not enclosed on line", map->grid[y]);
-				return (FAIL);
-			}
+				return (ft_perror("cub3d", "not enclosed", map->grid[y]), FAIL);
 			if (check_player(map, x, y) != SUCCESS)
-			{
-				ft_perror("cub3d", "bad start position on line", map->grid[y]);
-				return (FAIL);
-			}
+				return (ft_perror("cub3d", "invalid starting position",
+						map->grid[y]), FAIL);
 			x++;
 		}
 		y++;
 	}
+	if (map->start_pos.x == 0)
+		return (ft_perror("cub3d", "bad map", "no start position"), FAIL);
 	return (SUCCESS);
 }
 
@@ -59,7 +56,7 @@ uint8_t	verify_enclosed(t_map *map, uint32_t x, uint32_t y)
 	}
 	if (map->grid[y][x] == '0')
 	{
-		if (map->width[y - 1]  < x)
+		if (map->width[y - 1] < x)
 			return (FAIL);
 		else if (map->width[y - 1 > x]
 			&& map->grid[y - 1][x] != '0' && map->grid[y - 1][x] != '1')

@@ -25,8 +25,8 @@ int	main(int argc, char *argv[])
 		if (ft_strncmp(".cub", filetype, 5) == 0)
 		{
 			ft_bzero(&cub3d, sizeof(cub3d));
-			parse_map(&cub3d.map, filename);
-			mlx_start(&cub3d);
+			parse_map(&cub3d.mapdata, filename);
+			start_cub3d(&cub3d);
 			terminate(&cub3d, NULL, NULL);
 		}
 	}
@@ -37,7 +37,7 @@ void	terminate(t_cub3d *cub3d, const char *what, const char *why)
 {
 	if (cub3d)
 	{
-		clear_map(&cub3d->map);
+		clear_map(&cub3d->mapdata);
 		mlx_close_window(cub3d->mlx);
 		mlx_terminate(cub3d->mlx);
 	}

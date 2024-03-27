@@ -64,6 +64,8 @@ uint8_t	copy_map(t_map *map, t_parse *parse)
 		if (!map->grid[y])
 			return (FAIL);
 		map->width[y] = parse->end - parse->start;
+		if (map->width[y] > map->max_width)
+			map->max_width = map->width[y];
 		parse->end++;
 		parse->start = parse->end;
 		y++;

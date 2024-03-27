@@ -22,18 +22,21 @@ void	parse_map(t_map *map, char *filename)
 {
 	t_parse	parse;
 
-	ft_printf("\n-----Mapping from %s...\n", filename);
+	ft_printf("\n-----Mapping from %s...", filename);
 	ft_bzero(&parse, sizeof(parse));
 	parse.raw = ft_read_file(filename);
 	if (!parse.raw)
 		exit(EXIT_FAILURE);
+	ft_printf("SUCCESS\n-----Parsing data...\n");
 	if (parse_info(map, &parse) == SUCCESS)
 	{
+		ft_printf("SUCCESS\n-----Parsing grid...\n");
 		if (parse_grid(map, &parse) == SUCCESS)
 		{
+			ft_printf("SUCCESS\n-----Validifying map...");
 			if (verify_grid(map) == SUCCESS)
 			{
-				ft_printf("-----READY!-----\n");
+				ft_printf("SUCCESS\n-----BEGIN!-----\n");
 				return ;
 			}
 		}

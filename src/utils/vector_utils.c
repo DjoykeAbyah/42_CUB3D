@@ -1,29 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   game.h                                             :+:    :+:            */
+/*   vector_utils.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
+/*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/27 18:52:17 by daoyi         ########   odam.nl         */
+/*   Created: 2024/03/12 20:12:10 by dliu          #+#    #+#                 */
+/*   Updated: 2024/03/27 18:01:39 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GAME_H
-# define GAME_H 
+#include "cub3d.h"
 
-# include "cub3d.h"
+t_ivect	itovect(uint32_t x, uint32_t y)
+{
+	t_ivect	vector;
 
-# define WIDTH 1024 
-# define HEIGHT 512
-
-# define TILE_SIZE 64
-# define FOV 90
-# define SPEED 1
-# define ROTATION 0.4
-# define PI 3.1415926535
-
-# define UNIT 8
-
-#endif
+	vector.x = x;
+	vector.y = y;
+	return (vector);
+}

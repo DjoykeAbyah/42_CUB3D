@@ -31,20 +31,26 @@ typedef struct s_vect
 	float	y;
 }	t_vect;
 
+typedef struct s_ivect
+{
+	int	x;
+	int	y;
+}	t_ivect;
+
 typedef struct s_player
 {
-	float		x;
-	float		y;
-	float		rot;
-	float		p_delta_y;
-	float		p_delta_x;
-	float		p_angle;
-	double		angle;
-	float		fov_radians;
-	int			rotation;
-	int			left_right;
-	int			up_down;
+	t_vect		pos;
+	t_vect		dir;
 }	t_player;
+
+typedef struct s_minimap
+{
+	t_ivect		pos;
+	t_ivect		size;
+	mlx_image_t	*pin;
+	mlx_image_t	*walls;
+	mlx_image_t	*floor;
+}	t_minimap;
 
 typedef struct s_map
 {
@@ -53,21 +59,29 @@ typedef struct s_map
 	int32_t			cols[2];
 	uint32_t		height;
 	uint32_t		*width;
-	t_vect			start_pos;
-	t_vect			start_dir;
+	uint32_t		max_width;
+	t_ivect			start_pos;
+	t_ivect			start_dir;
 }	t_map;
+
+typedef struct s_render
+{
+	mlx_image_t	*walls;
+	mlx_image_t	*ceiling;
+	mlx_image_t	*floor;
+}	t_render;
 
 typedef struct s_cub3d
 {
-	t_map		map;
+	t_map		mapdata;
+	t_minimap	minimap;
 	t_player	player;
 	mlx_t		*mlx;
-	mlx_image_t	*image;
-	mlx_image_t	*background;
 }	t_cub3d;
 
 void	parse_map(t_map *map, char *filename);
-void	mlx_start(t_cub3d *cub3d);
+void	start_cub3d(t_cub3d *cub3d);
+void	start_minimap(t_cub3d *cub3d);
 void	terminate(t_cub3d *cub3d, const char *what, const char *why);
 
 #endif
