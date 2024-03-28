@@ -67,21 +67,24 @@ typedef struct s_map
 typedef struct s_render
 {
 	mlx_image_t	*walls;
-	mlx_image_t	*ceiling;
-	mlx_image_t	*floor;
+	mlx_image_t	*background;
 }	t_render;
 
 typedef struct s_cub3d
 {
 	t_map		mapdata;
 	t_minimap	minimap;
+	t_render	render;
 	t_player	player;
 	mlx_t		*mlx;
 }	t_cub3d;
 
 void	parse_map(t_map *map, char *filename);
 void	start_cub3d(t_cub3d *cub3d);
-void	start_minimap(t_cub3d *cub3d);
 void	terminate(t_cub3d *cub3d, const char *what, const char *why);
+
+//BONUS
+
+void	start_minimap(t_cub3d *cub3d);
 
 #endif

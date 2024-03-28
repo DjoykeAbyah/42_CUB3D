@@ -42,7 +42,10 @@ void	terminate(t_cub3d *cub3d, const char *what, const char *why)
 		mlx_terminate(cub3d->mlx);
 	}
 	if (!what && !why)
+	{
+		ft_printf("-----DONE! Goodbye!-----\n");
 		exit(EXIT_SUCCESS);
+	}
 	ft_perror("ERROR", what, why);
 	exit(EXIT_FAILURE);
 }

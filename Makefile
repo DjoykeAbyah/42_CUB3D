@@ -6,13 +6,13 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/03/27 17:59:31 by daoyi         ########   odam.nl          #
+#    Updated: 2024/03/28 18:16:03 by daoyi         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= cub3d
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -Ofast -O3 -g -fsanitize=address
+CFLAGS		= -Wall -Werror -Wextra -Ofast -O3 #-g -fsanitize=address
 
 LIBFTDIR	= LIBFT
 LIBFT		= $(LIBFTDIR)/libft.a
@@ -27,12 +27,12 @@ INCL		= -ldl -lglfw -pthread -lm
 # INCL	= -framework Cocoa -framework OpenGL -framework IOKit -lglfw3
 # endif
 
-VPATH		= ./src ./src/utils ./src/game ./src/parse .src/maths
+VPATH		= ./src ./src/utils ./src/parse .src/maths ./src/game
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
 SRC			= 	main.c \
 				parse.c _parse_info.c _parse_grid.c _verify_grid.c \
-				start.c minimap.c \
-				draw_utils.c vector_utils.c \
+				start.c minimap.c render.c move.c \
+				draw_utils.c vector_utils.c math_utils.c \
 
 OBJDIR		= obj
 OBJ			= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))

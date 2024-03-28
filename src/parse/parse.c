@@ -36,7 +36,7 @@ void	parse_map(t_map *map, char *filename)
 			ft_printf("SUCCESS\n-----Validifying map...");
 			if (verify_grid(map) == SUCCESS)
 			{
-				ft_printf("SUCCESS\n-----BEGIN!-----\n");
+				ft_printf("SUCCESS\n");
 				return ;
 			}
 		}
