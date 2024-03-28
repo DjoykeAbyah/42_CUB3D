@@ -6,11 +6,7 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-<<<<<<< HEAD
-#    Updated: 2024/03/22 19:16:35 by djoyke        ########   odam.nl          #
-=======
-#    Updated: 2024/03/28 18:51:12 by djoyke        ########   odam.nl          #
->>>>>>> main
+#    Updated: 2024/03/28 20:27:10 by djoyke        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,24 +18,16 @@ LIBFTDIR	= LIBFT
 LIBFT		= $(LIBFTDIR)/libft.a
 MLXDIR		= MLX42
 MLX42		= $(MLXDIR)/build/libmlx42.a
-<<<<<<< HEAD
-HEADERS		= -I include/game -I include/utils -I $(MLXDIR)/include -I $(LIBFTDIR)/include
-=======
 
 HEADERS		= -I include -I $(MLXDIR)/include -I $(LIBFTDIR)/include
->>>>>>> main
 # INCL		= -ldl -lglfw -pthread -lm
 ifeq ($(shell uname -m),arm64)
 INCL	= -framework Cocoa -framework OpenGL -framework IOKit -L "`brew --prefix glfw`/lib/" -lglfw
 else ifeq ($(shell uname -m),x86_64)
 INCL	= -framework Cocoa -framework OpenGL -framework IOKit -lglfw3
 endif
-<<<<<<< HEAD
-VPATH		= ./src
-=======
 
 VPATH		= ./src ./src/utils ./src/parse .src/maths ./src/game
->>>>>>> main
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
 SRC			= 	main.c \
 				parse.c _parse_info.c _parse_grid.c _verify_grid.c \

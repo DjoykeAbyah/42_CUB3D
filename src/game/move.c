@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/03/28 18:15:04 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/03/28 22:24:20 by djoyke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@ void	move_and_render(void *param)
 //calculate new player pos based on current facing direction at SPEED
 static void	move_player(t_cub3d *cub3d, t_vect dir)
 {
+	// t_vect movement_vector;
+
 	//update player direction based on input
 	math_calc_direction(&cub3d->player.dir, dir);
 
+	// movement_vector = *math_multiply_vectors(&cub3d->player.dir, SPEED, NULL);
+	// math_add_vectors(&cub3d->player.pos, 0, &movement_vector);
 	//update player position based on facing direction and speed
 	math_add_vectors(&cub3d->player.pos, 0,
 		math_multiply_vectors(&cub3d->player.dir, SPEED, NULL));
