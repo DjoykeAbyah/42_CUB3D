@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 17:53:01 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/03/28 22:24:05 by djoyke        ########   odam.nl         */
+/*   Updated: 2024/03/31 23:48:36 by djoyke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,15 @@ t_vect	*math_multiply_vectors(t_vect *a, float f, void *p)
 */
 t_vect	*math_calc_direction(t_vect *current_dir, t_vect target_dir)
 {
-	// double number;
+	//only rotation!!!!
 	double cos_val;
 	double sin_val;
 
-	cos_val = cos(ROT);
-	sin_val = sin(ROT);
-	// printf("cos val  [%f]\n", cos_val);
-	// printf("sin val  [%f]\n", sin_val);
-	// printf("current dir x  [%f]\n", current_dir->x); // is now 0
-	// printf("current dir y  [%f]\n", current_dir->y); // is now 0
+	cos_val = cos(PI/ROT);
+	sin_val = sin(PI/ROT);
 	target_dir.x = (cos_val * current_dir->x) - (sin_val * current_dir->y);
 	target_dir.y = (sin_val * current_dir->x) + (cos_val * current_dir->y);
-	// printf("target dir x  [%f]\n", target_dir.x);
-	// printf("target dir y  [%f]\n", target_dir.y);
 	current_dir->x = target_dir.x;
 	current_dir->y = target_dir.y;
-	printf("current dir x  [%f]\n", current_dir->x);
-	printf("current dir y  [%f]\n", current_dir->y);
 	return (current_dir);
 }

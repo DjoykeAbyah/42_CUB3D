@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/03/28 22:24:20 by djoyke        ########   odam.nl         */
+/*   Updated: 2024/03/29 15:41:43 by djoyke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static void	move_player(t_cub3d *cub3d, t_vect dir);
 
 void	move_and_render(void *param)
 {
+	//Q and E for rotation
+	//ASWD for up down left right
 	t_cub3d	*cub3d;
 
 	cub3d = param;
