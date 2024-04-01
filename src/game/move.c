@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/01 16:11:31 by djoyke        ########   odam.nl         */
+/*   Updated: 2024/04/01 16:56:19 by djoyke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 static void	update_minimap_pin(t_cub3d *cub3d);
 static void	move_player(t_cub3d *cub3d, t_vect dir);
+static void change_view(t_cub3d *cub3d, double angle);
 
 void	move_and_render(void *param)
 {
-	//Q and E for rotation
-	//ASWD for up down left right
 	t_cub3d	*cub3d;
 
 	cub3d = param;
@@ -30,25 +29,33 @@ void	move_and_render(void *param)
 		move_player(cub3d, ftovect(-1, 0));
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_D))
 		move_player(cub3d, ftovect(1, 0));
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_LEFT))
-		move_player(cub3d, ftovect(-1, 0));
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_RIGHT))
-		move_player(cub3d, ftovect(1, 0));
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_Q))
+		change_view(cub3d, -ROT);
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_E))
+		change_view(cub3d, ROT);
 	//rotation based on mouse x and y movement for bonus
 	render_viewport(cub3d);
+}
+
+static void change_view(t_cub3d *cub3d, double angle)
+{	
+	double cos_val;
+	double sin_val;
+	double tmp_x;
+
+	cos_val = cos(angle);
+	sin_val = sin(angle);
+	tmp_x = cub3d->player.dir.x;
+	cub3d->player.dir.x = (cos_val * cub3d->player.dir.x) + (-sin_val * cub3d->player.dir.y);
+	cub3d->player.dir.y = (sin_val * tmp_x) + (cos_val * cub3d->player.dir.y);
 }
 
 //calculate new player pos based on current facing direction at SPEED
 static void	move_player(t_cub3d *cub3d, t_vect dir)
 {
 	//update player direction based on input
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_LEFT))
-		math_calc_direction_left(&cub3d->player.dir, dir);
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_RIGHT))
-		math_calc_direction_right(&cub3d->player.dir, dir);
-	else
-		cub3d->player.dir.x = dir.x;
-		cub3d->player.dir.y = dir.y;
+	cub3d->player.dir.x = dir.x;
+	cub3d->player.dir.y = dir.y;
 	
 	//update player position based on facing direction and speed
 	math_add_vectors(&cub3d->player.pos, 0,
