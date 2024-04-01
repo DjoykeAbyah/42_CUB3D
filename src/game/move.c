@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/01 17:01:45 by djoyke        ########   odam.nl         */
+/*   Updated: 2024/04/01 17:23:18 by djoyke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ void	move_and_render(void *param)
 
 /**
  * responsible for changing the player's view direction based on a given angle. 
- * It takes a pointer to a t_cub3d structure and a double angle.
  * It calculates the cosine and sine of the given angle.
- * It stores the current x-component of the player's direction vector (cub3d->player.dir.x) in a temporary variable (tmp_x).
+ * It stores the current x player's direction vector (cub3d->player.dir.x) in a temporary variable (tmp_x).
  * It updates the player's direction vector based on the rotation transformation using the calculated cosine and sine values.
  * It rotates the direction vector by multiplying it with a 2x2 rotation matrix.
 */
@@ -54,8 +53,12 @@ static void change_view(t_cub3d *cub3d, double angle)
 	cos_val = cos(angle);
 	sin_val = sin(angle);
 	tmp_x = cub3d->player.dir.x;
+	printf("x is [%f]\n", cub3d->player.dir.x);
+	printf("x is [%f]\n", cub3d->player.dir.y);
 	cub3d->player.dir.x = (cos_val * cub3d->player.dir.x) + (-sin_val * cub3d->player.dir.y);
 	cub3d->player.dir.y = (sin_val * tmp_x) + (cos_val * cub3d->player.dir.y);
+	printf("player rot x = [%f]\n", cub3d->player.dir.x);
+	printf("player rot y = [%f]\n", cub3d->player.dir.y);
 }
 
 //calculate new player pos based on current facing direction at SPEED
