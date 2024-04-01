@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/28 17:49:36 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/01 12:02:53 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "cub3d.h"
 
-# define WIDTH 1024 
+# define WIDTH 1024
 # define HEIGHT 512
 
 # define TILE_SIZE 64

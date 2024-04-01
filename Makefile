@@ -6,13 +6,13 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/04/01 10:43:53 by dreijans      ########   odam.nl          #
+#    Updated: 2024/04/01 12:00:21 by dreijans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= cub3d
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -Ofast -O3 #-g -fsanitize=address
+CFLAGS		= -Wall -Werror -Wextra -Ofast -O3 -g -fsanitize=address
 
 LIBFTDIR	= LIBFT
 LIBFT		= $(LIBFTDIR)/libft.a
