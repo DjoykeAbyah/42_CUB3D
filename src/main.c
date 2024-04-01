@@ -38,8 +38,11 @@ void	terminate(t_cub3d *cub3d, const char *what, const char *why)
 	if (cub3d)
 	{
 		clear_map(&cub3d->mapdata);
-		mlx_close_window(cub3d->mlx);
-		mlx_terminate(cub3d->mlx);
+		if (cub3d->mlx)
+		{
+			mlx_close_window(cub3d->mlx);
+			mlx_terminate(cub3d->mlx);
+		}
 	}
 	if (!what && !why)
 	{
