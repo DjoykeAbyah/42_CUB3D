@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/01 16:56:19 by djoyke        ########   odam.nl         */
+/*   Updated: 2024/04/01 17:01:45 by djoyke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ void	move_and_render(void *param)
 	render_viewport(cub3d);
 }
 
+/**
+ * responsible for changing the player's view direction based on a given angle. 
+ * It takes a pointer to a t_cub3d structure and a double angle.
+ * It calculates the cosine and sine of the given angle.
+ * It stores the current x-component of the player's direction vector (cub3d->player.dir.x) in a temporary variable (tmp_x).
+ * It updates the player's direction vector based on the rotation transformation using the calculated cosine and sine values.
+ * It rotates the direction vector by multiplying it with a 2x2 rotation matrix.
+*/
 static void change_view(t_cub3d *cub3d, double angle)
 {	
 	double cos_val;
