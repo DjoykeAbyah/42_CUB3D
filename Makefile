@@ -6,7 +6,7 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/03/28 18:51:12 by djoyke        ########   odam.nl          #
+#    Updated: 2024/04/01 11:20:12 by dreijans      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,12 +20,12 @@ MLXDIR		= MLX42
 MLX42		= $(MLXDIR)/build/libmlx42.a
 
 HEADERS		= -I include -I $(MLXDIR)/include -I $(LIBFTDIR)/include
-# INCL		= -ldl -lglfw -pthread -lm
-ifeq ($(shell uname -m),arm64)
-INCL	= -framework Cocoa -framework OpenGL -framework IOKit -L "`brew --prefix glfw`/lib/" -lglfw
-else ifeq ($(shell uname -m),x86_64)
-INCL	= -framework Cocoa -framework OpenGL -framework IOKit -lglfw3
-endif
+INCL		= -ldl -lglfw -pthread -lm
+# ifeq ($(shell uname -m),arm64)
+# INCL	= -framework Cocoa -framework OpenGL -framework IOKit -L "`brew --prefix glfw`/lib/" -lglfw
+# else ifeq ($(shell uname -m),x86_64)
+# INCL	= -framework Cocoa -framework OpenGL -framework IOKit -lglfw3
+# endif
 
 VPATH		= ./src ./src/utils ./src/parse .src/maths ./src/game
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
