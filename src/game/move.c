@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/01 12:41:25 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/01 16:02:30 by djoyke        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@ void	move_and_render(void *param)
 	t_cub3d	*cub3d;
 
 	cub3d = param;
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_UP))
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_W))
 		move_player(cub3d, ftovect(0, -1));
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_S))
 		move_player(cub3d, ftovect(0, 1));
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_A))
+		move_player(cub3d, ftovect(-1, 0));
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_D))
+		move_player(cub3d, ftovect(1, 0));
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_LEFT))
 		move_player(cub3d, ftovect(-1, 0));
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_RIGHT))
@@ -40,7 +44,14 @@ static void	move_player(t_cub3d *cub3d, t_vect dir)
 	// t_vect movement_vector;
 
 	//update player direction based on input
-	math_calc_direction(&cub3d->player.dir, dir);
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_LEFT))
+		math_calc_direction_left(&cub3d->player.dir, dir);
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_RIGHT))
+		math_calc_direction_right(&cub3d->player.dir, dir);
+	else
+		cub3d->player.dir.x = dir.x;
+		cub3d->player.dir.y = dir.y;
+		
 
 	// movement_vector = *math_multiply_vectors(&cub3d->player.dir, SPEED, NULL);
 	// math_add_vectors(&cub3d->player.pos, 0, &movement_vector);
