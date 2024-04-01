@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 17:53:01 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/03/31 23:48:36 by djoyke        ########   odam.nl         */
+/*   Updated: 2024/04/01 10:48:05 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,16 @@ t_vect	*math_multiply_vectors(t_vect *a, float f, void *p)
 t_vect	*math_calc_direction(t_vect *current_dir, t_vect target_dir)
 {
 	//only rotation!!!!
-	double cos_val;
-	double sin_val;
+	// double cos_val;
+	// double sin_val;
 
-	cos_val = cos(PI/ROT);
-	sin_val = sin(PI/ROT);
-	target_dir.x = (cos_val * current_dir->x) - (sin_val * current_dir->y);
-	target_dir.y = (sin_val * current_dir->x) + (cos_val * current_dir->y);
+	// cos_val = cos(PI/4);
+	// sin_val = sin(PI/4);
+	// current_dir->x = (cos_val * target_dir.x) + (-sin_val * target_dir.y);
+	// current_dir->y = (sin_val * target_dir.x) + (cos_val * target_dir.y);
 	current_dir->x = target_dir.x;
 	current_dir->y = target_dir.y;
+	// target_dir.x = current_dir->x;
+	// target_dir.y = current_dir->y;
 	return (current_dir);
 }
