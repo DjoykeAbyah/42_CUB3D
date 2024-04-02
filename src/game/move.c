@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/01 17:23:18 by djoyke        ########   odam.nl         */
+/*   Updated: 2024/04/02 14:40:57 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,9 @@ static void change_view(t_cub3d *cub3d, double angle)
 	cos_val = cos(angle);
 	sin_val = sin(angle);
 	tmp_x = cub3d->player.dir.x;
-	printf("x is [%f]\n", cub3d->player.dir.x);
-	printf("x is [%f]\n", cub3d->player.dir.y);
 	cub3d->player.dir.x = (cos_val * cub3d->player.dir.x) + (-sin_val * cub3d->player.dir.y);
 	cub3d->player.dir.y = (sin_val * tmp_x) + (cos_val * cub3d->player.dir.y);
-	printf("player rot x = [%f]\n", cub3d->player.dir.x);
-	printf("player rot y = [%f]\n", cub3d->player.dir.y);
+	printf("x = [%f], y = [%f]\n", cub3d->player.dir.x, cub3d->player.dir.y);
 }
 
 //calculate new player pos based on current facing direction at SPEED
@@ -67,7 +64,7 @@ static void	move_player(t_cub3d *cub3d, t_vect dir)
 	//update player direction based on input
 	cub3d->player.dir.x = dir.x;
 	cub3d->player.dir.y = dir.y;
-	
+
 	//update player position based on facing direction and speed
 	math_add_vectors(&cub3d->player.pos, 0,
 		math_multiply_vectors(&cub3d->player.dir, SPEED, NULL));
