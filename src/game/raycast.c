@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/02 14:49:28 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/02 16:55:38 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/02 16:58:28 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ void raycast(t_cub3d *cub3d)
 	}
 }
 
+/**
+ * @note getting lenght of ray from any x or y to first x or y
+*/
 void delta_dist(t_cub3d *cub3d)
 {
 	cub3d->ray.deltaDist.x = abs(1 / cub3d->ray.rayDir.x);
