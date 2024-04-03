@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/25 17:24:24 by dliu          #+#    #+#                 */
-/*   Updated: 2024/03/27 18:59:24 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/03 17:51:20 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ uint8_t	check_player(t_map *map, uint32_t x, uint32_t y)
 		map->start_pos.x = x;
 		map->start_pos.y = y;
 		if (map->grid[y][x] == 'N')
-			map->start_dir.y = 1;
-		else if (map->grid[y][x] == 'S')
 			map->start_dir.y = -1;
+		else if (map->grid[y][x] == 'S')
+			map->start_dir.y = 1;
 		else if (map->grid[y][x] == 'E')
 			map->start_dir.x = 1;
 		else if (map->grid[y][x] == 'W')

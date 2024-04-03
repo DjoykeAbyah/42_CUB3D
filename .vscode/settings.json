@@ -1,8 +1,0 @@
-{
-	"files.associations": {
-		"random": "c",
-		"compare": "cpp",
-		"stdbool.h": "c",
-		"mlx42.h": "c"
-	}
-}

@@ -23,7 +23,7 @@
 # include "libft.h"
 # include "utils.h"
 # include "parse.h"
-# include "game.h"
+# include "render.h"
 
 typedef struct s_vect
 {

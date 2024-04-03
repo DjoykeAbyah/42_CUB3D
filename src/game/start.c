@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/21 20:51:41 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/01 13:44:38 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/03 20:08:05 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,6 @@ static void	prepare_images(t_cub3d *cub3d);
 
 void	start_cub3d(t_cub3d *cub3d)
 {
-	(void)window_controller;
-	(void)prepare_images;
-	cub3d->player.pos.x = cub3d->mapdata.start_pos.x;
-	cub3d->player.pos.y = cub3d->mapdata.start_pos.y;
-	printf("---Spawning player at (%.f, %.f)...\n",
-		cub3d->player.pos.x, cub3d->player.pos.y);
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	cub3d->mlx = mlx_init(WIDTH, HEIGHT, "Cub3d", true);
 	printf("%s\n", mlx_strerror(mlx_errno));
@@ -30,7 +24,9 @@ void	start_cub3d(t_cub3d *cub3d)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
 	mlx_loop_hook(cub3d->mlx, window_controller, cub3d);
 	prepare_images(cub3d);
-	render_viewport(cub3d);
+	init_render(cub3d);
+	printf("---Spawning player at (%.f, %.f)...\n",
+		cub3d->player.pos.x, cub3d->player.pos.y);
 	start_minimap(cub3d);
 	mlx_loop_hook(cub3d->mlx, move_and_render, cub3d);
 	mlx_loop(cub3d->mlx);
