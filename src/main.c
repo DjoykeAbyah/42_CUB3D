@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/06 12:14:12 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/01 13:44:22 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/02 16:05:11 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	main(int argc, char *argv[])
 		if (ft_strncmp(".cub", filetype, 5) == 0)
 		{
 			ft_bzero(&cub3d, sizeof(cub3d));
+			cub3d.ray.plane.x = 0;
+			cub3d.ray.plane.y = 0.66;
 			parse_map(&cub3d.mapdata, filename);
 			start_cub3d(&cub3d);
 			terminate(&cub3d, NULL, NULL);
