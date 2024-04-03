@@ -73,6 +73,11 @@ typedef struct s_map
  * 						on grid to first whole x or y coordinate.
  * @param deltaDist 	lenght of ray in rayDir from whole x or y 
  * 						coordinate to the next whole x or y coordinate.
+ * @param perpWallDist	perpenducular distance from camera plane to wall.
+ * @param step			determines what direction to step in.
+ * @param hit			check if wall is hit.
+ * @param side			checks if NS or EW side of wall hit
+ * 
 */
 typedef struct s_ray
 {
@@ -82,6 +87,10 @@ typedef struct s_ray
 	t_ivect	map;
 	t_vect	sideDist;
 	t_vect	deltaDist;
+	float	perpWallDist;
+	t_ivect	step;
+	int		hit;
+	int		side;
 }	t_ray;
 
 typedef struct s_render
