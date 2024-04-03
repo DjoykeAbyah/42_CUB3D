@@ -67,13 +67,13 @@ typedef struct s_map
 /**
  * @param camera		normalised position of camera in plane
  * @param plane 		camera plane -1 to 1.
- * @param rayDir 		direction raycast of slice in x of plane.
+ * @param ray_dir 		direction raycast of slice in x of plane.
  * @param map 			grid coordinate in int.
- * @param sideDist 		lenght of ray in rayDir from player pos
+ * @param side_dist 		lenght of ray in ray_dir from player pos
  * 						on grid to first whole x or y coordinate.
- * @param deltaDist 	lenght of ray in rayDir from whole x or y 
+ * @param delta_dist 	lenght of ray in ray_dir from whole x or y 
  * 						coordinate to the next whole x or y coordinate.
- * @param perpWallDist	perpenducular distance from camera plane to wall.
+ * @param perp_dist	perpenducular distance from camera plane to wall.
  * @param step			determines what direction to step in.
  * @param hit			check if wall is hit.
  * @param side			checks if NS or EW side of wall hit
@@ -83,11 +83,11 @@ typedef struct s_ray
 {
 	t_vect	plane;
 	t_vect	camera;
-	t_vect	rayDir;
+	t_vect	ray_dir;
 	t_ivect	map;
-	t_vect	sideDist;
-	t_vect	deltaDist;
-	float	perpWallDist;
+	t_vect	side_dist;
+	t_vect	delta_dist;
+	float	perp_dist;
 	t_ivect	step;
 	int		hit;
 	int		side;
