@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 17:53:01 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/02 17:05:45 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/03 21:47:41 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_vect	*math_add_vectors(t_vect *a, int32_t b, void *c)
  * @param f Factor to multiple both elements of a vector. Pass 1 for no effect
  * @param p	Address of a t_vect or t_ivect as relevant, or NULL
 */
-t_vect	*math_multiply_vectors(t_vect *a, float f, void *p)
+t_vect	*math_multiply_vectors(t_vect *a, double f, void *p)
 {
 	t_vect	*v;
 

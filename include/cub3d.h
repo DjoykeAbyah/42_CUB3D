@@ -25,33 +25,6 @@
 # include "parse.h"
 # include "render.h"
 
-typedef struct s_vect
-{
-	float	x;
-	float	y;
-}	t_vect;
-
-typedef struct s_ivect
-{
-	int	x;
-	int	y;
-}	t_ivect;
-
-typedef struct s_player
-{
-	t_vect		pos;
-	t_vect		dir;
-}	t_player;
-
-typedef struct s_minimap
-{
-	t_ivect		pos;
-	t_ivect		size;
-	mlx_image_t	*pin;
-	mlx_image_t	*walls;
-	mlx_image_t	*floor;
-}	t_minimap;
-
 typedef struct s_map
 {
 	char			**grid;
@@ -64,53 +37,39 @@ typedef struct s_map
 	t_ivect			start_dir;
 }	t_map;
 
-/**
- * @param camera		normalised position of camera in plane
- * @param plane 		camera plane -1 to 1.
- * @param ray_dir 		direction raycast of slice in x of plane.
- * @param map 			grid coordinate in int.
- * @param side_dist 		lenght of ray in ray_dir from player pos
- * 						on grid to first whole x or y coordinate.
- * @param delta_dist 	lenght of ray in ray_dir from whole x or y 
- * 						coordinate to the next whole x or y coordinate.
- * @param perp_dist	perpenducular distance from camera plane to wall.
- * @param step			determines what direction to step in.
- * @param hit			check if wall is hit.
- * @param side			checks if NS or EW side of wall hit
- * 
-*/
-typedef struct s_ray
+typedef struct s_minimap
 {
-	t_vect	plane;
-	t_vect	camera;
-	t_vect	ray_dir;
-	t_ivect	map;
-	t_vect	side_dist;
-	t_vect	delta_dist;
-	float	perp_dist;
-	t_ivect	step;
-	int		hit;
-	int		side;
-}	t_ray;
+	t_ivect		pos;
+	t_ivect		size;
+	mlx_image_t	*pin;
+	mlx_image_t	*walls;
+	mlx_image_t	*floor;
+}	t_minimap;
 
 typedef struct s_render
 {
-	mlx_image_t	*walls;
-	mlx_image_t	*background;
+	t_ray		ray;
+	mlx_image_t	*scene;
 }	t_render;
+
+typedef struct s_player
+{
+	t_vect		pos;
+	t_vect		dir;
+}	t_player;
 
 typedef struct s_cub3d
 {
 	t_map		mapdata;
 	t_minimap	minimap;
 	t_render	render;
-	t_ray		ray;
 	t_player	player;
 	mlx_t		*mlx;
 }	t_cub3d;
 
 void	parse_map(t_map *map, char *filename);
 void	start_cub3d(t_cub3d *cub3d);
+void	move_and_render(void *param);
 void	terminate(t_cub3d *cub3d, const char *what, const char *why);
 
 //BONUS

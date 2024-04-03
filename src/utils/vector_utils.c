@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 20:12:10 by dliu          #+#    #+#                 */
-/*   Updated: 2024/03/28 17:53:25 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/03 21:47:41 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ t_ivect	itovect(uint32_t x, uint32_t y)
 	return (vector);
 }
 
-//returns a t_vect of floats (x, y)
-t_vect	ftovect(float x, float y)
+//returns a t_vect of doubles (x, y)
+t_vect	ftovect(double x, double y)
 {
 	t_vect	vector;
 

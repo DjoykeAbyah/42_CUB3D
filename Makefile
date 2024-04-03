@@ -6,7 +6,7 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/04/02 11:56:37 by dreijans      ########   odam.nl          #
+#    Updated: 2024/04/03 22:33:03 by daoyi         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,11 +27,11 @@ INCL		= -ldl -lglfw -pthread -lm
 # INCL	= -framework Cocoa -framework OpenGL -framework IOKit -lglfw3
 # endif
 
-VPATH		= ./src ./src/utils ./src/parse .src/maths ./src/game
+VPATH		= ./src ./src/utils ./src/parse .src/maths ./src/game ./src/raytracing
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
 SRC			= 	main.c \
 				parse.c _parse_info.c _parse_grid.c _verify_grid.c \
-				start.c minimap.c render.c move.c \
+				start.c render.c minimap.c move.c \
 				draw_utils.c vector_utils.c math_utils.c \
 
 OBJDIR		= obj
