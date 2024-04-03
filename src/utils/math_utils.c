@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 17:53:01 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/01 16:44:46 by djoyke        ########   odam.nl         */
+/*   Updated: 2024/04/02 17:05:45 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
  * @param a Address of the vector to increment
  * @param b Integer to add. Pass 0 for no effect.
  * @param c Pointer to t_vect or t_ivect if relevant, or NULL
- * (Technically doesn't need to return anything, but this way 
- * we can call and use the results of this function in one line, if desired)
 */
 t_vect	*math_add_vectors(t_vect *a, int32_t b, void *c)
 {
