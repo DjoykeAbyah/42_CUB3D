@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 20:12:10 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/28 18:27:39 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/03 16:42:09 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,23 @@ void	draw_rect(mlx_image_t *i, t_ivect s, t_ivect p, uint32_t c)
 		y++;
 	}
 }
+
+void	draw_line(uint32_t x, t_cub3d *cub3d)
+{
+	// uint32_t	color = 0xfcba03;
+	// t_ivect	temp;
+
+	// (void)x;
+	// temp.x = cub3d->player.pos.x * TILE_SIZE;
+	// temp.y = cub3d->player.pos.y * TILE_SIZE;
+	// draw_rect(cub3d->render.walls, itovect(64, 64), temp, FCOL);
+	uint32_t	y;
+
+	y = cub3d->render.draw_start;	
+	while (y < cub3d->render.draw_end)
+	{
+		mlx_put_pixel(cub3d->render.walls, x, y, cub3d->mapdata.cols[0]);
+		y++;
+	}
+}
+

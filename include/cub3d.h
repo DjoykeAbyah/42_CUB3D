@@ -97,6 +97,10 @@ typedef struct s_render
 {
 	mlx_image_t	*walls;
 	mlx_image_t	*background;
+	uint32_t	line_height;
+	uint32_t	draw_start;
+	uint32_t	draw_end;
+	uint32_t	vert_line;
 }	t_render;
 
 typedef struct s_cub3d

@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/02 14:40:57 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/03 16:22:50 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	move_and_render(void *param)
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_E))
 		change_view(cub3d, ROT);
 	//rotation based on mouse x and y movement for bonus
-	render_viewport(cub3d);
+	raycast(cub3d);
 }
 
 /**

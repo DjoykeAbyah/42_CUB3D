@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/01 12:02:53 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/03 16:46:01 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 
 # define TILE_SIZE 64
 
-# define FOV 90
+# define FOV 60
+# define HEIGHT 32
 # define SPEED 0.1
 # define ROT 0.4
 # define PI 3.1415926535
@@ -35,6 +36,6 @@ typedef struct s_cub3d	t_cub3d;
 typedef struct s_ivect	t_ivect;
 
 void	move_and_render(void *param);
-void	render_viewport(t_cub3d *cub3d);
+void	raycast(t_cub3d *cub3d);
 
 #endif
