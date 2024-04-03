@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/03 22:57:33 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 01:28:59 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void		update_minimap_pin(t_cub3d *cub3d);
 static uint8_t	move(t_cub3d *cub3d, t_vect dir);
-static uint8_t	rotate(t_cub3d *cub3d, double angle);
+static uint8_t	rotate(t_cub3d *cub3d, uint8_t dir);
 
 /**
  * @todo	update rotation based on mouse x and y movement
@@ -27,63 +27,49 @@ void	move_and_render(void *param)
 	moved = 0;
 	cub3d = param;
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_W))
-		moved = move(cub3d, ftovect(0, -1));
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_S))
-		moved = move(cub3d, ftovect(0, 1));
+		moved = move(cub3d, cub3d->player.dir);
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_A))
-		moved = move(cub3d, ftovect(-1, 0));
+		moved = move(cub3d, math_rotate_vectors(cub3d->player.dir, -PI / 2));
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_S))
+		moved = move(cub3d, math_rotate_vectors(cub3d->player.dir, PI));
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_D))
-		moved = move(cub3d, ftovect(1, 0));
+		moved = move(cub3d, math_rotate_vectors(cub3d->player.dir, PI / 2));
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_Q))
-		moved = rotate(cub3d, -ROT);
+		moved = rotate(cub3d, -1);
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_E))
-		moved = rotate(cub3d, ROT);
+		moved = rotate(cub3d, 1);
 	if (moved)
 		render(param);
 }
 
-/**
- * responsible for changing the player's view direction based on a given angle. 
- * It calculates the cosine and sine of the given angle.
- * It stores the current x player's direction vector
- * 		(cub3d->player.dir.x) in a temporary variable (tmp_x).
- * It updates the player's direction vector based on the rotation transformation
- * 		using the calculated cosine and sine values.
- * It rotates the direction vector by multiplying it with a 2x2 rotation matrix.
-*/
-static uint8_t	rotate(t_cub3d *cub3d, double angle)
-{
-	double	cos_val;
-	double	sin_val;
-	double	tmp_x;
 
-	cos_val = cos(angle);
-	sin_val = sin(angle);
-	tmp_x = cub3d->player.dir.x;
-	cub3d->player.dir.x
-		= (cos_val * cub3d->player.dir.x) + (-sin_val * cub3d->player.dir.y);
-	cub3d->player.dir.y
-		= (sin_val * tmp_x) + (cos_val * cub3d->player.dir.y);
-	//remove printf when ready
-	printf("rotating (%f, %f)\n", cub3d->player.dir.x, cub3d->player.dir.y);
+/**
+ * rotates player slightly in ROT direction
+ * @param dir counterclockwise or clockwise
+ * @todo remove printf in final
+ * currently rotating WAY too fast...?
+*/
+static uint8_t	rotate(t_cub3d *cub3d, uint8_t dir)
+{
+	cub3d->player.dir = math_rotate_vectors(cub3d->player.dir, PI / ROT * dir);
+	printf("rotating (%.1f, %.1fd)\n",
+		cub3d->player.dir.x, cub3d->player.dir.y);
 	return (1);
 }
 
-//calculate new player pos based on current facing direction at SPEED
+/**
+ * calculate new player pos based on 
+ * key direction of strafing and SPEED
+ * @todo remove printf in final
+*/
 static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 {
-	//remove the next two lines whenever ready
-	cub3d->player.dir.x = dir.x;
-	cub3d->player.dir.y = dir.y;
-	// if (dir.x < 0)
-	// 	math_calc_direction_left(&cub3d->player.dir, dir);
-	// else
-	// 	math_calc_direction_right(&cub3d->player.dir, dir);
+	t_vect	move;
 
-	math_add_vectors(&cub3d->player.pos, 0,
-		math_multiply_vectors(&cub3d->player.dir, SPEED, NULL));
-	//remove printf when ready
-	printf("moving (%.1f, %.1fd)\n", cub3d->player.pos.x / TILE, cub3d->player.pos.y / TILE);
+	move = math_multiply_vectors(dir, SPEED);
+	cub3d->player.pos = math_add_vectors(cub3d->player.pos, 0, &move);
+	printf("moving (%.1f, %.1fd)\n",
+		cub3d->player.pos.x / TILE, cub3d->player.pos.y / TILE);
 	update_minimap_pin(cub3d);
 	return (1);
 }

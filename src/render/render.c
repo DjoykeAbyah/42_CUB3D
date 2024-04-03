@@ -6,11 +6,16 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/03 22:59:56 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/03 23:37:26 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	cast_ray(t_cub3d *cub3d, uint32_t x)
+{
+	cub3d->render.ray.angle = x;
+}
 
 void	render(void *param)
 {
@@ -19,10 +24,10 @@ void	render(void *param)
 
 	cub3d = param;
 	x = 0;
-	(void)cub3d;
+	cast_ray(cub3d, x);
 	// while (x < WIDTH)
 	// {
-	// 	cast_ray(cub3d);
+	// 	cast_ray(cub3d, x);
 	// 	trace_ray_till_hit(cub3d);
 	// 	correct_fisheye(cub3d);
 	// 	draw_column(cub3d);
