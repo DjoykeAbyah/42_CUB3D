@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/04 19:49:52 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 19:58:20 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,12 @@ void	move_and_render(void *param)
 /**
  * rotates player slightly in ROT direction
  * @param dir counterclockwise or clockwise
- * @todo remove printf in final
- * currently rotating WAY too fast...?
+ * @todo remove printf in final. Fix counter-clockwise rotation
+ * re-research vector rotation...
 */
 static uint8_t	rotate(t_cub3d *cub3d, uint8_t dir)
 {
-	cub3d->player.dir = math_rotate_vectors(cub3d->player.dir, PI / ROT * dir);
+	cub3d->player.dir = math_rotate_vectors(cub3d->player.dir, (PI / ROT) * dir);
 	printf("rotating (%.1f, %.1fd)\n",
 		cub3d->player.dir.x, cub3d->player.dir.y);
 	return (1);

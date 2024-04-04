@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/04 19:32:39 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 19:59:25 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@
 # define HEIGHT 512
 
 # define TILE 64
-
 # define FOV 60
 # define SPEED 1
-# define ROT 100
+# define ROT 200
 # define PI 3.1415926535
 
 //minimap
