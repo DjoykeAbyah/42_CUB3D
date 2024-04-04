@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/06 12:14:12 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/03 19:58:44 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/04 19:36:48 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ void	terminate(t_cub3d *cub3d, const char *what, const char *why)
 	{
 		clear_map(&cub3d->mapdata);
 		if (cub3d->mlx)
-		{
-			mlx_close_window(cub3d->mlx);
 			mlx_terminate(cub3d->mlx);
-		}
 	}
 	if (!what && !why)
 	{

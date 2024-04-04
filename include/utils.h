@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/13 16:19:27 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/04 12:26:40 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 19:01:04 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ typedef struct s_vect
 
 typedef struct s_ivect
 {
-	int	x;
-	int	y;
+	int32_t	x;
+	int32_t	y;
 }	t_ivect;
 
 t_ivect	itovect(uint32_t x, uint32_t y);
-t_vect	ftovect(double x, double y);
+t_vect	dtovect(double x, double y);
 t_ivect	get_sign(void *src);
 
 t_vect	math_add_vectors(t_vect a, int32_t b, void *c);

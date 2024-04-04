@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 17:53:01 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/04 11:27:12 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 19:30:38 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,3 @@ t_vect	math_rotate_vectors(t_vect v, double angle)
 	new.y = (v.x * sin(angle)) + (v.y * cos(angle));
 	return (new);
 }
-
-/**
- * moves a vector forward along an angle, by amount
-*/
-// t_vect	math_move_vector(t_vect v, double angle, double amount)
-// {
-// 	t_vect	new;
-
-// 	new.x = v.x + cos(angle) * amount;
-// 	new.y = v.y + sin(angle) * amount;
-// 	return (new);
-// }

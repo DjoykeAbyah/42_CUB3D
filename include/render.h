@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/04 13:06:30 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 19:32:39 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,20 +31,6 @@
 # define FCOL 0xFFFFFFFF
 # define PCOL 0xFF0000FF
 
-// typedef struct s_ray
-// {
-// 	t_vect	plane;
-// 	t_vect	camera;
-// 	t_vect	dir;
-// 	t_ivect	map;
-// 	t_vect	side_dist;
-// 	t_vect	delta_dist;
-// 	double	perp_dist;
-// 	t_ivect	step;
-// 	int		hit;
-// 	int		side;
-// }	t_ray;
-
 typedef struct s_player
 {
 	t_vect		pos;
@@ -60,6 +46,9 @@ typedef struct s_player
 typedef struct s_ray
 {
 	t_player	*origin;
+	double		halffov;
+	double		slice;
+	t_vect		dir;
 	t_vect		grid_delta;
 	t_vect		grid_dist;
 	t_ivect		map_pos;

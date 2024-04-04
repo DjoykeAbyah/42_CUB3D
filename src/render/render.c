@@ -6,16 +6,24 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/04 13:07:43 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 19:37:44 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
+static void	cast_ray(t_ray *ray);
 static void	find_wall(t_cub3d *cub3d);
 static void	calc_distances(t_ray *ray);
 static void	calc_heights(t_cub3d *cub3d);
 static void	draw_slice(t_cub3d *cub3d, uint32_t x);
+
+//not rotating??
+static void	cast_ray(t_ray *ray)
+{
+	ray->dir = math_rotate_vectors(ray->dir, -1 * ray->slice);
+	printf("raydir (%f, %f)\n", ray->dir.x, ray->dir.y);
+}
 
 void	render(void *param)
 {
@@ -23,6 +31,8 @@ void	render(void *param)
 	t_cub3d		*cub3d;
 
 	cub3d = param;
+	cub3d->render.ray.dir
+		= math_rotate_vectors(cub3d->player.dir, cub3d->render.ray.halffov);
 	x = 0;
 	while (x < WIDTH)
 	{
@@ -31,6 +41,7 @@ void	render(void *param)
 		calc_heights(cub3d);
 		draw_slice(cub3d, x);
 		x++;
+		cast_ray(&cub3d->render.ray);
 	}
 }
 
@@ -39,24 +50,27 @@ void	render(void *param)
 */
 static void	calc_distances(t_ray *ray)
 {
-	if (ray->origin->dir.x != 0)
-		ray->grid_delta.x = fabs(1 / ray->origin->dir.x);
+	//delta
+	if (ray->dir.x != 0)
+		ray->grid_delta.x = fabs(1 / ray->dir.x);
 	else
-		ray->grid_delta.x = 1e30;
-	if (ray->origin->dir.y != 0)
-		ray->grid_delta.y = fabs(1 / ray->origin->dir.y);
+		ray->grid_delta.x = 1;
+	if (ray->dir.y != 0)
+		ray->grid_delta.y = fabs(1 / ray->dir.y);
 	else
-		ray->grid_delta.y = 1e30;
-	if (ray->origin->dir.x < 0)
-		ray->grid_dist.x = ((ray->origin->pos.x / TILE) - ray->map_pos.x);
+		ray->grid_delta.y = 1;
+	//dist
+	if (ray->dir.x < 0)
+		ray->grid_dist.x = ray->origin->pos.x - ray->map_pos.x;
 	else
-		ray->grid_dist.x = (ray->map_pos.x + 1 - (ray->origin->pos.x / TILE));
+		ray->grid_dist.x = ray->map_pos.x + 1 - ray->origin->pos.x;
 	ray->grid_dist.x *= ray->grid_delta.x;
-	if (ray->origin->dir.y < 0)
-		ray->grid_delta.y = ((ray->origin->pos.y / TILE) - ray->map_pos.y);
+	if (ray->dir.y < 0)
+		ray->grid_dist.y = ray->origin->pos.y - ray->map_pos.y;
 	else
-		ray->grid_delta.y = (ray->map_pos.x + 1 - (ray->origin->pos.y / TILE));
+		ray->grid_dist.y = ray->map_pos.y + 1 - ray->origin->pos.y;
 	ray->grid_dist.y *= ray->grid_delta.y;
+	printf("delta(%f, %f) dist(%f, %f)\n", ray->grid_delta.x, ray->grid_delta.y, ray->grid_dist.x, ray->grid_dist.y);
 }
 
 /**
@@ -69,7 +83,7 @@ static void	find_wall(t_cub3d *cub3d)
 	t_ivect	step;
 
 	ray = &cub3d->render.ray;
-	step = get_sign(&ray->origin->dir);
+	step = get_sign(&ray->dir);
 	hit = 0;
 	while (!hit)
 	{
@@ -89,6 +103,7 @@ static void	find_wall(t_cub3d *cub3d)
 		if (cub3d->mapdata.grid[ray->map_pos.y][ray->map_pos.x] > '0')
 			hit = 1;
 	}
+	printf("W\n");
 }
 
 /**
@@ -97,8 +112,9 @@ static void	find_wall(t_cub3d *cub3d)
 static void	calc_heights(t_cub3d *cub3d)
 {
 	//garbage
-	cub3d->render.wall_start = HEIGHT + HEIGHT / 4;
-	cub3d->render.wall_end = HEIGHT + HEIGHT / 4;
+	cub3d->render.wall_start = HEIGHT / 4;
+	cub3d->render.wall_end = HEIGHT - (HEIGHT / 4);
+	printf("H\n");
 }
 
 static void	draw_slice(t_cub3d *cub3d, uint32_t x)
@@ -120,4 +136,5 @@ static void	draw_slice(t_cub3d *cub3d, uint32_t x)
 			mlx_put_pixel(cub3d->render.scene, x, y, cub3d->mapdata.cols[0]);
 		y++;
 	}
+	printf("S\n");
 }

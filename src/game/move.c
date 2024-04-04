@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/04 01:28:59 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 19:27:43 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	move_and_render(void *param)
 		render(param);
 }
 
-
 /**
  * rotates player slightly in ROT direction
  * @param dir counterclockwise or clockwise
@@ -68,8 +67,8 @@ static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 
 	move = math_multiply_vectors(dir, SPEED);
 	cub3d->player.pos = math_add_vectors(cub3d->player.pos, 0, &move);
-	printf("moving (%.1f, %.1fd)\n",
-		cub3d->player.pos.x / TILE, cub3d->player.pos.y / TILE);
+	printf("moving (%f, %fd)\n",
+		cub3d->player.pos.x, cub3d->player.pos.y);
 	update_minimap_pin(cub3d);
 	return (1);
 }
@@ -77,7 +76,7 @@ static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 static void	update_minimap_pin(t_cub3d *cub3d)
 {
 	cub3d->minimap.pin->instances->x
-		= (int)(cub3d->minimap.pos.x + (cub3d->player.pos.x / TILE) * UNIT);
+		= (int)(cub3d->minimap.pos.x + cub3d->player.pos.x * UNIT);
 	cub3d->minimap.pin->instances->y
-		= (int)(cub3d->minimap.pos.y + (cub3d->player.pos.y / TILE) * UNIT);
+		= (int)(cub3d->minimap.pos.y + cub3d->player.pos.y * UNIT);
 }

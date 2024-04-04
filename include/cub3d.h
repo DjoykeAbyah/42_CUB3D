@@ -30,9 +30,9 @@ typedef struct s_map
 	char			**grid;
 	mlx_texture_t	*textures[4];
 	int32_t			cols[2];
-	uint32_t		height;
-	uint32_t		*width;
-	uint32_t		max_width;
+	int32_t			height;
+	int32_t			*width;
+	int32_t			max_width;
 	t_ivect			start_pos;
 	t_ivect			start_dir;
 }	t_map;
@@ -66,7 +66,6 @@ typedef struct s_cub3d
 
 void	parse_map(t_map *map, char *filename);
 void	start_cub3d(t_cub3d *cub3d);
-void	init(void *param);
 void	move_and_render(void *param);
 void	terminate(t_cub3d *cub3d, const char *what, const char *why);
 
