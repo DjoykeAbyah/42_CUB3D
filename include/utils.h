@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/13 16:19:27 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/04 01:21:25 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 10:37:06 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ t_vect	ftovect(double x, double y);
 
 t_vect	math_add_vectors(t_vect a, int32_t b, void *c);
 t_vect	math_multiply_vectors(t_vect v, double f);
-t_vect	math_rotate_vectors(t_vect dir, double angle);
+t_vect	math_rotate_vectors(t_vect v, double angle);
+
+// t_vect	math_move_vector(t_vect v, double angle);
 
 // t_vect	*math_calc_direction(t_vect *old, t_vect dir);
 // t_vect	*math_calc_direction_left(t_vect *current_dir, t_vect target_dir);

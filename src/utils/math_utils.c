@@ -6,45 +6,49 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 17:53:01 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/04 01:23:29 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 10:39:52 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 /**
- * Adds the values of b and c to a, and returns the address of a.
- * @param a Address of the vector to increment
+ * Adds the values of a, b and c and returns a new vector.
+ * @param a the vector to increment
  * @param b Integer to add. Pass 0 for no effect.
  * @param c Pointer to t_vect or t_ivect if relevant, or NULL
+ * @returns A vector
 */
 t_vect	math_add_vectors(t_vect a, int32_t b, void *c)
 {
-	t_vect	v;
+	t_vect	new;
 	t_vect	*p;
 
-	v.x = a.x + b;
-	v.y = a.y + b;
+	new.x = a.x + b;
+	new.y = a.y + b;
 	if (c)
 	{
 		p = c;
-		v.x += p->x;
-		v.y += p->y;
+		new.x += p->x;
+		new.y += p->y;
 	}
-	return (v);
-}
-
-t_vect	math_multiply_vectors(t_vect a, double f)
-{
-	t_vect	v;
-
-	v.x = a.x * f;
-	v.y = a.y * f;
-	return (v);
+	return (new);
 }
 
 /**
- * returns a vector rotated in a direction based on angle
+ * Multiplies the values v and f, and returns a new vector.
+*/
+t_vect	math_multiply_vectors(t_vect v, double f)
+{
+	t_vect	new;
+
+	new.x = v.x * f;
+	new.y = v.y * f;
+	return (new);
+}
+
+/**
+ * Returns a vector rotated in a direction based on angle
 */
 t_vect	math_rotate_vectors(t_vect v, double angle)
 {
@@ -56,11 +60,13 @@ t_vect	math_rotate_vectors(t_vect v, double angle)
 }
 
 /**
- * moves a vector forward along an angle, at speed
+ * moves a vector forward along an angle, by amount
 */
-t_vect	*math_move_vector(t_vect *pos, double angle)
-{
-	pos->x += cos(angle) * SPEED;
-	pos->y += sin(angle) * SPEED;
-	return (pos);
-}
+// t_vect	math_move_vector(t_vect v, double angle, double amount)
+// {
+// 	t_vect	new;
+
+// 	new.x = v.x + cos(angle) * amount;
+// 	new.y = v.y + sin(angle) * amount;
+// 	return (new);
+// }
