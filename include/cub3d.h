@@ -50,13 +50,10 @@ typedef struct s_render
 {
 	t_ray		ray;
 	mlx_image_t	*scene;
+	uint32_t	wall_start;
+	uint32_t	wall_end;
+	uint8_t		direction;
 }	t_render;
-
-typedef struct s_player
-{
-	t_vect		pos;
-	t_vect		dir;
-}	t_player;
 
 typedef struct s_cub3d
 {
@@ -69,6 +66,7 @@ typedef struct s_cub3d
 
 void	parse_map(t_map *map, char *filename);
 void	start_cub3d(t_cub3d *cub3d);
+void	init(void *param);
 void	move_and_render(void *param);
 void	terminate(t_cub3d *cub3d, const char *what, const char *why);
 

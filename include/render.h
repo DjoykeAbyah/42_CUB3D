@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/04 01:29:13 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 13:06:30 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 # define FOV 60
 # define SPEED 1
-# define ROT 120
+# define ROT 100
 # define PI 3.1415926535
 
 //minimap
@@ -45,14 +45,27 @@
 // 	int		side;
 // }	t_ray;
 
+typedef struct s_player
+{
+	t_vect		pos;
+	t_vect		dir;
+}	t_player;
+
+/**
+ * @param origin		pointer to player struct in cub3d
+ * @param grid_delta	angled distance between gridlines
+ * @param grid_dist		distance of position from next gridline
+ * @param step			check int positive or negative direction of map
+*/
 typedef struct s_ray
 {
-	double	angle;
-	t_vect	grid_pos;
-	t_vect	tile_pos;
+	t_player	*origin;
+	t_vect		grid_delta;
+	t_vect		grid_dist;
+	t_ivect		map_pos;
+	t_ivect		hit_side;
 }	t_ray;
 
-void	render_init(void *param);
 void	render(void *param);
 
 #endif
