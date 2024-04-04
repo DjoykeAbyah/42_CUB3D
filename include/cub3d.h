@@ -29,10 +29,10 @@ typedef struct s_map
 {
 	char			**grid;
 	mlx_texture_t	*textures[4];
-	int32_t			cols[2];
-	int32_t			height;
-	int32_t			*width;
-	int32_t			max_width;
+	uint32_t		cols[2];
+	uint32_t		height;
+	uint32_t		*width;
+	uint32_t		max_width;
 	t_ivect			start_pos;
 	t_ivect			start_dir;
 }	t_map;

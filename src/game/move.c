@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/04 19:27:43 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/04 19:49:52 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	move_and_render(void *param)
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_E))
 		moved = rotate(cub3d, 1);
 	if (moved)
-		render(param);
+		return ;
+		// render(param);
 }
 
 /**
