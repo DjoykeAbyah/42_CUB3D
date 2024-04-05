@@ -6,7 +6,7 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/04/03 23:35:28 by daoyi         ########   odam.nl          #
+#    Updated: 2024/04/05 11:21:30 by daoyi         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,12 +27,13 @@ INCL		= -ldl -lglfw -pthread -lm
 # INCL	= -framework Cocoa -framework OpenGL -framework IOKit -lglfw3
 # endif
 
-VPATH		= ./src ./src/utils ./src/parse .src/maths ./src/game ./src/render
+VPATH		= ./src ./src/utils ./src/parse .src/maths ./src/game ./src/render ./src/bonus
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
 SRC			= 	main.c \
 				parse.c _parse_info.c _parse_grid.c _verify_grid.c \
-				start.c render.c minimap.c move.c \
+				start.c render.c move.c \
 				draw_utils.c vector_utils.c math_utils.c \
+				minimap.c 
 
 OBJDIR		= obj
 OBJ			= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))

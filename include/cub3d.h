@@ -23,6 +23,7 @@
 # include "libft.h"
 # include "utils.h"
 # include "parse.h"
+# include "minimap.h"
 # include "render.h"
 
 typedef struct s_map
@@ -36,15 +37,6 @@ typedef struct s_map
 	t_ivect			start_pos;
 	t_ivect			start_dir;
 }	t_map;
-
-typedef struct s_minimap
-{
-	t_ivect		pos;
-	t_ivect		size;
-	mlx_image_t	*pin;
-	mlx_image_t	*walls;
-	mlx_image_t	*floor;
-}	t_minimap;
 
 typedef struct s_render
 {
@@ -68,9 +60,5 @@ void	parse_map(t_map *map, char *filename);
 void	start_cub3d(t_cub3d *cub3d);
 void	move_and_render(void *param);
 void	terminate(t_cub3d *cub3d, const char *what, const char *why);
-
-//BONUS
-
-void	start_minimap(t_cub3d *cub3d);
 
 #endif
