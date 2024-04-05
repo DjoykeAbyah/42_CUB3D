@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/05 11:15:44 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/05 14:31:32 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,13 @@
 # define FOV 60
 # define SPEED 1
 # define ROT 120
-# define PI 3.1415926535
+# define PI 3.14159265358979323846
+
+//temporary colours
+# define XCOL1 0xFF0000FF
+# define XCOL2 0x0FF000FF
+# define YCOL1 0x00FF00FF
+# define YCOL2 0x000FF0FF
 
 //minimap
 # define UNIT 8
@@ -45,8 +51,6 @@ typedef struct s_player
 typedef struct s_ray
 {
 	t_player	*origin;
-	double		halffov;
-	double		slice;
 	t_vect		dir;
 	t_vect		grid_delta;
 	t_vect		grid_dist;

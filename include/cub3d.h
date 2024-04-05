@@ -53,6 +53,7 @@ typedef struct s_cub3d
 	t_minimap	minimap;
 	t_render	render;
 	t_player	player;
+	t_numbers	n;
 	mlx_t		*mlx;
 }	t_cub3d;
 

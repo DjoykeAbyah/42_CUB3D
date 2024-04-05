@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/21 20:51:41 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/05 11:23:11 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/05 14:07:12 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,14 @@ static void	setup_render(t_cub3d *cub3d)
 	cub3d->player.pos.y = cub3d->mapdata.start_pos.y;
 	cub3d->player.dir.x = cub3d->mapdata.start_dir.x;
 	cub3d->player.dir.y = cub3d->mapdata.start_dir.y;
+	cub3d->n.turn = (PI / ROT);
+	cub3d->n.ninety = (PI / 2);
+	cub3d->n.half_fov = (FOV * (PI / 360));
+	cub3d->n.half_height = HEIGHT / 2;
+	cub3d->n.slice = (((double)FOV / (double)WIDTH) * (PI / 180));
 	cub3d->render.ray.origin = &cub3d->player;
-	cub3d->render.ray.halffov = FOV / 2;
-	cub3d->render.ray.slice = FOV / WIDTH;
-	cub3d->render.ray.map_pos.x = cub3d->player.pos.x;
-	cub3d->render.ray.map_pos.y = cub3d->player.pos.y;
 	printf("---Spawning player at (%d, %d), direction (%d, %d)\n",
 		cub3d->mapdata.start_pos.x, cub3d->mapdata.start_pos.y,
 		cub3d->mapdata.start_dir.x, cub3d->mapdata.start_dir.y);
-	// render(cub3d);
+	render(cub3d);
 }

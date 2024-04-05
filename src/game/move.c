@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/05 11:24:53 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/05 14:22:07 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,20 @@ void	move_and_render(void *param)
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_W))
 		moved = move(cub3d, cub3d->player.dir);
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_A))
-		moved = move(cub3d, math_rotate_vectors(cub3d->player.dir, -PI / 2));
+		moved = move(cub3d, math_rotate_vectors
+				(cub3d->player.dir, cub3d->n.ninety * -1));
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_S))
-		moved = move(cub3d, math_rotate_vectors(cub3d->player.dir, PI));
+		moved = move(cub3d, math_rotate_vectors
+				(cub3d->player.dir, PI));
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_D))
-		moved = move(cub3d, math_rotate_vectors(cub3d->player.dir, PI / 2));
+		moved = move(cub3d, math_rotate_vectors
+				(cub3d->player.dir, cub3d->n.ninety));
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_Q))
-		moved = rotate(cub3d, -PI / ROT);
+		moved = rotate(cub3d, cub3d->n.turn * -1);
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_E))
-		moved = rotate(cub3d, PI / ROT);
+		moved = rotate(cub3d, cub3d->n.turn);
 	if (moved)
-		return ;
-		// render(param);
+		render(param);
 }
 
 /**

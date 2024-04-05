@@ -6,43 +6,49 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/04 19:37:44 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/05 14:30:13 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	cast_ray(t_ray *ray);
+static void	cast_ray(t_ray *ray, double dir);
 static void	find_wall(t_cub3d *cub3d);
 static void	calc_distances(t_ray *ray);
-static void	calc_heights(t_cub3d *cub3d);
+static void	calc_height(t_cub3d *cub3d);
 static void	draw_slice(t_cub3d *cub3d, uint32_t x);
 
-//not rotating??
-static void	cast_ray(t_ray *ray)
-{
-	ray->dir = math_rotate_vectors(ray->dir, -1 * ray->slice);
-	printf("raydir (%f, %f)\n", ray->dir.x, ray->dir.y);
-}
-
+/**
+ * Raytracing and rendering
+ * @todo remove printf before submitting
+*/
 void	render(void *param)
 {
 	uint32_t	x;
 	t_cub3d		*cub3d;
 
 	cub3d = param;
+	cast_ray(&cub3d->render.ray, 0);
 	cub3d->render.ray.dir
-		= math_rotate_vectors(cub3d->player.dir, cub3d->render.ray.halffov);
+		= math_rotate_vectors(cub3d->player.dir, -1 * cub3d->n.half_fov);
 	x = 0;
 	while (x < WIDTH)
 	{
 		calc_distances(&cub3d->render.ray);
 		find_wall(cub3d);
-		calc_heights(cub3d);
+		calc_height(cub3d);
 		draw_slice(cub3d, x);
+		cast_ray(&cub3d->render.ray, cub3d->n.slice);
 		x++;
-		cast_ray(&cub3d->render.ray);
 	}
+}
+
+static void	cast_ray(t_ray *ray, double dir)
+{
+	ray->dir = math_rotate_vectors(ray->dir, dir);
+	ray->map_pos.x = ray->origin->pos.x;
+	ray->map_pos.y = ray->origin->pos.y;
+	printf("raydir (%f, %f)\n", ray->dir.x, ray->dir.y);
 }
 
 /**
@@ -100,41 +106,59 @@ static void	find_wall(t_cub3d *cub3d)
 			ray->map_pos.y += step.y;
 			ray->hit_side.y = step.y;
 		}
+		printf("Checking map pos (%d %d)\n", ray->map_pos.x, ray->map_pos.y);
 		if (cub3d->mapdata.grid[ray->map_pos.y][ray->map_pos.x] > '0')
 			hit = 1;
 	}
-	printf("W\n");
 }
 
 /**
  * calculate wall height based on distance and populates render
 */
-static void	calc_heights(t_cub3d *cub3d)
+static void	calc_height(t_cub3d *cub3d)
 {
-	//garbage
-	cub3d->render.wall_start = HEIGHT / 4;
-	cub3d->render.wall_end = HEIGHT - (HEIGHT / 4);
-	printf("H\n");
+	t_ray	*ray;
+	double	wall_dist;
+	int		half_wall;
+
+	ray = &cub3d->render.ray;
+	if (ray->hit_side.x != 0)
+		wall_dist = ray->grid_dist.x - ray->grid_delta.x;
+	else
+		wall_dist = ray->grid_dist.y - ray->grid_delta.y;
+	half_wall = (int)(TILE / (wall_dist * 2));
+	cub3d->render.wall_start = cub3d->n.half_height - half_wall;
+	cub3d->render.wall_end = HEIGHT - cub3d->n.half_height + half_wall;
+	printf("Got wall height: %d\n", half_wall * 2);
 }
 
+/**
+ * draws vertical slice.
+ * @todo replace colour sampling with texture sampling
+*/
 static void	draw_slice(t_cub3d *cub3d, uint32_t x)
 {
 	uint32_t	y;
+	uint32_t	col;
 
 	y = 0;
+	col = XCOL1;
+	if (cub3d->render.ray.hit_side.x == 1)
+		col = XCOL1;
+	else if (cub3d->render.ray.hit_side.x == -1)
+		col = XCOL2;
+	else if (cub3d->render.ray.hit_side.y == 1)
+		col = YCOL1;
+	else if (cub3d->render.ray.hit_side.y == -1)
+		col = YCOL2;
 	while (y < HEIGHT)
 	{
 		if (y >= cub3d->render.wall_start && y < cub3d->render.wall_end)
-		{
-			//depending on direction, sample from texture.
-			//for now it just puts garbage
-			mlx_put_pixel(cub3d->render.scene, x, y, PCOL);
-		}
+			mlx_put_pixel(cub3d->render.scene, x, y, col);
 		else if (y < HEIGHT / 2)
 			mlx_put_pixel(cub3d->render.scene, x, y, cub3d->mapdata.cols[1]);
 		else
 			mlx_put_pixel(cub3d->render.scene, x, y, cub3d->mapdata.cols[0]);
 		y++;
 	}
-	printf("S\n");
 }
