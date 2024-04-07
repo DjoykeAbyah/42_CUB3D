@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/05 14:22:07 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/07 20:24:22 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static uint8_t	move(t_cub3d *cub3d, t_vect dir);
 static uint8_t	rotate(t_cub3d *cub3d, double dir);
+static uint8_t	is_wall(t_map *map, uint32_t x, uint32_t y);
 
 /**
  * @todo	update rotation based on mouse x and y movement
@@ -44,6 +45,14 @@ void	move_and_render(void *param)
 		render(param);
 }
 
+static uint8_t	is_wall(t_map *map, uint32_t x, uint32_t y)
+{
+	if (map->grid[y][x] != '0')
+		return (1);
+	else
+		return (0);
+}
+
 /**
  * calculate new player pos based on 
  * key direction of strafing and SPEED
@@ -52,9 +61,15 @@ void	move_and_render(void *param)
 static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 {
 	t_vect	move;
+	t_vect	newpos;
 
+	if (is_wall(&cub3d->mapdata, cub3d->player.pos.x, cub3d->player.pos.y))
+		return (0);
 	move = math_multiply_vectors(dir, SPEED);
-	cub3d->player.pos = math_add_vectors(cub3d->player.pos, 0, &move);
+	newpos = math_add_vectors(cub3d->player.pos, 0, &move);
+	if (is_wall(&cub3d->mapdata, newpos.x, newpos.y))
+		return (0);
+	cub3d->player.pos = newpos;
 	printf("moving (%f, %fd)\n", cub3d->player.pos.x, cub3d->player.pos.y);
 	update_minimap(cub3d);
 	return (1);

@@ -45,7 +45,6 @@ uint8_t	parse_info(t_map *map, t_parse *parse)
 
 static uint8_t	parse_type(t_map *map, t_parse *parse)
 {
-
 	if (ft_strcmp("NO", parse->linedata[0]) == 0)
 		parse->type = NORTH;
 	else if (ft_strcmp("SO", parse->linedata[0]) == 0)

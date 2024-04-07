@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/05 14:30:13 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/07 20:32:56 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ static void	calc_distances(t_ray *ray)
 		ray->grid_delta.y = 1;
 	//dist
 	if (ray->dir.x < 0)
-		ray->grid_dist.x = ray->origin->pos.x - ray->map_pos.x;
+		ray->grid_dist.x = (ray->origin->pos.x - ray->map_pos.x);
 	else
-		ray->grid_dist.x = ray->map_pos.x + 1 - ray->origin->pos.x;
+		ray->grid_dist.x = (ray->map_pos.x + 1 - ray->origin->pos.x);
 	ray->grid_dist.x *= ray->grid_delta.x;
 	if (ray->dir.y < 0)
-		ray->grid_dist.y = ray->origin->pos.y - ray->map_pos.y;
+		ray->grid_dist.y = (ray->origin->pos.y - ray->map_pos.y);
 	else
-		ray->grid_dist.y = ray->map_pos.y + 1 - ray->origin->pos.y;
+		ray->grid_dist.y = (ray->map_pos.y + 1 - ray->origin->pos.y);
 	ray->grid_dist.y *= ray->grid_delta.y;
 	printf("delta(%f, %f) dist(%f, %f)\n", ray->grid_delta.x, ray->grid_delta.y, ray->grid_dist.x, ray->grid_dist.y);
 }
@@ -123,10 +123,10 @@ static void	calc_height(t_cub3d *cub3d)
 
 	ray = &cub3d->render.ray;
 	if (ray->hit_side.x != 0)
-		wall_dist = ray->grid_dist.x - ray->grid_delta.x;
+		wall_dist = (ray->grid_dist.x - ray->grid_delta.x);
 	else
-		wall_dist = ray->grid_dist.y - ray->grid_delta.y;
-	half_wall = (int)(TILE / (wall_dist * 2));
+		wall_dist = (ray->grid_dist.y - ray->grid_delta.y);
+	half_wall = (int)(HEIGHT / (wall_dist * 2));
 	cub3d->render.wall_start = cub3d->n.half_height - half_wall;
 	cub3d->render.wall_end = HEIGHT - cub3d->n.half_height + half_wall;
 	printf("Got wall height: %d\n", half_wall * 2);
