@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/08 16:44:06 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/08 18:38:05 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ void	move_and_render(void *param)
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_D))
 		moved = move(cub3d, math_rotate_vectors
 				(cub3d->player.dir, cub3d->n.ninety));
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_Q))
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_LEFT))
 		moved = rotate(cub3d, cub3d->n.turn * -1);
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_E))
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_RIGHT))
 		moved = rotate(cub3d, cub3d->n.turn);
 	if (moved)
 		render(param);
@@ -72,7 +72,6 @@ static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 		return (0);
 	cub3d->player.pos = newpos;
 	// printf("moving (%f, %fd)\n", cub3d->player.pos.x, cub3d->player.pos.y);
-	update_minimap(cub3d);
 	return (1);
 }
 

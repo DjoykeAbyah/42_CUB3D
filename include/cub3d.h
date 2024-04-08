@@ -23,7 +23,6 @@
 # include "libft.h"
 # include "utils.h"
 # include "parse.h"
-# include "minimap.h"
 # include "render.h"
 
 typedef struct s_map
@@ -50,7 +49,6 @@ typedef struct s_render
 typedef struct s_cub3d
 {
 	t_map		mapdata;
-	t_minimap	minimap;
 	t_render	render;
 	t_player	player;
 	t_numbers	n;

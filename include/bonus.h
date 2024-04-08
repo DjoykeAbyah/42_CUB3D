@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minimap.h                                          :+:    :+:            */
+/*   bonus.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2024/04/05 11:17:48 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/05 11:25:02 by daoyi         ########   odam.nl         */
+/*   Created: 2024/04/08 18:08:16 by daoyi         #+#    #+#                 */
+/*   Updated: 2024/04/08 18:30:02 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINIMAP_H
-# define MINIMAP_H
+#ifndef BONUS_H
+# define BONUS_H
 
 # include "cub3d.h"
 
@@ -25,6 +25,6 @@ typedef struct s_minimap
 }	t_minimap;
 
 void	start_minimap(void *param);
-void	update_minimap(void *param);
+void	update_minimap(t_minimap *minimap, t_vect pos);
 
 #endif

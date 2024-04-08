@@ -6,65 +6,61 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 20:12:10 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/08 17:08:11 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/08 18:35:51 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "bonus.h"
 
-static void	_draw_floor(t_cub3d *cub3d);
-static void	_draw_walls(t_cub3d *cub3d);
-static void	_draw_pin(t_cub3d *cub3d);
+static void	_draw_floor(t_cub3d *cub3d, t_minimap *minimap);
+static void	_draw_walls(t_cub3d *cub3d, t_minimap *minimap);
+static void	_draw_pin(t_cub3d *cub3d, t_minimap *minimap);
 
 void	start_minimap(void *param)
 {
-	t_cub3d	*cub3d;
+	t_minimap	minimap;
+	t_cub3d		*cub3d;
 
 	cub3d = param;
-	cub3d->minimap.size.x = UNIT * cub3d->mapdata.max_width;
-	cub3d->minimap.size.y = UNIT * cub3d->mapdata.height;
-	cub3d->minimap.pos.x = WIDTH - cub3d->minimap.size.x;
-	if (cub3d->minimap.size.x > WIDTH)
-		cub3d->minimap.pos.x = 0;
-	cub3d->minimap.pos.y = 0;
-	_draw_floor(cub3d);
-	_draw_walls(cub3d);
-	_draw_pin(cub3d);
+	minimap.size.x = UNIT * cub3d->mapdata.max_width;
+	minimap.size.y = UNIT * cub3d->mapdata.height;
+	minimap.pos.x = WIDTH - minimap.size.x;
+	if (minimap.size.x > WIDTH)
+		minimap.pos.x = 0;
+	minimap.pos.y = 0;
+	_draw_floor(cub3d->mlx, &minimap);
+	_draw_walls(cub3d, &minimap);
+	_draw_pin(cub3d, &minimap);
 }
 
-void	update_minimap(void *param)
+void	update_minimap(t_minimap *minimap, t_vect pos)
 {
-	t_cub3d	*cub3d;
-
-	cub3d = param;
-	cub3d->minimap.pin->instances->x
-		= (int)(cub3d->minimap.pos.x + (cub3d->player.pos.x * UNIT) - UNIT);
-	cub3d->minimap.pin->instances->y
-		= (int)(cub3d->minimap.pos.y + (cub3d->player.pos.y * UNIT) - UNIT);
+	minimap->pin->instances->x = (int)(minimap->pos.x + (pos.x * UNIT) - UNIT);
+	minimap->pin->instances->y = (int)(minimap->pos.y + (pos.y * UNIT) - UNIT);
 }
 
-static void	_draw_floor(t_cub3d *cub3d)
+static void	_draw_floor(t_cub3d *cub3d, t_minimap *minimap)
 {
-	cub3d->minimap.floor = mlx_new_image(cub3d->mlx,
-			cub3d->minimap.size.x, cub3d->minimap.size.y);
-	if (!cub3d->minimap.floor)
+	minimap->floor
+		= mlx_new_image(cub3d->mlx, minimap->size.x, minimap->size.y);
+	if (!minimap->floor)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
-	if (mlx_image_to_window(cub3d->mlx, cub3d->minimap.floor,
-			cub3d->minimap.pos.x, cub3d->minimap.pos.y) == -1)
+	if (mlx_image_to_window(cub3d->mlx, minimap->floor,
+			minimap->pos.x, minimap->pos.y) == -1)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
-	draw_rect(cub3d->minimap.floor, cub3d->minimap.size, itovect(0, 0), BCOL);
+	draw_rect(minimap->floor, minimap->size, itovect(0, 0), BCOL);
 }
 
-static void	_draw_walls(t_cub3d *cub3d)
+static void	_draw_walls(t_cub3d *cub3d, t_minimap *minimap)
 {
 	t_ivect		i;
 
-	cub3d->minimap.walls = mlx_new_image(cub3d->mlx,
-			cub3d->minimap.size.x, cub3d->minimap.size.y);
-	if (!cub3d->minimap.walls)
+	minimap->walls
+		= mlx_new_image(cub3d->mlx, minimap->size.x, minimap->size.y);
+	if (!minimap->walls)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
-	if (mlx_image_to_window(cub3d->mlx, cub3d->minimap.walls,
-			cub3d->minimap.pos.x, cub3d->minimap.pos.y) == -1)
+	if (mlx_image_to_window(cub3d->mlx, minimap->walls,
+			minimap->pos.x, minimap->pos.y) == -1)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
 	i.y = 0;
 	while (cub3d->mapdata.grid[i.y])
@@ -74,7 +70,7 @@ static void	_draw_walls(t_cub3d *cub3d)
 		{
 			if (cub3d->mapdata.grid[i.y][i.x] == '1')
 			{
-				draw_rect(cub3d->minimap.walls, itovect(UNIT, UNIT),
+				draw_rect(minimap->walls, itovect(UNIT, UNIT),
 					itovect(UNIT * i.x, UNIT * i.y), FCOL);
 			}
 			i.x++;
@@ -83,14 +79,15 @@ static void	_draw_walls(t_cub3d *cub3d)
 	}
 }
 
-static void	_draw_pin(t_cub3d *cub3d)
+static void	_draw_pin(t_cub3d *cub3d, t_minimap *minimap)
 {
-	cub3d->minimap.pin = mlx_new_image(cub3d->mlx, UNIT * 2, UNIT * 2);
-	if (!cub3d->minimap.pin)
+	minimap->pin = mlx_new_image(cub3d->mlx, UNIT * 2, UNIT * 2);
+	if (!minimap->pin)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
-	if (mlx_image_to_window(cub3d->mlx, cub3d->minimap.pin,
-			cub3d->minimap.pos.x + (cub3d->mapdata.start_pos.x * UNIT) - UNIT,
-			cub3d->minimap.pos.y + (cub3d->mapdata.start_pos.y * UNIT) - UNIT) == -1)
+	if (mlx_image_to_window(cub3d->mlx, minimap->pin,
+			minimap->pos.x + (cub3d->mapdata.start_pos.x * UNIT) - UNIT,
+			minimap->pos.y + (cub3d->mapdata.start_pos.y * UNIT) - UNIT) == -1)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
-	draw_rect(cub3d->minimap.pin, itovect(UNIT, UNIT), itovect(UNIT / 2, UNIT / 2), PCOL);
+	draw_rect(minimap->pin, itovect(UNIT, UNIT), itovect(UNIT / 2, UNIT / 2),
+		PCOL);
 }
