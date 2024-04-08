@@ -42,9 +42,9 @@ typedef struct s_render
 {
 	t_ray		ray;
 	mlx_image_t	*scene;
-	uint32_t	wall_start;
-	uint32_t	wall_end;
-	uint8_t		direction;
+	int32_t		wall_start;
+	int32_t		wall_end;
+	int8_t		direction;
 }	t_render;
 
 typedef struct s_cub3d

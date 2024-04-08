@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/07 20:30:47 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/08 12:43:57 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@
 
 # define TILE 64
 # define FOV 60
-# define SPEED 1
-# define ROT 120
+# define SPEED 0.05
+# define ROT 90
 # define PI 3.14159265358979323846
 
 //temporary colours
 # define XCOL1 0xFF0000FF
-# define XCOL2 0x0FF000FF
-# define YCOL1 0x00FF00FF
-# define YCOL2 0x000FF0FF
+# define XCOL2 0x00FF00FF
+# define YCOL1 0x0000FFFF
+# define YCOL2 0xFF00FFFF
 
 //minimap
 # define UNIT 8
