@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/08 13:28:04 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/08 16:44:06 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static uint8_t	move(t_cub3d *cub3d, t_vect dir);
 static uint8_t	rotate(t_cub3d *cub3d, double dir);
-static uint8_t	is_wall(char **grid, t_vect newpos);
+static uint8_t	is_wall(char **grid, t_vect oldpos, t_vect newpos);
 
 /**
  * @todo	update rotation based on mouse x and y movement
@@ -45,16 +45,15 @@ void	move_and_render(void *param)
 		render(param);
 }
 
-static uint8_t	is_wall(char **grid, t_vect newpos)
+static uint8_t	is_wall(char **grid, t_vect oldpos, t_vect newpos)
 {
 	t_ivect	pos;
 
-	pos.x = (int)newpos.x;
-	pos.y = (int)newpos.y;
-	if (grid[pos.y][pos.x] == '0')
-		return (0);
-	else
+	pos.x = newpos.x;
+	pos.y = newpos.y;
+	if (oldpos.x && grid[pos.y][pos.x] != '0')
 		return (1);
+	return (0);
 }
 
 /**
@@ -69,10 +68,10 @@ static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 
 	move = math_multiply_vectors(dir, SPEED);
 	newpos = math_add_vectors(cub3d->player.pos, 0, &move);
-	if (is_wall(cub3d->mapdata.grid, newpos))
+	if (is_wall(cub3d->mapdata.grid, cub3d->player.pos, newpos))
 		return (0);
 	cub3d->player.pos = newpos;
-	printf("moving (%f, %fd)\n", cub3d->player.pos.x, cub3d->player.pos.y);
+	// printf("moving (%f, %fd)\n", cub3d->player.pos.x, cub3d->player.pos.y);
 	update_minimap(cub3d);
 	return (1);
 }
@@ -86,6 +85,6 @@ static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 static uint8_t	rotate(t_cub3d *cub3d, double dir)
 {
 	cub3d->player.dir = math_rotate_vectors(cub3d->player.dir, dir);
-	printf("rotating (%f, %fd)\n", cub3d->player.dir.x, cub3d->player.dir.y);
+	// printf("rotating (%f, %fd)\n", cub3d->player.dir.x, cub3d->player.dir.y);
 	return (1);
 }

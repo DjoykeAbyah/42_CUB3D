@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/08 12:40:48 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/08 16:48:41 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,8 @@ static void	calc_height(t_cub3d *cub3d)
 		wall_dist = (ray->grid_dist.x - ray->grid_delta.x);
 	else
 		wall_dist = (ray->grid_dist.y - ray->grid_delta.y);
+	if (wall_dist < 1)
+		wall_dist = 1;
 	wall_height = (int)(HEIGHT / wall_dist);
 	cub3d->render.wall_start = cub3d->n.half_height - (wall_height * 0.5);
 	cub3d->render.wall_end = cub3d->n.half_height + (wall_height * 0.5);
