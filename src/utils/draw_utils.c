@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 20:12:10 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/03/28 18:27:39 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/08 14:07:11 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,3 +40,24 @@ void	draw_rect(mlx_image_t *i, t_ivect s, t_ivect p, uint32_t c)
 		y++;
 	}
 }
+
+// /**
+//  * draws a curcle in image 'i' of radius 'r' at point 'p' in color 'c'
+// */
+// void	draw_circle(mlx_image_t *i, uint32_t r, t_ivect p, uint32_t c)
+// {
+// 	double		radian;
+// 	double		full_circle;
+// 	uint32_t	x;
+// 	uint32_t	y;
+
+// 	radian = 0;
+// 	full_circle = 2 * PI;
+// 	while (radian < full_circle)
+// 	{
+// 		x = (int)(p.x + r * cos(radian));
+// 		y = (int)(p.y + r * sin(radian));
+// 		mlx_put_pixel(i, x, y, c);
+// 		radian += 0.1;
+// 	}
+// }

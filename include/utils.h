@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/13 16:19:27 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/08 12:17:00 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/08 13:33:57 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,6 @@ t_vect	math_rotate_vectors(t_vect v, double angle);
 
 int32_t	rgba_to_int(int32_t r, int32_t g, int32_t b, int32_t a);
 void	draw_rect(mlx_image_t *img, t_ivect size, t_ivect pos, uint32_t col);
+void	draw_circle(mlx_image_t *i, uint32_t r, t_ivect p, uint32_t c);
 
 #endif

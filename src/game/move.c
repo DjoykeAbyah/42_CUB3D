@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/07 20:24:22 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/08 13:28:04 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static uint8_t	move(t_cub3d *cub3d, t_vect dir);
 static uint8_t	rotate(t_cub3d *cub3d, double dir);
-static uint8_t	is_wall(t_map *map, uint32_t x, uint32_t y);
+static uint8_t	is_wall(char **grid, t_vect newpos);
 
 /**
  * @todo	update rotation based on mouse x and y movement
@@ -45,12 +45,16 @@ void	move_and_render(void *param)
 		render(param);
 }
 
-static uint8_t	is_wall(t_map *map, uint32_t x, uint32_t y)
+static uint8_t	is_wall(char **grid, t_vect newpos)
 {
-	if (map->grid[y][x] != '0')
-		return (1);
-	else
+	t_ivect	pos;
+
+	pos.x = (int)newpos.x;
+	pos.y = (int)newpos.y;
+	if (grid[pos.y][pos.x] == '0')
 		return (0);
+	else
+		return (1);
 }
 
 /**
@@ -63,11 +67,9 @@ static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 	t_vect	move;
 	t_vect	newpos;
 
-	if (is_wall(&cub3d->mapdata, cub3d->player.pos.x, cub3d->player.pos.y))
-		return (0);
 	move = math_multiply_vectors(dir, SPEED);
 	newpos = math_add_vectors(cub3d->player.pos, 0, &move);
-	if (is_wall(&cub3d->mapdata, newpos.x, newpos.y))
+	if (is_wall(cub3d->mapdata.grid, newpos))
 		return (0);
 	cub3d->player.pos = newpos;
 	printf("moving (%f, %fd)\n", cub3d->player.pos.x, cub3d->player.pos.y);
