@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/08 19:33:52 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/09 13:28:25 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,11 @@ static void	draw_slice(t_cub3d *cub3d, uint32_t half_wall, uint32_t x)
 				get_col(cub3d, x, y));
 		}
 		else if (y < cub3d->n.half_height)
-			mlx_put_pixel(cub3d->render.scene, x, y, cub3d->mapdata.cols[1]);
+			mlx_put_pixel(cub3d->render.scene, x, y,
+				cub3d->mapdata.cols[CEILING - FLOOR]);
 		else
-			mlx_put_pixel(cub3d->render.scene, x, y, cub3d->mapdata.cols[0]);
+			mlx_put_pixel(cub3d->render.scene, x, y,
+				cub3d->mapdata.cols[FLOOR - FLOOR]);
 		y++;
 	}
 }
