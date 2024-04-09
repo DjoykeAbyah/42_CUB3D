@@ -53,6 +53,7 @@ typedef struct s_cub3d
 	t_player	player;
 	t_numbers	n;
 	mlx_t		*mlx;
+	void		*bonus;
 }	t_cub3d;
 
 void	parse_map(t_map *map, char *filename);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   minimap.c                                          :+:    :+:            */
+/*   bonus_minimap.c                                    :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 20:12:10 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/08 18:35:51 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/09 14:22:31 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,31 @@ static void	_draw_pin(t_cub3d *cub3d, t_minimap *minimap);
 
 void	start_minimap(void *param)
 {
-	t_minimap	minimap;
 	t_cub3d		*cub3d;
+	t_bonus		*bonus;
 
 	cub3d = param;
-	minimap.size.x = UNIT * cub3d->mapdata.max_width;
-	minimap.size.y = UNIT * cub3d->mapdata.height;
-	minimap.pos.x = WIDTH - minimap.size.x;
-	if (minimap.size.x > WIDTH)
-		minimap.pos.x = 0;
-	minimap.pos.y = 0;
-	_draw_floor(cub3d->mlx, &minimap);
-	_draw_walls(cub3d, &minimap);
-	_draw_pin(cub3d, &minimap);
+	bonus = cub3d->bonus;
+	bonus->minimap.size.x = UNIT * cub3d->mapdata.max_width;
+	bonus->minimap.size.y = UNIT * cub3d->mapdata.height;
+	bonus->minimap.pos.x = WIDTH - bonus->minimap.size.x;
+	if (bonus->minimap.size.x > WIDTH)
+		bonus->minimap.pos.x = 0;
+	bonus->minimap.pos.y = 0;
+	_draw_floor(cub3d, &bonus->minimap);
+	_draw_walls(cub3d, &bonus->minimap);
+	_draw_pin(cub3d, &bonus->minimap);
 }
 
-void	update_minimap(t_minimap *minimap, t_vect pos)
+void	update_minimap(void *param, t_vect pos)
 {
-	minimap->pin->instances->x = (int)(minimap->pos.x + (pos.x * UNIT) - UNIT);
-	minimap->pin->instances->y = (int)(minimap->pos.y + (pos.y * UNIT) - UNIT);
+	t_bonus		*bonus;
+
+	bonus = param;
+	bonus->minimap.pin->instances->x
+		= (int)(bonus->minimap.pos.x + (pos.x * UNIT) - UNIT);
+	bonus->minimap.pin->instances->y
+		= (int)(bonus->minimap.pos.y + (pos.y * UNIT) - UNIT);
 }
 
 static void	_draw_floor(t_cub3d *cub3d, t_minimap *minimap)

@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   start.c                                            :+:    :+:            */
+/*   bonus_start.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/21 20:51:41 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/09 14:15:58 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/09 14:43:01 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "bonus.h"
 
 static void	window_controller(void *param);
 static void	setup_render(t_cub3d *cub3d);
+static void	setup_bonus(t_cub3d *cub3d, t_bonus *bonus);
 
 void	start_cub3d(t_cub3d *cub3d)
 {
+	t_bonus	bonus;
+
+	cub3d->bonus = &bonus;
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	cub3d->mlx = mlx_init(WIDTH, HEIGHT, "Cub3d", true);
 	if (!cub3d->mlx)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
 	mlx_loop_hook(cub3d->mlx, window_controller, cub3d);
 	setup_render(cub3d);
+	setup_bonus(cub3d, &bonus);
 	mlx_loop_hook(cub3d->mlx, move_and_render, cub3d);
+	mlx_cursor_hook(cub3d->mlx, mouse_look, cub3d);
 	mlx_loop(cub3d->mlx);
+}
+
+static void	setup_bonus(t_cub3d *cub3d, t_bonus *bonus)
+{
+	cub3d->bonus = bonus;
+	start_minimap(cub3d);
 }
 
 static void	window_controller(void *param)

@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/08 18:38:05 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/09 13:59:37 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 	if (is_wall(cub3d->mapdata.grid, cub3d->player.pos, newpos))
 		return (0);
 	cub3d->player.pos = newpos;
-	// printf("moving (%f, %fd)\n", cub3d->player.pos.x, cub3d->player.pos.y);
 	return (1);
 }
 
@@ -84,6 +83,5 @@ static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 static uint8_t	rotate(t_cub3d *cub3d, double dir)
 {
 	cub3d->player.dir = math_rotate_vectors(cub3d->player.dir, dir);
-	// printf("rotating (%f, %fd)\n", cub3d->player.dir.x, cub3d->player.dir.y);
 	return (1);
 }

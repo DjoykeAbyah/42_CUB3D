@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/08 18:42:13 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/08 19:20:20 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/09 13:59:54 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	raytrace(t_ray *ray, char **grid, double slice)
 */
 static void	calc_distances(t_ray *ray)
 {
-	//delta
 	if (ray->dir.x != 0)
 		ray->grid_delta.x = fabs(1 / ray->dir.x);
 	else
@@ -38,7 +37,6 @@ static void	calc_distances(t_ray *ray)
 		ray->grid_delta.y = fabs(1 / ray->dir.y);
 	else
 		ray->grid_delta.y = 1;
-	//dist
 	if (ray->dir.x < 0)
 		ray->grid_dist.x = (ray->origin->pos.x - ray->map_pos.x);
 	else
