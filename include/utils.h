@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/13 16:19:27 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/08 13:33:57 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/09 10:10:09 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 /**
  * @param turn			angle in radians per frame when turning player
  * @param ninety		90 degrees in radians
- * @param sice			angle in radians of ray per screen slice
+ * @param slice			angle in radians of ray per screen slice
  * @param half_fov		half of FOV in radians
  * @param half_height	half of HEIGHT
  * @param 
