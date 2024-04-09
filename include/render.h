@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/08 19:20:32 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/09 16:55:07 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_ray
 	t_ivect		hit_side;
 	t_vect		wall_start;
 	t_vect		wall_end;
+	t_vect		wall;
 }	t_ray;
 
 void	render(void *param);
