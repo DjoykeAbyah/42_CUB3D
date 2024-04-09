@@ -6,14 +6,14 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/25 17:24:24 by dliu          #+#    #+#                 */
-/*   Updated: 2024/03/27 18:59:24 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/07 20:07:22 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-uint8_t	verify_enclosed(t_map *map, uint32_t x, uint32_t y);
-uint8_t	check_player(t_map *map, uint32_t x, uint32_t y);
+static uint8_t	verify_enclosed(t_map *map, uint32_t x, uint32_t y);
+static uint8_t	check_player(t_map *map, uint32_t x, uint32_t y);
 
 uint8_t	verify_grid(t_map *map)
 {
@@ -40,7 +40,7 @@ uint8_t	verify_grid(t_map *map)
 	return (SUCCESS);
 }
 
-uint8_t	verify_enclosed(t_map *map, uint32_t x, uint32_t y)
+static uint8_t	verify_enclosed(t_map *map, uint32_t x, uint32_t y)
 {
 	if ((y == 0 || y == map->height || x == 0 || x == map->width[y])
 		&& map->grid[y][x] != '1' && map->grid[y][x] != ' ')
@@ -65,7 +65,7 @@ uint8_t	verify_enclosed(t_map *map, uint32_t x, uint32_t y)
 	return (SUCCESS);
 }
 
-uint8_t	check_player(t_map *map, uint32_t x, uint32_t y)
+static uint8_t	check_player(t_map *map, uint32_t x, uint32_t y)
 {
 	if (map->grid[y][x] != '1'
 			&& map->grid[y][x] != '0'
@@ -76,9 +76,9 @@ uint8_t	check_player(t_map *map, uint32_t x, uint32_t y)
 		map->start_pos.x = x;
 		map->start_pos.y = y;
 		if (map->grid[y][x] == 'N')
-			map->start_dir.y = 1;
-		else if (map->grid[y][x] == 'S')
 			map->start_dir.y = -1;
+		else if (map->grid[y][x] == 'S')
+			map->start_dir.y = 1;
 		else if (map->grid[y][x] == 'E')
 			map->start_dir.x = 1;
 		else if (map->grid[y][x] == 'W')

@@ -76,4 +76,3 @@ uint8_t	clear_parse(t_parse *parse, char *errmsg, uint8_t end)
 	}
 	return (SUCCESS);
 }
-

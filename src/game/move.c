@@ -6,77 +6,84 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/03 16:22:50 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/09 09:59:38 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	update_minimap_pin(t_cub3d *cub3d);
-static void	move_player(t_cub3d *cub3d, t_vect dir);
-static void change_view(t_cub3d *cub3d, double angle);
+static uint8_t	move(t_cub3d *cub3d, t_vect dir);
+static uint8_t	rotate(t_cub3d *cub3d, double dir);
+static uint8_t	is_wall(char **grid, t_vect oldpos, t_vect newpos);
 
+/**
+ * @todo	update rotation based on mouse x and y movement
+*/
 void	move_and_render(void *param)
 {
+	uint8_t	moved;
 	t_cub3d	*cub3d;
 
+	moved = 0;
 	cub3d = param;
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_W))
-		move_player(cub3d, ftovect(0, -1));
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_S))
-		move_player(cub3d, ftovect(0, 1));
+		moved = move(cub3d, cub3d->player.dir);
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_A))
-		move_player(cub3d, ftovect(-1, 0));
+		moved = move(cub3d, math_rotate_vectors
+				(cub3d->player.dir, cub3d->n.ninety * -1));
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_S))
+		moved = move(cub3d, math_rotate_vectors
+				(cub3d->player.dir, PI));
 	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_D))
-		move_player(cub3d, ftovect(1, 0));
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_Q))
-		change_view(cub3d, -ROT);
-	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_E))
-		change_view(cub3d, ROT);
-	//rotation based on mouse x and y movement for bonus
-	raycast(cub3d);
+		moved = move(cub3d, math_rotate_vectors
+				(cub3d->player.dir, cub3d->n.ninety));
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_LEFT))
+		moved = rotate(cub3d, cub3d->n.turn * -1);
+	if (mlx_is_key_down(cub3d->mlx, MLX_KEY_RIGHT))
+		moved = rotate(cub3d, cub3d->n.turn);
+	if (moved)
+		render(param);
+}
+
+static uint8_t	is_wall(char **grid, t_vect oldpos, t_vect newpos)
+{
+	t_ivect	pos;
+
+	pos.x = newpos.x;
+	pos.y = newpos.y;
+	if (oldpos.x && grid[pos.y][pos.x] != '0')
+		return (1);
+	return (0);
 }
 
 /**
- * responsible for changing the player's view direction based on a given angle. 
- * It calculates the cosine and sine of the given angle.
- * It stores the current x player's direction vector (cub3d->player.dir.x) in a temporary variable (tmp_x).
- * It updates the player's direction vector based on the rotation transformation using the calculated cosine and sine values.
- * It rotates the direction vector by multiplying it with a 2x2 rotation matrix.
+ * calculate new player pos based on 
+ * key direction of strafing and SPEED
+ * @todo remove printf in final
 */
-static void change_view(t_cub3d *cub3d, double angle)
-{	
-	double cos_val;
-	double sin_val;
-	double tmp_x;
+static uint8_t	move(t_cub3d *cub3d, t_vect dir)
+{
+	t_vect	move;
+	t_vect	newpos;
 
-	cos_val = cos(angle);
-	sin_val = sin(angle);
-	tmp_x = cub3d->player.dir.x;
-	cub3d->player.dir.x = (cos_val * cub3d->player.dir.x) + (-sin_val * cub3d->player.dir.y);
-	cub3d->player.dir.y = (sin_val * tmp_x) + (cos_val * cub3d->player.dir.y);
-	printf("x = [%f], y = [%f]\n", cub3d->player.dir.x, cub3d->player.dir.y);
+	move = math_multiply_vectors(dir, SPEED);
+	newpos = math_add_vectors(cub3d->player.pos, 0, &move);
+	if (is_wall(cub3d->mapdata.grid, cub3d->player.pos, newpos))
+		return (0);
+	cub3d->player.pos = newpos;
+	// printf("moving (%f, %fd)\n", cub3d->player.pos.x, cub3d->player.pos.y);
+	return (1);
 }
 
-//calculate new player pos based on current facing direction at SPEED
-static void	move_player(t_cub3d *cub3d, t_vect dir)
+/**
+ * rotates player slightly in ROT direction
+ * @param dir counterclockwise or clockwise
+ * @todo remove printf in final. Fix counter-clockwise rotation
+ * re-research vector rotation...
+*/
+static uint8_t	rotate(t_cub3d *cub3d, double dir)
 {
-	//update player direction based on input
-	cub3d->player.dir.x = dir.x;
-	cub3d->player.dir.y = dir.y;
-
-	//update player position based on facing direction and speed
-	math_add_vectors(&cub3d->player.pos, 0,
-		math_multiply_vectors(&cub3d->player.dir, SPEED, NULL));
-
-	printf("(%.1f, %.1fd)\n", cub3d->player.pos.x, cub3d->player.pos.y);
-	update_minimap_pin(cub3d);
-}
-
-static void	update_minimap_pin(t_cub3d *cub3d)
-{
-	cub3d->minimap.pin->instances->x
-		= (int)(cub3d->minimap.pos.x + cub3d->player.pos.x * UNIT);
-	cub3d->minimap.pin->instances->y
-		= (int)(cub3d->minimap.pos.y + cub3d->player.pos.y * UNIT);
+	cub3d->player.dir = math_rotate_vectors(cub3d->player.dir, dir);
+	// printf("rotating (%f, %fd)\n", cub3d->player.dir.x, cub3d->player.dir.y);
+	return (1);
 }

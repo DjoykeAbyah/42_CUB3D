@@ -15,9 +15,6 @@
 
 # include "cub3d.h"
 
-/**
- * For internal parsing use. Warning: Volatile!!!
-*/
 typedef enum e_maptype
 {
 	NORTH,
