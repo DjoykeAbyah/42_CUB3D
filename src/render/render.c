@@ -6,14 +6,14 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/10 14:34:53 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/10 15:54:01 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 static void	calc_wall(t_ray *ray);
-static void	draw_wall(t_cub3d *cub3d, uint16_t x, uint32_t y);
+static void	draw_wall(t_cub3d *cub3d, uint32_t x, uint32_t y);
 static void	draw_slice(t_cub3d *cub3d, uint32_t x);
 
 /**
@@ -79,13 +79,13 @@ static t_type tx(t_cub3d *cub3d)
 /**
  * something like this??
 */
-static int pixel_texture(mlx_texture_t *texture, uint32_t x, uint16_t y)
+static uint32_t pixel_texture(mlx_texture_t *texture, uint32_t x, uint16_t y)
 {
 	//get rgba of texture function
-	int	r;
-	int	g;
-	int	b;
-	int	rgba;
+	int32_t		r;
+	int32_t		g;
+	int32_t		b;
+	uint32_t	rgba;
 
 	r = texture->pixels[(y  * texture->width + x) * texture->bytes_per_pixel];
 	g = texture->pixels[(y  * texture->width + x) * texture->bytes_per_pixel + 1];
@@ -93,11 +93,6 @@ static int pixel_texture(mlx_texture_t *texture, uint32_t x, uint16_t y)
 	rgba = rgba_to_int(r, g, b, 255);
 	return (rgba);
 }
-
-// static void find_x_tex()
-// {
-	
-// }
 
 /**
  * Replace this garbage with getting colour from textures pixel data instead
@@ -109,24 +104,26 @@ static int pixel_texture(mlx_texture_t *texture, uint32_t x, uint16_t y)
         if(side == 1) color = (color >> 1) & 8355711;
         buffer[y][x] = color;
  */	  
-static void	draw_wall(t_cub3d *cub3d, uint16_t x, uint32_t y)
+static void	draw_wall(t_cub3d *cub3d, uint32_t x, uint32_t y)
 {
 	double 			scale;
 	double			tex_pos;
 	mlx_texture_t	texture;
-	t_vect			pixpos;
+	int 			pixpos_x;
+	int				pixpos_y;
 
-	scale = 1.0 * TILE / cub3d->render.wall_height;
-	pixpos.x = cub3d->render.ray.wall.x * TILE;
-	pixpos.x = TILE - pixpos.x - 1;
+
+	texture = *cub3d->mapdata.textures[tx(cub3d)];
+	pixpos_x = (int)(cub3d->render.ray.wall.x * (double)texture.width);
+	scale = 1.0 * texture.height / cub3d->render.wall_height;
+	if (tx(cub3d) == EAST || tx(cub3d) == NORTH)
+		pixpos_x = texture.width - (cub3d->render.ray.wall.x * texture.width) - 1;
 	tex_pos = (cub3d->render.wall_start - HEIGHT / 2 + cub3d->render.wall_height / 2) * scale;
 	while ((int32_t)y < cub3d->render.wall_end)
 	{
-		pixpos.y = (int)tex_pos & (TILE - 1);
+		pixpos_y = (int)tex_pos;
 		tex_pos += scale;
-		texture = *cub3d->mapdata.textures[tx(cub3d)];
-		pixel_texture(&texture, pixpos.x, pixpos.y);
-		mlx_put_pixel(cub3d->render.scene, x, y, pixel_texture(&texture, pixpos.x, pixpos.y));
+		mlx_put_pixel(cub3d->render.scene, x, y, pixel_texture(&texture, pixpos_x, pixpos_y));
 		y++;
 	}
 }

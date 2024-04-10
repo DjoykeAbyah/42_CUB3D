@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/10 14:15:55 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/10 14:44:11 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	calc_wall(t_ray *ray)
 {
 	double	wall_dist;
 
-	if (ray->hit_.x != 0)// whut?
+	if (ray->hit_side.x != 0)
 	{
 		wall_dist = (ray->grid_dist.x - ray->grid_delta.x);
 		ray->wall.x = ray->origin->pos.x + wall_dist * ray->dir.x;
