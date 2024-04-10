@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/09 16:55:07 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/10 14:09:30 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_player
  * @param grid_delta	angled distance between gridlines
  * @param grid_dist		distance of position from next gridline
  * @param step			check int positive or negative direction of map
+ * @todo why wall start and wall end here in vector form again?
 */
 typedef struct s_ray
 {

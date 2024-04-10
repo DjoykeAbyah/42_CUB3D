@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   render.c                                           :+:    :+:            */
+/*   render copy.c                                      :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/10 14:32:21 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/10 14:15:55 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	calc_wall(t_ray *ray)
 {
 	double	wall_dist;
 
-	if (ray->hit_side.x != 0)
+	if (ray->hit_.x != 0)// whut?
 	{
 		wall_dist = (ray->grid_dist.x - ray->grid_delta.x);
 		ray->wall.x = ray->origin->pos.x + wall_dist * ray->dir.x;
@@ -94,10 +94,10 @@ static int pixel_texture(mlx_texture_t *texture, uint32_t x, uint16_t y)
 	return (rgba);
 }
 
-// static void find_x_tex()
-// {
+static void find_x_tex()
+{
 	
-// }
+}
 
 /**
  * Replace this garbage with getting colour from textures pixel data instead
@@ -105,28 +105,21 @@ static int pixel_texture(mlx_texture_t *texture, uint32_t x, uint16_t y)
  * @todo maybe col * 0.5 for greyscale (shade) fix the uints
  * @note not looping through y and x of the texture only of the wall
  * calculate proportion, get coordinates and get pixel of that coordinate
- * //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-        if(side == 1) color = (color >> 1) & 8355711;
-        buffer[y][x] = color;
- */	  
+ */
 static void	draw_wall(t_cub3d *cub3d, uint16_t x, uint32_t y)
 {
 	double 			scale;
-	double			tex_pos;
 	mlx_texture_t	texture;
-	t_vect			pixpos;
+	uint32_t		pixpos;
 
-	scale = 1.0 * TILE / cub3d->render.wall_height;
-	pixpos.x = cub3d->render.ray.wall.x * TILE;
-	pixpos.x = TILE - pixpos.x - 1;
-	tex_pos = (cub3d->render.wall_start - HEIGHT / 2 + cub3d->render.wall_height / 2) * scale;
+	scale = TILE / (cub3d->render.ray.wall.y * 2);// can use mlx_texture width/height instead of tile. to make it scalable for any texture?
 	while ((int32_t)y < cub3d->render.wall_end)
 	{
-		pixpos.y = (int)tex_pos & (TILE - 1);
-		tex_pos += scale;
+		pixpos = cub3d->render.ray.wall.x;
 		texture = *cub3d->mapdata.textures[tx(cub3d)];
-		pixel_texture(&texture, pixpos.x, pixpos.y);
-		mlx_put_pixel(cub3d->render.scene, x, y, pixel_texture(&texture, pixpos.x, pixpos.y));
+		pixel_texture(&texture, cub3d->render.ray.wall.x, y);//or scale?
+		mlx_put_pixel(cub3d->render.scene, x, y, pixel_texture(&texture, cub3d->render.ray.wall.x, cub3d->render.ray.wall.x));//get rgba function
+		pixpos += (TILE + cub3d->render.ray.wall.x);
 		y++;
 	}
 }
@@ -141,7 +134,6 @@ static void	draw_slice(t_cub3d *cub3d, uint32_t x)
 
 	cub3d->render.wall_start = cub3d->n.half_height - cub3d->render.ray.wall.y;
 	cub3d->render.wall_end = cub3d->n.half_height + cub3d->render.ray.wall.y;
-	cub3d->render.wall_height = cub3d->render.wall_end - cub3d->render.wall_start;
 	y = 0;
 	while (y < HEIGHT)
 	{

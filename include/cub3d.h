@@ -43,6 +43,7 @@ typedef struct s_render
 	mlx_image_t	*scene;
 	int32_t		wall_start;
 	int32_t		wall_end;
+	int32_t		wall_height;
 	int8_t		direction;
 }	t_render;
 
