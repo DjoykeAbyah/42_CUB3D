@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/09 15:53:41 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/10 12:57:53 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,6 @@
 # define FCOL 0xFFFFFFFF
 # define PCOL 0xFF0000FF
 
-typedef struct s_player
-{
-	t_vect		pos;
-	t_vect		dir;
-}	t_player;
-
 /**
  * @param origin		pointer to player struct in cub3d
  * @param grid_delta	angled distance between gridlines
@@ -50,15 +44,22 @@ typedef struct s_player
 */
 typedef struct s_ray
 {
-	t_player	*origin;
+	void		*origin;
 	t_vect		dir;
 	t_vect		grid_delta;
 	t_vect		grid_dist;
 	t_ivect		map_pos;
 	t_ivect		hit_side;
-	t_vect		wall_start;
-	t_vect		wall_end;
 }	t_ray;
+
+typedef struct s_render
+{
+	t_ray		ray;
+	mlx_image_t	*scene;
+	t_vect		wall;
+	uint32_t	wall_start;
+	uint32_t	wall_end;
+}	t_render;
 
 void	render(void *param);
 void	raytrace(t_ray *ray, char **grid, double slice);

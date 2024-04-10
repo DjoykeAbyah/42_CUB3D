@@ -6,15 +6,15 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/09 13:28:25 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/10 13:06:02 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static uint32_t	calc_height(t_ray *ray);
-static uint32_t	get_col(t_cub3d *cub3d, uint32_t x, uint32_t y);
-static void		draw_slice(t_cub3d *cub3d, uint32_t wall_height, uint32_t x);
+static void		calc_wall(t_render *render);
+static t_type	get_texture(t_cub3d *cub3d);
+static void		draw_slice(t_cub3d *cub3d, uint32_t x);
 
 /**
  * Raytracing and rendering
@@ -24,7 +24,6 @@ void	render(void *param)
 {
 	uint32_t	x;
 	t_cub3d		*cub3d;
-	uint32_t	half_wall;
 
 	cub3d = param;
 	cub3d->render.ray.dir
@@ -33,8 +32,8 @@ void	render(void *param)
 	while (x < WIDTH)
 	{
 		raytrace(&cub3d->render.ray, cub3d->mapdata.grid, cub3d->n.slice);
-		half_wall = calc_height(&cub3d->render.ray);
-		draw_slice(cub3d, half_wall, x);
+		calc_wall(&cub3d->render);
+		draw_slice(cub3d, x);
 		x++;
 	}
 }
@@ -42,63 +41,98 @@ void	render(void *param)
 /**
  * calculate wall height based on distance and populates render
 */
-static uint32_t	calc_height(t_ray *ray)
+static void	calc_wall(t_render *render)
 {
-	double	wall_dist;
+	double		wall_dist;
+	t_player	*origin;
 
-	if (ray->hit_side.x != 0)
-		wall_dist = (ray->grid_dist.x - ray->grid_delta.x);
+	origin = render->ray.origin;
+	if (render->ray.hit_side.x != 0)
+	{
+		wall_dist = (render->ray.grid_dist.x - render->ray.grid_delta.x);
+		render->wall.x = origin->pos.y + wall_dist * render->ray.dir.y;
+	}
 	else
-		wall_dist = (ray->grid_dist.y - ray->grid_delta.y);
+	{
+		wall_dist = (render->ray.grid_dist.y - render->ray.grid_delta.y);
+		render->wall.x = origin->pos.y + wall_dist * render->ray.dir.y;
+	}
 	if (wall_dist < 1)
 		wall_dist = 1;
-	return ((int)((HEIGHT / wall_dist) * 0.5));
+	render->wall.x -= floor(render->wall.x);
+	render->wall.x = TILE * render->wall.x;
+	render->wall.y = HEIGHT / wall_dist;
+	render->wall_start = 0.5 * (HEIGHT - render->wall.y);
+	render->wall_end = 0.5 * (HEIGHT + render->wall.y);
 }
 
 /**
  * Replace this garbage with getting colour from textures pixel data instead
  * will probably need to use x and y to sample from texture at some point...
  */
-static uint32_t	get_col(t_cub3d *cub3d, uint32_t x, uint32_t y)
+static t_type	get_texture(t_cub3d *cub3d)
 {
-	uint32_t	col;
+	t_type	t;
 
-	col = x;
+	t = NORTH;
 	if (cub3d->render.ray.hit_side.x == 1)
-		col *= XCOL1;
+		t = EAST;
 	if (cub3d->render.ray.hit_side.x == -1)
-		col *= XCOL2;
+		t = WEST;
 	if (cub3d->render.ray.hit_side.y == 1)
-		col *= YCOL1;
+		t = SOUTH;
 	if (cub3d->render.ray.hit_side.y == -1)
-		col *= YCOL2;
-	return (col * y);
+		t = NORTH;
+	return (t);
+}
+
+static void	draw_wall(t_cub3d *cub3d, uint32_t x, uint32_t y)
+{
+	t_type		t;
+	uint8_t		rgba[4];
+	int32_t		col;
+	uint32_t	pos;
+	uint32_t	ty;
+
+	ty = 0;
+	t = get_texture(cub3d);
+	pos = (int)((cub3d->render.wall.x * 4) + (y * TILE * 4));
+	while (ty < cub3d->render.wall.y)
+	{
+		rgba[0] = cub3d->mapdata.textures[t]->pixels[pos];
+		pos += 4;
+		rgba[1] = cub3d->mapdata.textures[t]->pixels[pos];
+		pos += 4;
+		rgba[2] = cub3d->mapdata.textures[t]->pixels[pos];
+		pos += 4;
+		rgba[3] = cub3d->mapdata.textures[t]->pixels[pos];
+		pos += y * TILE * 4;
+		col = rgba_to_int(rgba[0], rgba[1], rgba[2], rgba[3]);
+		mlx_put_pixel(cub3d->render.scene, x, ty + y, col);
+		ty++;
+	}
 }
 
 /**
  * draws vertical slice.
  * @todo replace colour sampling with texture sampling
 */
-static void	draw_slice(t_cub3d *cub3d, uint32_t half_wall, uint32_t x)
+static void	draw_slice(t_cub3d *cub3d, uint32_t x)
 {
-	int32_t		y;
-	int32_t		start;
-	int32_t		end;
+	uint32_t		y;
 
-	start = cub3d->n.half_height - half_wall;
-	end = cub3d->n.half_height + half_wall;
 	y = 0;
 	while (y < HEIGHT)
 	{
-		if (y >= start && y < end)
-		{
-			mlx_put_pixel(cub3d->render.scene, x, y,
-				get_col(cub3d, x, y));
-		}
-		else if (y < cub3d->n.half_height)
+		if (y < cub3d->render.wall_start)
 			mlx_put_pixel(cub3d->render.scene, x, y,
 				cub3d->mapdata.cols[CEILING - FLOOR]);
-		else
+		if (y >= cub3d->render.wall_start && y < cub3d->render.wall_end)
+		{
+			draw_wall(cub3d, x, y);
+			y = cub3d->render.wall_end;
+		}
+		if (y >= cub3d->render.wall_end)
 			mlx_put_pixel(cub3d->render.scene, x, y,
 				cub3d->mapdata.cols[FLOOR - FLOOR]);
 		y++;
