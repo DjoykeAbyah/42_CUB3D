@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/10 12:43:02 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/10 13:20:15 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,19 @@ static t_type tx(t_cub3d *cub3d)
 /**
  * something like this??
 */
-static void pixel_texture(mlx_texture_t *texture, uint32_t x, uint16_t y)
+static int pixel_texture(mlx_texture_t *texture, uint32_t x, uint16_t y)
 {
 	//get rgba of texture function
-
 	int	r;
 	int	g;
 	int	b;
 	int	rgba;
 
-	r = texture pixel[(y of texture * texture->width + x of texture) * texture bytes_per_pixel];
-	g = texture pixel[(y of texture * texture width + x of texture) * texture bytes_per_pixel + 1];
-	b = texture pixel[(y of texture * texture width + x of texture) * texture bytes_per_pixel + 2];
+	r = texture->pixels[(y  * texture->width + x) * texture->bytes_per_pixel];
+	g = texture->pixels[(y  * texture->width + x) * texture->bytes_per_pixel + 1];
+	b = texture->pixels[(y  * texture->width + x) * texture->bytes_per_pixel + 2];
 	rgba = rgba_to_int(r, g, b, 255);
-	return (rgba);???
+	return (rgba);
 }
 
 /**
@@ -104,28 +103,19 @@ static void pixel_texture(mlx_texture_t *texture, uint32_t x, uint16_t y)
  */
 static void	draw_wall(t_cub3d *cub3d, uint16_t x, uint32_t y)
 {
-	uint32_t	col;
 	double 		scale;
-	uint32_t	colors[4];
+	mlx_texture_t	texture;
 	uint32_t	pixpos;
-	uint32_t	i;
 	uint16_t	height;
 
-	scale = TILE / (cub3d->render.ray.wall.y * 2);// can use mlx_texture width/height instead of tile. to make it scaable for any texture?
+	scale = TILE / (cub3d->render.ray.wall.y * 2);// can use mlx_texture width/height instead of tile. to make it scalable for any texture?
 	height = y;
 	while (height < cub3d->render.wall_end)
 	{
 		pixpos = cub3d->render.ray.wall.x * scale;//NO 4 makes the textures move!!
-		colors[0] = cub3d->mapdata.textures[tx(cub3d)]->pixels[pixpos];
-		i = 1;
-		while (i < 4)
-		{
-			pixpos++;
-			colors[i] = cub3d->mapdata.textures[tx(cub3d)]->pixels[pixpos];// grab pixel of pos in x and y texture
-			i++;
-		}	
-		col = rgba_to_int(colors[0], colors[1], colors[2], colors[3]);//use pixel texture function?
-		mlx_put_pixel(cub3d->render.scene, x, height, col);//get rgba function
+		texture = *cub3d->mapdata.textures[tx(cub3d)];
+		pixel_texture(&texture, cub3d->render.ray.wall.x, cub3d->render.ray.wall.x);
+		mlx_put_pixel(cub3d->render.scene, x, height, pixel_texture(&texture, cub3d->render.ray.wall.x, cub3d->render.ray.wall.x));//get rgba function
 		pixpos += (TILE + cub3d->render.ray.wall.x) * scale;//NO 4 makes the textures move!!!
 		height++;
 	}
