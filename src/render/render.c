@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/09 19:22:53 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/10 12:43:02 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,37 +76,57 @@ static t_type tx(t_cub3d *cub3d)
 		t = NORTH;
 	return (t);
 }
+/**
+ * something like this??
+*/
+static void pixel_texture(mlx_texture_t *texture, uint32_t x, uint16_t y)
+{
+	//get rgba of texture function
+
+	int	r;
+	int	g;
+	int	b;
+	int	rgba;
+
+	r = texture pixel[(y of texture * texture->width + x of texture) * texture bytes_per_pixel];
+	g = texture pixel[(y of texture * texture width + x of texture) * texture bytes_per_pixel + 1];
+	b = texture pixel[(y of texture * texture width + x of texture) * texture bytes_per_pixel + 2];
+	rgba = rgba_to_int(r, g, b, 255);
+	return (rgba);???
+}
 
 /**
  * Replace this garbage with getting colour from textures pixel data instead
  * will probably need to use x and y to sample from texture at some point...
- * @todo maybe col * 0.5 for greyscale (shade)
+ * @todo maybe col * 0.5 for greyscale (shade) fix the uints
+ * @note not looping through y and x of the texture only of the wall
+ * calculate proportion, get coordinates and get pixel of that coordinate
  */
 static void	draw_wall(t_cub3d *cub3d, uint16_t x, uint32_t y)
 {
 	uint32_t	col;
-	// double 		scale;
+	double 		scale;
 	uint32_t	colors[4];
 	uint32_t	pixpos;
 	uint32_t	i;
 	uint16_t	height;
 
-	// scale = TILE / (cub3d->render.ray.wall.y * 2);
+	scale = TILE / (cub3d->render.ray.wall.y * 2);// can use mlx_texture width/height instead of tile. to make it scaable for any texture?
 	height = y;
 	while (height < cub3d->render.wall_end)
 	{
-		pixpos = cub3d->render.ray.wall.x * 4;
+		pixpos = cub3d->render.ray.wall.x * scale;//NO 4 makes the textures move!!
 		colors[0] = cub3d->mapdata.textures[tx(cub3d)]->pixels[pixpos];
 		i = 1;
 		while (i < 4)
 		{
 			pixpos++;
-			colors[i] = cub3d->mapdata.textures[tx(cub3d)]->pixels[pixpos];
+			colors[i] = cub3d->mapdata.textures[tx(cub3d)]->pixels[pixpos];// grab pixel of pos in x and y texture
 			i++;
 		}	
-		col = rgba_to_int(colors[0], colors[1], colors[2], colors[3]);
-		mlx_put_pixel(cub3d->render.scene, x, height, col);
-		pixpos += (TILE + cub3d->render.ray.wall.x) * 4;
+		col = rgba_to_int(colors[0], colors[1], colors[2], colors[3]);//use pixel texture function?
+		mlx_put_pixel(cub3d->render.scene, x, height, col);//get rgba function
+		pixpos += (TILE + cub3d->render.ray.wall.x) * scale;//NO 4 makes the textures move!!!
 		height++;
 	}
 }
@@ -118,12 +138,10 @@ static void	draw_wall(t_cub3d *cub3d, uint16_t x, uint32_t y)
 static void	draw_slice(t_cub3d *cub3d, uint32_t x)
 {
 	int32_t		y;
-	int32_t		ty;
 
 	cub3d->render.wall_start = cub3d->n.half_height - cub3d->render.ray.wall.y;
 	cub3d->render.wall_end = cub3d->n.half_height + cub3d->render.ray.wall.y;
 	y = 0;
-	ty = 0;
 	while (y < HEIGHT)
 	{
 		if (y < cub3d->render.wall_start)
