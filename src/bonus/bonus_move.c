@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/09 14:54:40 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/11 14:03:23 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static uint8_t	move(t_cub3d *cub3d, t_vect dir);
 static uint8_t	rotate(t_cub3d *cub3d, double dir);
 static uint8_t	is_wall(char **grid, t_vect oldpos, t_vect newpos);
-
 
 void	mouse_look(double xpos, double ypos, void *param)
 {

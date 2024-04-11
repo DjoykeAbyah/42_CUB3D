@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/25 17:24:24 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/07 20:07:22 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/11 14:21:05 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ static uint8_t	verify_enclosed(t_map *map, uint32_t x, uint32_t y)
 			return (FAIL);
 		if (y > 0 && map->width[y - 1] > x
 			&& map->grid[y - 1][x] != ' ' && map->grid[y - 1][x] != '1')
+			return (FAIL);
+		if (x < map->width[y] && x > 0 && map->grid[y][x - 1] != '1'
+			&& map->grid[y][x - 1] != ' ')
 			return (FAIL);
 	}
 	if (map->grid[y][x] == '0')
