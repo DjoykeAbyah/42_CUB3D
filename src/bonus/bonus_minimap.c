@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 20:12:10 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/11 13:58:29 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/11 18:06:49 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,17 @@ static void	_draw_walls(t_cub3d *cub3d, t_minimap *minimap)
 
 static void	_draw_pin(t_cub3d *cub3d, t_minimap *minimap)
 {
+	uint32_t	x;
+	uint32_t	y;
+	
+	x = minimap->pos.x 
+		+ (cub3d->mapdata.start_pos.x * UNIT) - (UNIT * 0.5);
+	y = minimap->pos.y
+			+ (cub3d->mapdata.start_pos.y * UNIT) - (UNIT * 0.5);
 	minimap->pin = mlx_new_image(cub3d->mlx, UNIT * 2, UNIT * 2);
 	if (!minimap->pin)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
-	if (mlx_image_to_window(cub3d->mlx, minimap->pin,
-			minimap->pos.x + (cub3d->mapdata.start_pos.x * UNIT) - UNIT,
-			minimap->pos.y + (cub3d->mapdata.start_pos.y * UNIT) - UNIT) == -1)
+	if (mlx_image_to_window(cub3d->mlx, minimap->pin, x, y) == -1)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
 	rect(minimap->pin, itovect(UNIT, UNIT), itovect(UNIT / 2, UNIT / 2),
 		PCOL);
