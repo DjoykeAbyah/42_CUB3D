@@ -6,13 +6,13 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/10 15:54:01 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/11 13:09:50 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	calc_wall(t_ray *ray);
+static void	calc_wall(t_render *render);
 static void	draw_wall(t_cub3d *cub3d, uint32_t x, uint32_t y);
 static void	draw_slice(t_cub3d *cub3d, uint32_t x);
 
@@ -32,7 +32,7 @@ void	render(void *param)
 	while (x < WIDTH)
 	{
 		raytrace(&cub3d->render.ray, cub3d->mapdata.grid, cub3d->n.slice);
-		calc_wall(&cub3d->render.ray);
+		calc_wall(&cub3d->render);
 		draw_slice(cub3d, x);
 		x++;
 	}
@@ -41,24 +41,24 @@ void	render(void *param)
 /**
  * calculate wall height based on distance and populates render
 */
-static void	calc_wall(t_ray *ray)
+static void	calc_wall(t_render *render)
 {
 	double	wall_dist;
 
-	if (ray->hit_side.x != 0)
+	if (render->ray.hit_side.x != 0)
 	{
-		wall_dist = (ray->grid_dist.x - ray->grid_delta.x);
-		ray->wall.x = ray->origin->pos.x + wall_dist * ray->dir.x;
+		wall_dist = (render->ray.grid_dist.x - render->ray.grid_delta.x);
+		render->wall.x = render->ray.origin->pos.y + wall_dist * render->ray.dir.y;
 	}
 	else
 	{
-		wall_dist = (ray->grid_dist.y - ray->grid_delta.y);
-		ray->wall.x = ray->origin->pos.y + wall_dist * ray->dir.y;
+		wall_dist = (render->ray.grid_dist.y - render->ray.grid_delta.y);
+		render->wall.x = render->ray.origin->pos.x + wall_dist * render->ray.dir.x;
 	}
-	if (wall_dist < 1)
+	if (wall_dist < 1) // try outcomment
 		wall_dist = 1;
-	ray->wall.x -= floor(ray->wall.x);
-	ray->wall.y = ((int)((HEIGHT / wall_dist) * 0.5));
+	render->wall.x -= floor(render->wall.x);
+	render->wall.y = (int)(HEIGHT / wall_dist);
 }
 
 static t_type tx(t_cub3d *cub3d)
@@ -114,14 +114,14 @@ static void	draw_wall(t_cub3d *cub3d, uint32_t x, uint32_t y)
 
 
 	texture = *cub3d->mapdata.textures[tx(cub3d)];
-	pixpos_x = (int)(cub3d->render.ray.wall.x * (double)texture.width);
-	scale = 1.0 * texture.height / cub3d->render.wall_height;
+	pixpos_x = (int)(cub3d->render.wall.x * (double)texture.width);
+	scale = 1.0 * texture.height / cub3d->render.wall.y;
 	if (tx(cub3d) == EAST || tx(cub3d) == NORTH)
-		pixpos_x = texture.width - (cub3d->render.ray.wall.x * texture.width) - 1;
-	tex_pos = (cub3d->render.wall_start - HEIGHT / 2 + cub3d->render.wall_height / 2) * scale;
+		pixpos_x = texture.width - pixpos_x - 1;
+	tex_pos = (cub3d->render.wall_start - cub3d->n.half_height + (cub3d->render.wall.y * 0.5)) * scale;
 	while ((int32_t)y < cub3d->render.wall_end)
 	{
-		pixpos_y = (int)tex_pos;
+		pixpos_y = (int)tex_pos & (texture.height - 1);
 		tex_pos += scale;
 		mlx_put_pixel(cub3d->render.scene, x, y, pixel_texture(&texture, pixpos_x, pixpos_y));
 		y++;
@@ -136,9 +136,9 @@ static void	draw_slice(t_cub3d *cub3d, uint32_t x)
 {
 	int32_t		y;
 
-	cub3d->render.wall_start = cub3d->n.half_height - cub3d->render.ray.wall.y;
-	cub3d->render.wall_end = cub3d->n.half_height + cub3d->render.ray.wall.y;
-	cub3d->render.wall_height = cub3d->render.wall_end - cub3d->render.wall_start;
+	cub3d->render.wall_start = cub3d->n.half_height - (cub3d->render.wall.y * 0.5);
+	cub3d->render.wall_end = cub3d->n.half_height + (cub3d->render.wall.y * 0.5);
+	printf("wall start=%d end=%d\n", cub3d->render.wall_start, cub3d->render.wall_end);
 	y = 0;
 	while (y < HEIGHT)
 	{

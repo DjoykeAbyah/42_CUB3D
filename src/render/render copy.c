@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/10 14:44:11 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/11 11:59:20 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	render(void *param)
 	cub3d->render.ray.dir
 		= math_rotate_vectors(cub3d->player.dir, -1 * cub3d->n.half_fov);
 	x = 0;
+	//check ray.x and y if change
 	while (x < WIDTH)
 	{
 		raytrace(&cub3d->render.ray, cub3d->mapdata.grid, cub3d->n.slice);
@@ -48,17 +49,17 @@ static void	calc_wall(t_ray *ray)
 	if (ray->hit_side.x != 0)
 	{
 		wall_dist = (ray->grid_dist.x - ray->grid_delta.x);
-		ray->wall.x = ray->origin->pos.x + wall_dist * ray->dir.x;
+		ray->wall.x = ray->origin->pos.y + wall_dist * ray->dir.y;
 	}
 	else
 	{
 		wall_dist = (ray->grid_dist.y - ray->grid_delta.y);
-		ray->wall.x = ray->origin->pos.y + wall_dist * ray->dir.y;
+		ray->wall.x = ray->origin->pos.x + wall_dist * ray->dir.x;
 	}
-	if (wall_dist < 1)
+	if (wall_dist < 1) // try outcomment
 		wall_dist = 1;
 	ray->wall.x -= floor(ray->wall.x);
-	ray->wall.y = ((int)((HEIGHT / wall_dist) * 0.5));
+	ray->wall.y = ((int)((HEIGHT / wall_dist) * 0.5)); // try take out
 }
 
 static t_type tx(t_cub3d *cub3d)
@@ -131,7 +132,7 @@ static void	draw_wall(t_cub3d *cub3d, uint16_t x, uint32_t y)
 static void	draw_slice(t_cub3d *cub3d, uint32_t x)
 {
 	int32_t		y;
-
+// later maybe add the edge cases for draw start < 0 and drawend > height
 	cub3d->render.wall_start = cub3d->n.half_height - cub3d->render.ray.wall.y;
 	cub3d->render.wall_end = cub3d->n.half_height + cub3d->render.ray.wall.y;
 	y = 0;

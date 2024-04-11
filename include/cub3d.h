@@ -37,15 +37,11 @@ typedef struct s_map
 	t_ivect			start_dir;
 }	t_map;
 
-typedef struct s_render
+typedef struct s_player
 {
-	t_ray		ray;
-	mlx_image_t	*scene;
-	int32_t		wall_start;
-	int32_t		wall_end;
-	int32_t		wall_height;
-	int8_t		direction;
-}	t_render;
+	t_vect		pos;
+	t_vect		dir;
+}	t_player;
 
 typedef struct s_cub3d
 {
