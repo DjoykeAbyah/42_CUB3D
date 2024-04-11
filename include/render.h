@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/11 13:18:57 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/11 13:21:22 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,7 @@
 # define YCOL1 0x0000FFFF
 # define YCOL2 0xFF00FFFF
 
-//minimap
-# define UNIT 8
-# define BCOL 0x000000FF
-# define FCOL 0xFFFFFFFF
-# define PCOL 0xFF0000FF
-
-typedef struct s_player t_player;
+typedef struct s_player	t_player;
 
 /**
  * @param origin		pointer to player struct in cub3d
@@ -48,7 +42,7 @@ typedef struct s_player t_player;
 */
 typedef struct s_ray
 {
-	void		*origin;
+	t_player	*origin;
 	t_vect		dir;
 	t_vect		grid_delta;
 	t_vect		grid_dist;

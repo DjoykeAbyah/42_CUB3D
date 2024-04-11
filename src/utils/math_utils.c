@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 17:53:01 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/11 11:45:14 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/11 13:56:24 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,3 @@ t_vect	math_rotate_vectors(t_vect v, double angle)
 	new.y = (v.x * sin(angle)) + (v.y * cos(angle));
 	return (new);
 }
-
-// /**
-//  * returns the dot product of two vectors
-// */
-// double	math_dot_prod(void *p1, void *p2)
-// {
-// 	t_vect	*u;
-// 	t_vect	*v;
-// 	double	result;
-
-// 	u = p1;
-// 	v = p2;
-// 	result = (u->x * v->x) + (u->y * v->y);
-// }

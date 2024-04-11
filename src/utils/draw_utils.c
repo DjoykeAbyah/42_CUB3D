@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 20:12:10 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/10 14:57:16 by dreijans      ########   odam.nl         */
+/*   Updated: 2024/04/11 13:58:29 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int32_t	rgba_to_int(int32_t r, int32_t g, int32_t b, int32_t a)
 /**
  * draws a rectangle in image 'i' of size 's' at pos 'p' in color 'c'
 */
-void	draw_rect(mlx_image_t *i, t_ivect s, t_ivect p, uint32_t c)
+void	rect(mlx_image_t *i, t_ivect s, t_ivect p, uint32_t c)
 {
 	int	x;
 	int	y;
@@ -41,8 +41,28 @@ void	draw_rect(mlx_image_t *i, t_ivect s, t_ivect p, uint32_t c)
 	}
 }
 
+/**
+ * get rgba of texture
+ * @todo make color darker for y-sides: R, G and B byte each divided through two 
+*/
+uint32_t	tex_pix(mlx_texture_t *t, t_ivect pixpos)
+{
+	int32_t		r;
+	int32_t		g;
+	int32_t		b;
+	int32_t		a;
+	uint32_t	rgba;
+
+	r = t->pixels[(pixpos.y * t->width + pixpos.x) * t->bytes_per_pixel];
+	g = t->pixels[(pixpos.y * t->width + pixpos.x) * t->bytes_per_pixel + 1];
+	b = t->pixels[(pixpos.y * t->width + pixpos.x) * t->bytes_per_pixel + 2];
+	a = t->pixels[(pixpos.y * t->width + pixpos.x) * t->bytes_per_pixel + 3];
+	rgba = rgba_to_int(r, g, b, a);
+	return (rgba);
+}
+
 // /**
-//  * draws a curcle in image 'i' of radius 'r' at point 'p' in color 'c'
+//  * draws a circle in image 'i' of radius 'r' at point 'p' in color 'c'
 // */
 // void	draw_circle(mlx_image_t *i, uint32_t r, t_ivect p, uint32_t c)
 // {

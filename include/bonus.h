@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/04/08 18:08:16 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/09 14:30:14 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/11 13:21:32 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define BONUS_H
 
 # include "cub3d.h"
+
+//minimap
+# define UNIT 8
+# define BCOL 0x000000FF
+# define FCOL 0xFFFFFFFF
+# define PCOL 0xFF0000FF
 
 typedef struct s_minimap
 {

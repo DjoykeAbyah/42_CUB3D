@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 20:12:10 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/09 14:22:31 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/11 13:58:29 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	_draw_floor(t_cub3d *cub3d, t_minimap *minimap)
 	if (mlx_image_to_window(cub3d->mlx, minimap->floor,
 			minimap->pos.x, minimap->pos.y) == -1)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
-	draw_rect(minimap->floor, minimap->size, itovect(0, 0), BCOL);
+	rect(minimap->floor, minimap->size, itovect(0, 0), BCOL);
 }
 
 static void	_draw_walls(t_cub3d *cub3d, t_minimap *minimap)
@@ -76,7 +76,7 @@ static void	_draw_walls(t_cub3d *cub3d, t_minimap *minimap)
 		{
 			if (cub3d->mapdata.grid[i.y][i.x] == '1')
 			{
-				draw_rect(minimap->walls, itovect(UNIT, UNIT),
+				rect(minimap->walls, itovect(UNIT, UNIT),
 					itovect(UNIT * i.x, UNIT * i.y), FCOL);
 			}
 			i.x++;
@@ -94,6 +94,6 @@ static void	_draw_pin(t_cub3d *cub3d, t_minimap *minimap)
 			minimap->pos.x + (cub3d->mapdata.start_pos.x * UNIT) - UNIT,
 			minimap->pos.y + (cub3d->mapdata.start_pos.y * UNIT) - UNIT) == -1)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
-	draw_rect(minimap->pin, itovect(UNIT, UNIT), itovect(UNIT / 2, UNIT / 2),
+	rect(minimap->pin, itovect(UNIT, UNIT), itovect(UNIT / 2, UNIT / 2),
 		PCOL);
 }

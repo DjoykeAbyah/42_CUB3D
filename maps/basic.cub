@@ -1,7 +1,7 @@
-EA ./assets/brick.png
-NO ./assets/stone.png
-WE ./assets/wood.png
-SO ./assets/grass.png
+EA ./assets/brick_east.png
+NO ./assets/stone_north.png
+WE ./assets/wood_west.png
+SO ./assets/grass_south.png
 
 C 50,100,100
 F 0,153,51

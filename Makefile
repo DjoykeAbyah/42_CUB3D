@@ -6,7 +6,7 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/04/11 13:19:32 by dliu          ########   odam.nl          #
+#    Updated: 2024/04/11 13:24:53 by dliu          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ VPATH		= ./src ./src/utils ./src/parse .src/maths ./src/game ./src/render ./src/
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
 SRC			= 	main.c \
 				parse.c _parse_info.c _parse_grid.c _verify_grid.c \
-				start.c render.c raytrace.c move.c \
+				start.c render.c raycast.c move.c \
 				draw_utils.c vector_utils.c math_utils.c
 OBJ			= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 OBJDIR		= obj
@@ -41,7 +41,7 @@ BONUS		=	cub3d_bonus
 SRC_B		=	main.c \
 				parse.c _parse_info.c _parse_grid.c _verify_grid.c \
 				bonus_start.c bonus_move.c bonus_minimap.c\
-				render.c raytrace.c \
+				render.c raycast.c \
 				draw_utils.c vector_utils.c math_utils.c
 OBJDIR_B	= obj_bonus
 OBJ_B		= $(addprefix $(OBJDIR_B)/, $(SRC_B:.c=.o))
