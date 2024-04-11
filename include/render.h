@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/10 12:57:53 by daoyi         ########   odam.nl         */
+/*   Updated: 2024/04/11 13:18:57 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 # define TILE 64
 # define FOV 60
+# define PITCH 100
 # define SPEED 0.02
 # define ROT 120
 # define PI 3.14159265358979323846
@@ -36,11 +37,14 @@
 # define FCOL 0xFFFFFFFF
 # define PCOL 0xFF0000FF
 
+typedef struct s_player t_player;
+
 /**
  * @param origin		pointer to player struct in cub3d
  * @param grid_delta	angled distance between gridlines
  * @param grid_dist		distance of position from next gridline
  * @param step			check int positive or negative direction of map
+ * @todo why wall start and wall end here in vector form again?
 */
 typedef struct s_ray
 {
@@ -57,8 +61,8 @@ typedef struct s_render
 	t_ray		ray;
 	mlx_image_t	*scene;
 	t_vect		wall;
-	uint32_t	wall_start;
-	uint32_t	wall_end;
+	int32_t		wall_start;
+	int32_t		wall_end;
 }	t_render;
 
 void	render(void *param);
