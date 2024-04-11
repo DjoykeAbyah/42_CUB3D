@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/21 20:51:41 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/09 14:43:01 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/11 17:35:51 by dreijans      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static void	setup_render(t_cub3d *cub3d)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
 	if (mlx_image_to_window(cub3d->mlx, cub3d->render.scene, 0, 0) == -1)
 		terminate(cub3d, "mlx", mlx_strerror(mlx_errno));
-	cub3d->player.pos.x = cub3d->mapdata.start_pos.x;
-	cub3d->player.pos.y = cub3d->mapdata.start_pos.y;
+	cub3d->player.pos.x = cub3d->mapdata.start_pos.x + 0.5;
+	cub3d->player.pos.y = cub3d->mapdata.start_pos.y + 0.5;
 	cub3d->player.dir.x = cub3d->mapdata.start_dir.x;
 	cub3d->player.dir.y = cub3d->mapdata.start_dir.y;
 	cub3d->n.turn = (PI / ROT);
