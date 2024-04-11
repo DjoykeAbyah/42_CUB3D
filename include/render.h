@@ -6,7 +6,7 @@
 /*   By: dreijans <dreijans@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/12 19:37:29 by dreijans      #+#    #+#                 */
-/*   Updated: 2024/04/11 14:37:23 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/11 14:38:49 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,6 @@ typedef struct s_render
 }	t_render;
 
 void	render(void *param);
-void	raytrace(t_ray *ray, char **grid, double slice);
+void	raycast(t_ray *ray, char **grid, double slice);
 
 #endif

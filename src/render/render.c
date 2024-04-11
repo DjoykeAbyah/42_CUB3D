@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/11 14:00:23 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/11 14:38:49 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	render(void *param)
 	x = 0;
 	while (x < WIDTH)
 	{
-		raytrace(&cub3d->render.ray, cub3d->mapdata.grid, cub3d->n.slice);
+		raycast(&cub3d->render.ray, cub3d->mapdata.grid, cub3d->n.slice);
 		calc_wall(&cub3d->render);
 		draw_slice(cub3d, x);
 		x++;

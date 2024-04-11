@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   raytrace.c                                         :+:    :+:            */
+/*   raycast.c                                         :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
@@ -15,13 +15,10 @@
 static void	calc_distances(t_ray *ray);
 static void	find_wall(t_ray *ray, char **grid);
 
-void	raytrace(t_ray *ray, char **grid, double slice)
+void	raycast(t_ray *ray, char **grid, double slice)
 {
-	t_player	*origin;
-
-	origin = ray->origin;
-	ray->map_pos.x = origin->pos.x;
-	ray->map_pos.y = origin->pos.y;
+	ray->map_pos.x = ray->origin->pos.x;
+	ray->map_pos.y = ray->origin->pos.y;
 	calc_distances(ray);
 	find_wall(ray, grid);
 	ray->dir = math_rotate_vectors(ray->dir, slice);
@@ -32,9 +29,6 @@ void	raytrace(t_ray *ray, char **grid, double slice)
 */
 static void	calc_distances(t_ray *ray)
 {
-	t_player	*origin;
-
-	origin = ray->origin;
 	if (ray->dir.x != 0)
 		ray->grid_delta.x = fabs(1 / ray->dir.x);
 	else
@@ -44,14 +38,14 @@ static void	calc_distances(t_ray *ray)
 	else
 		ray->grid_delta.y = 1;
 	if (ray->dir.x < 0)
-		ray->grid_dist.x = (origin->pos.x - ray->map_pos.x);
+		ray->grid_dist.x = (ray->origin->pos.x - ray->map_pos.x);
 	else
-		ray->grid_dist.x = (ray->map_pos.x + 1 - origin->pos.x);
+		ray->grid_dist.x = (ray->map_pos.x + 1 - ray->origin->pos.x);
 	ray->grid_dist.x *= ray->grid_delta.x;
 	if (ray->dir.y < 0)
-		ray->grid_dist.y = (origin->pos.y - ray->map_pos.y);
+		ray->grid_dist.y = (ray->origin->pos.y - ray->map_pos.y);
 	else
-		ray->grid_dist.y = (ray->map_pos.y + 1 - origin->pos.y);
+		ray->grid_dist.y = (ray->map_pos.y + 1 - ray->origin->pos.y);
 	ray->grid_dist.y *= ray->grid_delta.y;
 }
 
