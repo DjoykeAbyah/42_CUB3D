@@ -6,11 +6,11 @@
 #    By: djoyke <djoyke@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/05/20 15:38:33 by djoyke        #+#    #+#                  #
-#    Updated: 2024/04/11 14:37:46 by dliu          ########   odam.nl          #
+#    Updated: 2024/04/16 19:15:59 by dliu          ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
-NAME		= cub3d
+NAME		= cub3D
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -Ofast -O3 #-g -fsanitize=address
 
@@ -21,12 +21,6 @@ MLX42		= $(MLXDIR)/build/libmlx42.a
 
 HEADERS		= -I include -I $(MLXDIR)/include -I $(LIBFTDIR)/include
 INCL		= -ldl -lglfw -pthread -lm
-# ifeq ($(shell uname -m),arm64)
-# INCL	= -framework Cocoa -framework OpenGL -framework IOKit -L "`brew --prefix glfw`/lib/" -lglfw
-# else ifeq ($(shell uname -m),x86_64)
-# INCL	= -framework Cocoa -framework OpenGL -framework IOKit -lglfw3
-# endif
-
 VPATH		= ./src ./src/utils ./src/parse .src/maths ./src/game ./src/render ./src/bonus
 
 LIBS		= $(MLX42) $(LIBFT) $(INCL)
