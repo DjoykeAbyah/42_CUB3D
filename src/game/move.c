@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 13:27:04 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/09 13:59:37 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/22 13:30:06 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,8 @@ void	move_and_render(void *param)
 
 static uint8_t	is_wall(char **grid, t_vect oldpos, t_vect newpos)
 {
-	t_ivect	pos;
-
-	pos.x = newpos.x;
-	pos.y = newpos.y;
-	if (oldpos.x && grid[pos.y][pos.x] != '0')
+	if (grid[(int)oldpos.y][(int)newpos.x] != '0'
+		|| grid[(int)newpos.y][(int)oldpos.x] != '0')
 		return (1);
 	return (0);
 }
@@ -64,13 +61,15 @@ static uint8_t	is_wall(char **grid, t_vect oldpos, t_vect newpos)
 static uint8_t	move(t_cub3d *cub3d, t_vect dir)
 {
 	t_vect	move;
-	t_vect	newpos;
+	t_vect	collpos;
+	t_vect	collmove;
 
-	move = math_multiply_vectors(dir, SPEED);
-	newpos = math_add_vectors(cub3d->player.pos, 0, &move);
-	if (is_wall(cub3d->mapdata.grid, cub3d->player.pos, newpos))
+	collmove = math_multiply_vectors(dir, 0.3);
+	collpos = math_add_vectors(cub3d->player.pos, 0, &collmove);
+	if (is_wall(cub3d->mapdata.grid, cub3d->player.pos, collpos))
 		return (0);
-	cub3d->player.pos = newpos;
+	move = math_multiply_vectors(dir, SPEED);
+	cub3d->player.pos = math_add_vectors(cub3d->player.pos, 0, &move);
 	return (1);
 }
 
