@@ -6,7 +6,7 @@
 /*   By: dliu <dliu@student.codam.nl>                 +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/25 17:24:24 by dliu          #+#    #+#                 */
-/*   Updated: 2024/04/16 19:10:33 by dliu          ########   odam.nl         */
+/*   Updated: 2024/04/22 12:24:09 by daoyi         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ uint8_t	verify_grid(t_map *map)
 		}
 		y++;
 	}
-	if (map->start_pos.x == 0)
+	if (map->start_pos.x == 0 || map->start_pos.y == 0)
 		return (ft_perror("cub3d", "bad map", "no start position"), FAIL);
 	return (SUCCESS);
 }
