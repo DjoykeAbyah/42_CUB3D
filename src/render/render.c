@@ -6,7 +6,7 @@
 /*   By: daoyi <daoyi@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2024/03/28 12:36:54 by daoyi         #+#    #+#                 */
-/*   Updated: 2024/04/11 14:38:49 by dliu          ########   odam.nl         */
+/*   Updated: 2024/05/28 15:35:51 by dliu          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,15 @@ static void	draw_wall(t_cub3d *cub3d, uint32_t x, uint32_t y)
 	mlx_texture_t	*tex;
 
 	tex = cub3d->mapdata.textures[texture_from_hitside(cub3d)];
-	pixpos.x = (int)(cub3d->render.wall.x * (double)tex->width);
-	scale = 1.0 * tex->height / cub3d->render.wall.y;
+	if (!tex || tex->width == 0 || tex->height == 0)
+		return ;
+	pixpos.x = (int)(cub3d->render.wall.x * (double)tex->width) % tex->width;
+	scale = (double)tex->height / cub3d->render.wall.y;
 	tex_pos = (cub3d->render.wall_start - cub3d->n.half_height
 			+ (cub3d->render.wall.y * 0.5)) * scale;
 	while ((int32_t)y < cub3d->render.wall_end)
 	{
-		pixpos.y = (int)tex_pos & (tex->height - 1);
+		pixpos.y = (int)tex_pos % tex->height;
 		tex_pos += scale;
 		mlx_put_pixel(cub3d->render.scene, x, y, tex_pix(tex, pixpos));
 		y++;

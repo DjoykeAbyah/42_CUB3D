@@ -3,11 +3,10 @@ NO ./assets/stone.png
 WE ./assets/wood.png
 SO ./assets/grass.png
 
-C 50,100,255
+C 50,100,100
 F 0,153,51
 
 11111
-10001
-10N01
-10001
+101 1
+100N1
 11111

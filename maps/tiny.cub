@@ -1,12 +1,11 @@
-EA ./assets/brick.png
-NO ./assets/stone.png
-WE ./assets/wood.png
-SO ./assets/grass.png
+EA ./assets/bts.png
+NO ./assets/long.png
+WE ./assets/wood_west.png
+SO ./assets/grass_south.png
 
-C 50,100,100
-F 0,153,51
+F 12,123,12
+C 50,100,255
 
-11111
-101 1
-100N1
-11111
+111
+1E1
+111

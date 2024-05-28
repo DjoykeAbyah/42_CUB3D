@@ -34,7 +34,7 @@ uint8_t	parse_info(t_map *map, t_parse *parse)
 		if (ft_strarray_count(parse->linedata) != 2)
 			return (clear_parse(parse, "bad line in map", 1));
 		if (parse_type(map, parse) != SUCCESS)
-			return (clear_parse(parse, "could not parse line", 1));
+			return (clear_parse(parse, "could not parse texture or colour", 1));
 		clear_parse(parse, NULL, 0);
 		parse->end += ft_charcount(&parse->raw[parse->end], '\n');
 		parse->start = parse->end;
@@ -81,6 +81,7 @@ static uint8_t	parse_colors(t_map *map, t_parse *parse)
 {
 	char	**coldata;
 	uint8_t	rgb[3];
+	int		validate;
 	int		i;
 
 	coldata = ft_split(parse->linedata[1], ',');
@@ -89,16 +90,15 @@ static uint8_t	parse_colors(t_map *map, t_parse *parse)
 	i = 0;
 	while (i < 3)
 	{
-		if (!coldata[i])
-		{
-			ft_free_strarr(coldata);
-			return (FAIL);
-		}
-		rgb[i] = (uint8_t)ft_atoi(coldata[i]);
+		if (!coldata[i] || !ft_atoi_validate(coldata[i], &validate)
+			|| validate > 255 || validate < 0)
+			return (ft_free_strarr(coldata), FAIL);
+		rgb[i] = (uint8_t)validate;
 		i++;
 	}
+	if (coldata[i])
+		return (ft_free_strarr(coldata), FAIL);
 	map->cols[parse->type - FLOOR] = rgba_to_int(rgb[0], rgb[1], rgb[2], 255);
-	ft_free_strarr(coldata);
 	ft_printf("parsed color: %s: %d\n", parse->linedata[1], parse->type);
-	return (SUCCESS);
+	return (ft_free_strarr(coldata), SUCCESS);
 }
