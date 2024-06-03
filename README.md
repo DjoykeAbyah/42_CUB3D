@@ -23,29 +23,22 @@ Welcome to the cub3D project! This project is a part of the 42 curriculum and in
 
 ## Introduction
 
-Imagine yourself as a developer in the 90s, tasked with creating a 3D game engine from scratch. Your goal is to build a program that generates a realistic 3D maze, navigable from a first-person perspective. You will use the ray-casting technique, the same technology that powered early 3D games like Wolfenstein 3D. Welcome to cub3D, where you bring these classic concepts to life using modern tools provided by the MiniLibX library.
+Imagine yourself as a developer in the 90s, tasked with creating a 3D game engine from scratch. Your goal is to build a program that generates a realistic 3D maze, navigable from a first-person perspective. You will use the ray-casting technique, the same technology that powered early 3D games like Wolfenstein 3D. Welcome to cub3D, where you bring these classic concepts to life using modern tools provided by the MLX42 library.
 
 ## Getting Started
 
 ### Clone
 
-Clone the repository including the MiniLibX submodule:
+Clone the repository:
 
 ```bash
-git clone --recursive https://github.com/mcombeau/cub3D.git
-
-Or:
-
-```bash
-git clone <https://github.com/mcombeau/cub3D.git>
-git submodule update --init --recursive
-
+git clone 
+https://github.com/yourusername/42_CUB3D.git
 ```
-
 
 ### Compile and Run
 
-There are two versions of the program, the mandatory part and the bonus part. The bonus part adds wall collision, a minimap, and the ability to rotate the view by moving the mouse.
+There are two versions of the program, the mandatory part and the bonus part. The bonus part adds a minimap, and the ability to rotate the view by moving the mouse.
 
 To compile the mandatory part, cd into the cloned directory and:
 
@@ -61,9 +54,6 @@ make bonus
 
 ```
 
-> Note: you may need to make fclean to switch between the mandatory and bonus compilations (working on a fix for this!).
-> 
-
 To run the program:
 
 ```bash
@@ -71,21 +61,8 @@ To run the program:
 
 ```
 
-The program takes a map file as an argument. Maps are available in the `maps` directory. There are good maps which the program should run smoothly with, and bad maps which the program should reject. For example:
+The program takes a map file as an argument. Maps are available in the `maps` directory. There are maps that work according the rules of the program and maps that will give an error explaining why it won't work.
 
-```bash
-./cub3d maps/good/library.cub
-
-```
-
-should run.
-
-```bash
-./cub3d maps/bad/filetype_wrong.buc
-
-```
-
-should print an error and abort.
 
 ### Arguments
 
