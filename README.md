@@ -7,7 +7,7 @@ In collaboration with [Daoyi Liu](https://github.com/Jelligeth).
 
 ## Overview 📝
 
-Welcome to the cub3D project! This project is a part of the 42 curriculum and involves creating a realistic 3D graphical representation of a maze from a first-person perspective using ray-casting principles. This README will guide you through the setup, building, and execution of the project, providing all the necessary details to help you navigate and succeed in this journey.
+Welcome to the cub3D project! This project is a part of the 42 curriculum and involves creating a realistic 3D graphical representation of a maze from a first-person perspective using ray-casting principles. This README will guide you through the setup, building, and execution of the project.
 
 ## Table of Contents
 
