@@ -126,3 +126,9 @@ C 225,30,0
 - Wall collisions 🧱: Prevent the player from walking through walls.
 - A minimap system 🗺️: Display a minimap of the maze..
 - Rotate the point of view with the mouse 🖱️: Allow mouse control for viewing direction.
+
+  ## Wish List✨
+
+- Animated sprites.
+- A minimap system resizing minimap🗺️.
+- Closing and opening doors.
